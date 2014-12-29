@@ -88,3 +88,4 @@ There are still a few features left to be added:
 * support XPath validations patterns for responses
 * Better handling for redirects (auto-follow option)
 * Support for cookie containers
+* I'm considering adding optional support for Javascript functions for validation/captures
