@@ -116,4 +116,11 @@ describe("String Interpolation", function() {
 			});
 		}, done);
 	});
+
+	describe("Multiple tokens", function() {
+		it("Should process all tokens", function() {
+			var data = { one : "1", two : "2" };
+			assert.equal(prefix + "1,2" + suffix, interpolate(prefix + "<%=one%>,<%=two%>" + suffix, data));
+		});
+	});
 });
