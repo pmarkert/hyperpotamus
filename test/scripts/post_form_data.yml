@@ -1,0 +1,7 @@
+request:
+  url: http://localhost:3000/post
+  method: POST
+  mode: form
+  data: 
+    test: true
+validation: '"test":"true"'

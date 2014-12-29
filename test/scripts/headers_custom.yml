@@ -1,0 +1,5 @@
+request:
+  url: http://localhost:3000/get
+  headers:
+    custom-header: Funky
+validation: '"custom-header":"Funky"'

@@ -1,0 +1,4 @@
+- http://localhost:3000/get?url=inline
+- request: http://localhost:3000/get?url=requeststring
+- request: 
+    url: http://localhost:3000/get?url=requestobject

@@ -1,0 +1,10 @@
+name: json_post
+request:
+  url: http://localhost:3000/put
+  method: PUT
+  mode: json
+  data: 
+    test: true
+validation: 
+  - '"test":true'
+  - '"method":"PUT"'
