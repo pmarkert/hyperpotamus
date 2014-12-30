@@ -122,6 +122,17 @@ provides the value if no session value is found (otherwise it's blank). In this 
     validation: /"X-Request-Id"\s*:\s*"(:<request_id>.+?)"/
 
 Named captures in a regular expression are added to the session object for use in future replacements. In this example, <%= request_id %>.
+
+####Validating/capturing from HTTP headers
+    request: http://localhost:3000/get?url=medium
+    validation: 
+      - headers:
+          content-type: /(:<content_type>[^;]*)/
+      - equals: [ "application/json", "<%= content_type %>" ]
+
+Here the validation element is an array of two items. You can have as many different validations mixed together as you like.
+* The headers validation element has name/value pairs to compare to HTTP response headers.  The right hand side can either be a string or a regex (with capturing groups if desired).
+* The equals validation element is an array of strings that after interpolation of any variables, should all be the same.
           
 ##Getting started
 hyperpotamus can be used as a library in your node.js applications. 
@@ -142,7 +153,7 @@ The intention is that the library can be used on a timer (maybe for monitoring),
 or called multiple times asynchronously (for stress testing).
 
 ##CLI interface
-There is also a sample command-line interface that can be used to test out your scripts or do some basic web-scraping, but it isn't quie ready 
+There is also a sample command-line interface that can be used to test out your scripts or do some basic web-scraping, but it isn't quite ready 
 for prime-time yet. To use it
 
     hyperpotamus /path/to/script.yml "url encoded session values" "output format string"

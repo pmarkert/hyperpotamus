@@ -1,0 +1,5 @@
+request: http://localhost:3000/get?url=medium
+validation: 
+  - headers:
+      content-type: /(:<content_type>[^;]*)/
+  - equals: [ application/json, <%= content_type %> ]
