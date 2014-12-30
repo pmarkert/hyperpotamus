@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+var hyperpotamus = require("./lib");
+var querystring = require("querystring");
+var interpolate = require("./lib/interpolate");
+var session = {};
+if(process.argv.length>3) {
+	session = querystring.parse(process.argv[3]);
+}
+hyperpotamus.process_file(process.argv[2], session, function(err, session) {
+	if(err) {
+		console.error("Error - " + err);
+		return process.exit(1);
+	}
+	if(process.argv.length<=4)
+		console.log("Final session data is " + JSON.stringify(session));
+	else
+		console.log(interpolate(process.argv[4], session));
+}, function(step, session, response, body) {
+	if(process.argv.length<=4)
+		console.log("Completed request for " + step.request.url + " - response was " + body);
+});

@@ -14,10 +14,10 @@ describe("String Interpolation", function() {
 			[ "<%=token%>", "No whitespace, option equals" ],
 			[ "<%token%>", "No whitespace, option none" ],
 			[ "<%token %>", "Trailing whitespace, option none" ],
-			[ "<% token:none %>", "Whitespace, option none, dummy parameter" ],
-			[ "<%token:none %>", "Trailing whitespace, dummy parameter" ],
-			[ "<%token:none%>", "No whitespace, option none, dummy parameter" ],
-			[ "<%=token:none%>", "No whitespace, option equals, dummy parameter" ],
+			[ "<% token|none %>", "Whitespace, option none, dummy parameter" ],
+			[ "<%token|none %>", "Trailing whitespace, dummy parameter" ],
+			[ "<%token|none%>", "No whitespace, option none, dummy parameter" ],
+			[ "<%=token|none%>", "No whitespace, option equals, dummy parameter" ],
 		];
 
 		async.each(cases, function(testcase, callback) { 
@@ -78,10 +78,10 @@ describe("String Interpolation", function() {
                         [ "", "<%?=token%>", "No whitespace, option optional, equals" ],
                         [ "", "<%?token%>", "No whitespace, option optional" ],
                         [ "", "<%?token %>", "Trailing whitespace, option optional" ],
-                        [ "default", "<%? token:default %>", "Whitespace, option optional, default" ],
-                        [ "default", "<%?token:default %>", "Trailing whitespace, default" ],
-                        [ "default", "<%?token:default%>", "No whitespace, option optional, default" ],
-                        [ "default", "<%?=token:default%>", "No whitespace, option optional equals, default" ],
+                        [ "default", "<%? token|default %>", "Whitespace, option optional, default" ],
+                        [ "default", "<%?token|default %>", "Trailing whitespace, default" ],
+                        [ "default", "<%?token|default%>", "No whitespace, option optional, default" ],
+                        [ "default", "<%?=token|default%>", "No whitespace, option optional equals, default" ],
 		];
 
 		async.each(cases, function(testcase, callback) {
@@ -104,9 +104,9 @@ describe("String Interpolation", function() {
                         [ "<%:?= YYYY-MM-DD %>", "No whitespace, option optional, equals" ],
                         [ "<%?:= YYYY-MM-DD %>", "No whitespace, option optional" ],
                         [ "<%?=: YYYY-MM-DD %>", "Trailing whitespace, option optional" ],
-                        [ "<%: YYYY-MM-DD:dummy %>", "Whitespace, option optional, default" ],
-                        [ "<%:YYYY-MM-DD:dummy %>", "Trailing whitespace, default" ],
-                        [ "<%:YYYY-MM-DD:dummy%>", "No whitespace, option optional, default" ],
+                        [ "<%: YYYY-MM-DD|dummy %>", "Whitespace, option optional, default" ],
+                        [ "<%:YYYY-MM-DD|dummy %>", "Trailing whitespace, default" ],
+                        [ "<%:YYYY-MM-DD|dummy%>", "No whitespace, option optional, default" ],
 		];
 
 		async.each(cases, function(testcase, callback) {

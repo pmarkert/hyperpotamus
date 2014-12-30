@@ -13,7 +13,10 @@ Why might someone want to do this? There are many reasons that I have needed to 
   **Me:** Give me the spreadsheet and about 20 minutes... and deep-dish, please.
 
 -----
-But enough of that! Let's assume that you already know how awesome it would be if you had the power to automate the www's right at your fingertips...
+Enough of that! Let's assume that you already know how awesome it would be if you had the power to automate the www's right at your fingertips.
+
+The hyperpotamus YAML syntax attempts to be as fluid as possible. I.e. there are lots of syntax shortcuts and sensible defaults- less is more. 
+
 ###Show me the examples
 
 ####A super-simple script
@@ -24,15 +27,26 @@ But enough of that! Let's assume that you already know how awesome it would be i
     - http://www.google.com
     - http://www.github.com
 
-####So how do I check the response for content?
+####How do I check the response for content?
     request: http://www.nodejs.org
     validation: This simple web server written in Node responds with "Hello World" for every request.
+
+String validations are converted to { text : "..." } and will look for that exact text in the response body content.
 
 ####Regex anyone?
     request: http://www.nodejs.org
     validation: /simple web server/
-    
-####Conditional branch on success (or failure)
+
+Regex validations are converted to { regex : "...", options : ".." } and also match against the response content. The regex can also be enclosed in 
+double or single quotes "/regex/g" if there are special characters that would invalidate the YAML.
+
+####Validate HTTP Status codes
+    request: http://httpbin.org/redirect/1
+    validation: 302 
+
+Integer validations are converted to { status: 302 }
+
+####Conditional branch on validation success (or failure)
     - request: http://httpbin.org/get
       validation: { status: 200, on_success: json_post }
     - request: http://httpbin.org/get
@@ -44,7 +58,9 @@ But enough of that! Let's assume that you already know how awesome it would be i
         mode: json
         data:
           message: "But this one does"
-          
+
+Give your requests a name and you can specify an on_success or on_failure value for any validation.
+    
 ####Of course, JSON is also valid YAML, so if you roll that way, this is equivalent
     [
       {
@@ -68,24 +84,76 @@ But enough of that! Let's assume that you already know how awesome it would be i
       }
     ]
 
-####Using user-supplied data to login to a website
+####Setting HTTP headers
+   request: 
+     url: http://httpbin.org/get
+     headers: 
+       user-agent: Mozilla/5.0 (Hyperpotamus; FTW!) 
+       custom-header: show off
+
+####POSTing user-supplied data to a login form
     request:
       url: http://httpbin.org/post
       method: POST
       mode: form
-      data:
+      data: 
         username: <%= username %>
         password: <%= password %>
-        
-        
-"Session" data can be passed into hyperpotamus as a name/value pair object and those values can be inserted into your requests. There are some encoding options to control url encoding/decoding, optional values with defaults, and formatting the current date/time (which can also be used to generate some poor, but effective psuedo-random numbers).
+
+"Session" data can be passed into hyperpotamus as a name/value pair object and those values can be inserted into your requests with replacement tokens. 
+
+####POST w/Form encoded values (equivalent)
+    request:
+      url: http://httpbin.org/post
+      method: POST
+      mode: form
+      data: username=<%+ username %>&password=<%+ password %>
+      # Notice the <%+ %> to indicate URL encoding of the tokens
+
+There are options to control url encoding(+)/decoding(-) for replacement tokens. Multi-level encoding/decoding can also be done (+++)/(--).
+
+####Optional session values with default values
+    request: http://httpbin.org/get?param=<%?+ search|cat videos %>
+
+Normally if a replacement token can't be found, it reports an error.  The ? control directive makes it optional and a |default 
+provides the value if no session value is found (otherwise it's blank). In this example it's also url-encoded for use in the url.
+
+####Capturing data from the response
+    request: http://httpbin.org/get?favorite_verse=<%=name%>
+    validation: /"X-Request-Id"\s*:\s*"(:<request_id>.+?)"/
+
+"request_id" is now captured in the session and can be used in future replacements via <%= request_id %>.
+          
+##Getting started
+hyperpotamus can be used as a library in your node.js applications. 
+    var hyp = require("hyperpotamus")
+    hyp.process_file("/path/to/file.yml", { session : "data" }, function(err, session) {
+	if(err) { return console.log("Error - " + err); };
+	console.log("Final session state is " + JSON.stringify(session));
+    }, function(step, session, http_response, body) {
+        console.log("Completed request for " + step.request.url);
+    });
+
+The intention is that this library can be used on a timer (for monitoring), in a loop (for processing session data from a csv file), 
+or multiple times asynchronously (for stress testing).
+
+##CLI interface
+There is also a sample command-line interface that can be used to test out your scripts or do some basic web-scraping, but it isn't quie ready 
+for prime-time yet. To use it
+
+    hyperpotamus /path/to/script.yml "url encoded session values" "output format string"
+
+
+The url encoded session values would be in the format of a querystring key1=value1&key2=value2. Put it in quotes if you don't want the 
+& to be interpreted by your shell. If you leave off the "output format string", then you will see some diagnostic information about
+the requests and responses from your script. If you do use an output format string then it will be interpolated with session values 
+at the end of the script, so you can store captured values.
+
+    hyperpotamus capturing_data_from_the_response.yml "favorite_verse=Colossians%203%3a23" "Request_Id is <%=request_id%>"
 
 There are still a few features left to be added:
-* Capture session data from responses
-** using Prefix/Suffix text
-** using named Regex captures
-** using XPath syntax (for JSON, XML or HTML responses)
-* support XPath validations patterns for responses
+* Capture/validate using XPath against HTML/XML responses
+* Capture/validate using XPath against JSON responses
 * Better handling for redirects (auto-follow option)
-* Support for cookie containers
-* I'm considering adding optional support for Javascript functions for validation/captures
+* Testing and support for cookie containers
+* Configurable support for Javascript functions for validation/captures
