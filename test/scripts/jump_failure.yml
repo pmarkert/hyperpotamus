@@ -1,11 +1,8 @@
--
-  name: form_post_literal
+- name: form_post_literal
   request: http://localhost:3000/get
   validation: { text: 'do not match', on_failure: json_post }
--
-  name: form_post_data
+- name: form_post_data
   request: http://localhost:3000/get
   validation: "This request should not be executed"
--
-  name: json_post
+- name: json_post
   request: http://localhost:3000/get

@@ -5,7 +5,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Echo back diagnostic information about the incoming request
-function process(req, res) {
+function process_request(req, res) {
 	var result = {};
 	result.url = req.url;
 	result.method = req.method;
@@ -15,9 +15,9 @@ function process(req, res) {
 	return res.json(result);
 }
 
-app.get("/get", process);
-app.post("/post", process);
-app.put("/put", process);
+app.get("/get", process_request);
+app.post("/post", process_request);
+app.put("/put", process_request);
 
 app.get("/status/:status", function(req, res) {
 	return res.status(parseInt(req.params.status)).end();
@@ -29,3 +29,15 @@ app.get("/redirect-to", function(req, res) {
 });
 
 module.exports = app;
+var port = 3000;
+if(process.env.PORT)
+	port = parseInt(process.env.PORT);
+
+if(require.main === module) {
+	app.listen(port, function(err) {
+		if(err) {
+			return console.log("Error starting web-server : " + err);
+		}	
+		console.log("Listening on port - " + port);
+	});
+}

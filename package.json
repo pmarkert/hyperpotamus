@@ -7,15 +7,15 @@
     "test": "mocha"
   },
   "author": "Phillip Markert <phillip@ephisys.com>",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/pmarkert/hyperpotamus.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pmarkert/hyperpotamus.git"
   },
-  "bugs" : {
-    "url" : "https://github.com/pmarkert/hyperpotamus/issues"
+  "bugs": {
+    "url": "https://github.com/pmarkert/hyperpotamus/issues"
   },
-  "keywords" : [
-    "yaml", 
+  "keywords": [
+    "yaml",
     "http",
     "script",
     "load test",
@@ -25,6 +25,7 @@
   "dependencies": {
     "js-yaml": "^3.2.4",
     "moment": "^2.8.4",
+    "named-regexp": "^0.1.1",
     "underscore": "^1.7.0"
   },
   "devDependencies": {

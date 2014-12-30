@@ -1,6 +1,6 @@
 - name: form_post_literal
-  request: http://localhost:3000/get
-  validation: { status: 200, on_success: END }
+  request: http://localhost:3000/get?param=value
+  validation: { regex: '/"param":"(:<captured>[\s\S]*?)"/', on_success: END }
 - name: form_post_data
   request: http://localhost:3000/get
   validation: "This request should not be executed"

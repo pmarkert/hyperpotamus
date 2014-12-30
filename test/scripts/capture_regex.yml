@@ -1,0 +1,4 @@
+request: http://localhost:3000/get?param=value
+validation: 
+  - /"param":"(:<captured>[\s\S]+?)"/
+  - { equals : [ '<%=captured%>', 'value' ] }

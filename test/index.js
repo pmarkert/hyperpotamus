@@ -25,7 +25,7 @@ server.listen(3000, function(err) {
 		async.each(fs.readdirSync(path.join(__dirname,"data_scripts")), function(filename) {
 			if(path.extname(filename)===".yml") {
 				it(path.join("data_scripts",filename), function(done) {
-					hyperpotamus.process_file(path.join(__dirname,"data_scripts",filename), { data : "asdf" }, done);
+					hyperpotamus.process_file(path.join(__dirname,"data_scripts",filename), { data : "asdf", one : "1", two : "2" }, done);
 				});
 			}
 		}, function(err) {

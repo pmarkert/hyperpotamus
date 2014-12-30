@@ -1,0 +1,3 @@
+request: http://localhost:3000/get
+validation: 
+  equals : [ '<%=one%>', '1' ] 
