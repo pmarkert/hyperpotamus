@@ -138,7 +138,7 @@ Here the validation element is an array of two items. You can have as many diffe
 hyperpotamus can be used as a library in your node.js applications. 
 
     var hyp = require("hyperpotamus")
-    hyp.process_file("/path/to/file.yml", { session : "data" }, script_complete, step_complete);
+    hyp.yaml.process_file("/path/to/file.yml", { session : "data" }, script_complete, step_complete);
 
     function script_complete(err, final_session) {
       if(err) { return console.log("Error - " + err); };
