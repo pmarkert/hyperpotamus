@@ -1,0 +1,7 @@
+normalized : true
+steps :
+  - request:
+      url: http://localhost:3000/get
+      headers: {}
+    validation:
+      -  status: 200
