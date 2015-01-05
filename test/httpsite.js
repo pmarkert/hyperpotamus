@@ -28,6 +28,8 @@ app.get("/redirect-to", function(req, res) {
 	return res.redirect(req.query.url);
 });
 
+app.use(express.static("static"));
+
 module.exports = app;
 var port = 3000;
 if(process.env.PORT)

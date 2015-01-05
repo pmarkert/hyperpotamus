@@ -2,7 +2,6 @@ var hyperpotamus = require("../lib/index");
 var async = require("async");
 var fs = require("fs");
 var path = require("path");
-var chai = require("chai");
 
 // Startup http server for echo testing
 var server = require("./httpsite");
