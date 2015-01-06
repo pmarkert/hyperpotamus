@@ -5,4 +5,4 @@ request:
   mode: json
   data: 
     test: true
-validation: '"test":true'
+response: '"test":true'

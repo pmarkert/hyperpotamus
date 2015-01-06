@@ -1,2 +1,2 @@
 request: http://localhost:3000/redirect-to?url=http://www.google.com
-validation: 302
+response: 302

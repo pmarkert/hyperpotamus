@@ -1,2 +1,2 @@
 request: http://localhost:3000/status/404
-validation: 404
+response: 404

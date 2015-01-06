@@ -1,5 +1,5 @@
 request: http://localhost:3000/get?param=value
-validation: 
+response: 
   equals:
     a : '<%=one%>'
     b : '1'

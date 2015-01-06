@@ -1,2 +1,2 @@
 request: http://localhost:3000/get?param=Paul%20and%20Barnabus
-validation: /"param":"(:<captured>[\s\S]+?) and (:<captured>[\s\S]+?)"/
+response: /"param":"(:<captured>[\s\S]+?) and (:<captured>[\s\S]+?)"/

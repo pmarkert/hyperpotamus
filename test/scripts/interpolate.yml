@@ -1,2 +1,2 @@
 request: http://localhost:3000/get?url=<%:YYYYMMDD%>
-validation: /url":"<%:YYYYMMDD%>/
+response: /url":"<%:YYYYMMDD%>/

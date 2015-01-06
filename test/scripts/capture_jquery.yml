@@ -1,5 +1,5 @@
 request: http://localhost:3000/static/test.html
-validation:
+response:
   - This is a test
   - jquery: a
     count: "2"

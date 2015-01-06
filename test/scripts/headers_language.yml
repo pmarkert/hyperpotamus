@@ -2,4 +2,4 @@ request:
   url: http://localhost:3000/get
   headers:
     accept-language: en-US
-validation: '"accept-language":"en-US"'
+response: '"accept-language":"en-US"'

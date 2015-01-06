@@ -1,2 +1,2 @@
 request: http://localhost:3000/get?url=<%=data%>
-validation: '"url":"<%=data%>"'
+response: '"url":"<%=data%>"'

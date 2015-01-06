@@ -1,4 +1,4 @@
 request: http://localhost:3000/get?url=medium
-validation: 
+response: 
   headers: 
     not-real: 'do not match'

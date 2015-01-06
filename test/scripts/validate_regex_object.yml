@@ -1,2 +1,2 @@
 request: http://localhost:3000/get?url=medium
-validation: { regex : '/"url":"medium"/' }
+response: { regex : '/"url":"medium"/' }

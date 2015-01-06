@@ -5,6 +5,6 @@ request:
   mode: json
   data: 
     test: true
-validation: 
+response: 
   - '"test":true'
   - '"method":"PUT"'

@@ -3,10 +3,10 @@ steps:
   - request:  
       url: http://localhost:3000/get?url=one
       headers: {}
-    validation: 
+    response: 
       - status: 200 
   - request: 
       url: http://localhost:3000/get?url=two
       headers: {}
-    validation: 
+    response: 
       - status : 200

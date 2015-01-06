@@ -4,4 +4,4 @@ request:
   method: POST
   mode: form
   data: "test=true"
-validation: '"test":"true"'
+response: '"test":"true"'

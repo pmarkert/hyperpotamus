@@ -1,2 +1,2 @@
 request: http://localhost:3000/status/400
-validation: 400
+response: 400
