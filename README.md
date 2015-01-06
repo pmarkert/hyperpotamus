@@ -29,28 +29,28 @@ The hyperpotamus YAML syntax attempts to be as fluid as possible. I.e. there are
 
 ####How do I check the response for content?
     request: http://www.nodejs.org
-    validation: This simple web server written in Node responds with "Hello World" for every request.
+    response: This simple web server written in Node responds with "Hello World" for every request.
 
-String validations are a shortcut for { text : "..." } and will look for that exact text in the response body content.
+The response section allows you to validate the HTTP response. String values are a shortcut for { text : "..." } which will look for that exact text (case-sensitive) in the response body.
 
 ####Regex anyone?
     request: http://www.nodejs.org
-    validation: /simple web server/
+    response: /simple web server/
 
 Regex validations are a shortcut for { regex : "...", options : ".." } and also match against the response content. The regex can also be enclosed in 
-double or single quotes "/regex/g" if there are special characters that would invalidate the YAML.
+double or single quotes (like "/regex/g") if there are special characters that would invalidate the YAML.
 
 ####Validate HTTP Status codes
     request: http://httpbin.org/redirect/1
-    validation: 302 
+    response: 302 
 
-Integer validations are a shortcut for { status: ... }
+Integer validations are a shortcut for { status: ... } and match against the HTTP status code.
 
 ####Conditional branching on validation success (or failure)
     - request: http://httpbin.org/get
-      validation: { status: 200, on_success: json_post }
+      resposne: { status: 200, on_success: json_post }
     - request: http://httpbin.org/get
-      validation: "This request should not get executed"
+      response: "This request should not get executed"
     - name: json_post
       request:
         url: http://httpbin.org/post
@@ -65,11 +65,11 @@ Give your requests a name and you can specify an on_success or on_failure value 
     [
       {
         "request": "http://httpbin.org/get",
-        "validation": { "status": 200, "on_success": "json_post" }
+        "response": { "status": 200, "on_success": "json_post" }
       },
       {
         "request": "http://httpbin.org/get",
-        "validation": "This request should not get executed"
+        "response": "This request should not get executed"
       },
       {
         "name": "json_post",
@@ -117,23 +117,46 @@ There are options to control url encoding(+)/decoding(-) for replacement tokens.
 Normally if a replacement token can't be found, it reports an error.  The ? control directive makes it optional and a |default 
 provides the value if no session value is found (otherwise it's blank). In this example it's also url-encoded for use in the url.
 
-####Capturing data from the response
-    request: http://httpbin.org/get?favorite_verse=<%=name%>
-    validation: /"X-Request-Id"\s*:\s*"(:<request_id>.+?)"/
+###Capturing data from the response
+In many cases, you want to capture parts of the response either for reporting at the end of your script, or for use in subsequent steps.
 
-Named captures in a regular expression are added to the session object for use in future replacements. In this example, <%= request_id %>.
+####Capturing using regex
+    request: http://httpbin.org/get?favorite_verse=<%+ favorite_verse %>
+    response: /"X-Request-Id"\s*:\s*"(:<request_id>.+?)"/
+
+Named captures (:<group>...) in a regular expression are added to the session object for use in future replacements. In this example, 
+<%= request_id %> is captured from the json response.
 
 ####Validating/capturing from HTTP headers
     request: http://localhost:3000/get?url=medium
-    validation: 
+    response: 
       - headers:
           content-type: /(:<content_type>[^;]*)/
       - equals: [ "application/json", "<%= content_type %>" ]
 
-Here the validation element is an array of two items. You can have as many different validations mixed together as you like.
-* The headers validation element has name/value pairs to compare to HTTP response headers.  The right hand side can either be a string or a regex (with capturing groups if desired).
+Here the response element is an array of two items. You can have as many different validations mixed together as you like.
+* The headers validation element has name/value pairs to compare to HTTP response headers.  The right hand side can either be a string or a regex 
+(with capturing groups if desired).
 * The equals validation element is an array of strings that after interpolation of any variables, should all be the same.
           
+####Capturing with jquery
+    request: http://httpbin.org/
+    response: 
+      jquery: "div.mp ul:first a"
+      count: 32
+      capture:
+        href: "@href"
+        text: text
+        innerHTML: innerHTML
+        outerHTML: outerHTML
+        all_hrefs: [ "@href" ]
+        all_html: [ outerHTML ]
+
+JQuery validation uses [selectors|http://api.jquery.com/category/selectors/] to find elements on the page. The optional count property can be used to 
+validate that the number of elements matched by the selector fits the expectation. Once a list of elements is obtained, various attributes, text, 
+innerHTML, outerHTML, etc. can be captured from the matching nodes. If the capture target is in an array then the values from all matching elements 
+will be added to the session as an array. If the target is not inside an array, then only the last matching item will be captured. 
+
 ##Getting started
 hyperpotamus can be used as a library in your node.js applications. 
 
@@ -170,7 +193,6 @@ at the end of the script. You can use this to store and record scraped values.
 
 ##Todo
 There are still a few features left to be added:
-* Capture/validate using XPath against HTML/XML responses
 * Capture/validate using XPath against JSON responses
 * Better handling for redirects (auto-follow option)
 * Testing and support for cookie containers

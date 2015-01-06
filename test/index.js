@@ -2,12 +2,13 @@ var hyperpotamus = require("../lib/index");
 var async = require("async");
 var fs = require("fs");
 var path = require("path");
+var _ = require("underscore");
 
 function run_scripts(dir, extension, processor, data, done) {
 	async.each(fs.readdirSync(path.join(__dirname, dir)), function(filename) {
 		if(path.extname(filename)===extension) {
 			it(path.join(dir, filename), function(done) {
-				processor(path.join(__dirname, dir, filename), data, done);
+				processor(path.join(__dirname, dir, filename), _.clone(data), done);
 			});
 		}
 	}, function(err) {

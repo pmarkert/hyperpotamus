@@ -2,7 +2,7 @@ request: http://localhost:3000/static/test.html
 response:
   - This is a test
   - jquery: a
-    count: "2"
+    count: 2
     capture:
       href: "@href"
       text: text
@@ -14,4 +14,4 @@ response:
       all_innerHTML: [ innerHTML ]
       all_html: [ html ]
       all_outerHTML: [ outerHTML ]
-  - equal: [ text, 'Link 2' ]
+  - equals: [ 'Link 2', "<%= text %>"  ]
