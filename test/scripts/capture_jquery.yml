@@ -1,5 +1,6 @@
-request: http://localhost:3000/test.html
+request: http://localhost:3000/static/test.html
 validation:
+  - This is a test
   - jquery: a
     count: "2"
     capture:
