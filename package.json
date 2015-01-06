@@ -23,8 +23,8 @@
     "website monitoring"
   ],
   "dependencies": {
+    "cheerio": "^0.18.0",
     "js-yaml": "^3.2.4",
-    "jsdom": "^2.0.0",
     "moment": "^2.8.4",
     "named-regexp": "^0.1.1",
     "underscore": "^1.7.0"
