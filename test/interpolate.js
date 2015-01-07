@@ -21,7 +21,7 @@ describe("String Interpolation", function() {
 		];
 
 		async.each(cases, function(testcase, callback) { 
-			it("Should process " + testcase[1], function() {
+			it(testcase[1], function() {
 				assert.equal("PRE|value|POST", interpolate("PRE|" + testcase[0] + "|POST", data));
 				callback();
 			});
@@ -41,7 +41,7 @@ describe("String Interpolation", function() {
 		];
 
 		async.each(cases, function(testcase, callback) {
-			it("Should process " + testcase[2], function() {
+			it(testcase[2], function() {
 				assert.equal(prefix + testcase[0] + suffix, interpolate(prefix + testcase[1] + suffix, data));
 				callback();
 			});
@@ -61,7 +61,7 @@ describe("String Interpolation", function() {
 		];
 
 		async.each(cases, function(testcase, callback) {
-			it("Should process " + testcase[2], function() {
+			it(testcase[2], function() {
 				assert.equal(prefix + testcase[0] + suffix, interpolate(prefix + testcase[1] + suffix, data));
 				callback();
 			});
@@ -85,14 +85,14 @@ describe("String Interpolation", function() {
 		];
 
 		async.each(cases, function(testcase, callback) {
-			it("Should process " + testcase[2], function() {
+			it(testcase[2], function() {
 				assert.equal(prefix + testcase[0] + suffix, interpolate(prefix + testcase[1] + suffix, data));
 				callback();
 			});
 		}, done);
 	});
 
-	describe("Should format the date", function(done) {
+	describe("Format the date", function(done) {
 		var moment = require("moment")();
 
 		var cases = [
@@ -110,7 +110,7 @@ describe("String Interpolation", function() {
 		];
 
 		async.each(cases, function(testcase, callback) {
-			it("Should process " + testcase[1], function() {
+			it(testcase[1], function() {
 				assert.equal(prefix + moment.format("YYYY-MM-DD") + suffix, interpolate(prefix + testcase[0] + suffix, {}));
 				callback();
 			});
@@ -118,9 +118,34 @@ describe("String Interpolation", function() {
 	});
 
 	describe("Multiple tokens", function() {
-		it("Should process all tokens", function() {
+		it("Process all tokens", function() {
 			var data = { one : "1", two : "2" };
 			assert.equal(prefix + "1,2" + suffix, interpolate(prefix + "<%=one%>,<%=two%>" + suffix, data));
+		});
+	});
+
+        describe("Array access", function() {
+		var array = [ "one", "two", "three" ];
+		var value = "replaced";
+		it("First element", function() {
+			assert.equal(prefix + array[0] + suffix, interpolate(prefix + "<%@ array %>" + suffix, { array : array, "array.index" : 0 }));
+		});
+		it("Third element", function() {
+			assert.equal(prefix + array[2] + suffix, interpolate(prefix + "<%@ array %>" + suffix, { array : array, "array.index" : 2 }));
+		});
+		it("Out of bounds", function() {
+			try {
+			  interpolate(prefix + "<%@ array %>" + suffix, { array : array, "array.index" : 2 });
+			  assert.fail("Should have thrown an error");
+			 } catch(err) {
+			 	// Noop
+			 }
+		});
+		it("Non-array", function() {
+			assert.equal(prefix + value + suffix, interpolate(prefix + "<%@ value %>" + suffix, { value: value }));
+		});
+		it("Non-array, fake index", function() {
+			assert.equal(prefix + value + suffix, interpolate(prefix + "<%@ value %>" + suffix, { value: value }));
 		});
 	});
 });
