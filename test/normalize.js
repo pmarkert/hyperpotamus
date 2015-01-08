@@ -1,4 +1,4 @@
-var normalize = require("../lib/normalize");
+var normalize = require("../lib/normalize")();
 var load = require("../lib/load");
 var async = require("async");
 var fs = require("fs");
