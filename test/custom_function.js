@@ -9,13 +9,13 @@ describe("Custom function validation", function() {
 	it("Should allow successful validation", function(done) {
 		var script = {
 			request: "http://localhost:3000/static/test.html",
-			response: function(response, body, session, callback) {
-				if(body.indexOf("is a test")>=0) {
-					session["matched"] = true;
-					return callback();
+			response: function(context) {
+				if(context.body.indexOf("is a test")>=0) {
+					context.session["matched"] = true;
+					return context.callback();
 				}
 				else {
-					return callback("Did not find the match");
+					return context.callback("Did not find the match");
 				}
 			}
 		}
@@ -27,13 +27,13 @@ describe("Custom function validation", function() {
 	it("Should allow a failed validation", function(done) {
 		var script = {
 			request: "http://localhost:3000/static/test.html",
-			response: function(response, body, session, callback) {
-				if(body.indexOf("do not match")>=0) {
-					session["matched"] = true;
-					return callback();
+			response: function(context) {
+				if(context.body.indexOf("do not match")>=0) {
+					context.session["matched"] = true;
+					return context.callback();
 				}
 				else {
-					return callback("Did not find the match");
+					return context.callback("Did not find the match");
 				}
 			}
 		}
