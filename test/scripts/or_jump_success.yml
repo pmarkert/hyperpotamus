@@ -1,0 +1,7 @@
+- request: http://localhost:3000/get
+  response:
+    or:
+      actions: [ 200, 302 ]
+    on_success: END
+- request: http://localhost:3000/get
+  response: Should not be executed

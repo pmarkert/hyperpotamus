@@ -1,0 +1,3 @@
+request: http://localhost:3000/get
+response:
+  or: [ 200, 302 ]

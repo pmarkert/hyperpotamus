@@ -1,8 +1,8 @@
 normalized : true
 steps:
-  - request: 
+  - request:
       url : http://localhost:3000/get?url=medium
       headers : {}
-    response: 
+    response:
       - not:
           text : 'not found'

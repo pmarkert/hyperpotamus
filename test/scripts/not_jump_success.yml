@@ -1,6 +1,6 @@
 - request: http://localhost:3000/get?url=medium
-  response: 
-    not : 
+  response:
+    not :
       text: 'not found'
     on_success: END
 - request: http://localhost:3000/get

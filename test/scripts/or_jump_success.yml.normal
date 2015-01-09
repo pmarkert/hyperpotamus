@@ -1,0 +1,16 @@
+normalized: true
+steps:
+  - request:
+      url : http://localhost:3000/get
+      headers : {}
+    response:
+      - or:
+          actions:
+            - status : 200
+            - status : 302
+        on_success: END
+  - request:
+      url : http://localhost:3000/get
+      headers : {}
+    response:
+      - text : Should not be executed
