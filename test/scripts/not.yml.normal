@@ -4,5 +4,6 @@ steps:
       url : http://localhost:3000/get?url=medium
       headers : {}
     response:
-      - not:
-          text : 'not found'
+      actions:
+        - not:
+            text : 'not found'
