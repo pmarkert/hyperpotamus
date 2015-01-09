@@ -1,2 +1,4 @@
-request: http://localhost:3000/redirect-to?url=http://www.google.com
+request: 
+  url: http://localhost:3000/redirect-to?url=http://www.google.com
+  followRedirect: false
 response: 302

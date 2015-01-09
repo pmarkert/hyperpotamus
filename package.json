@@ -1,6 +1,6 @@
 {
   "name": "hyperpotamus",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "YAML based HTTP script processing engine",
   "main": "lib/index.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "jsdom": "^2.0.0",
     "moment": "^2.8.4",
     "named-regexp": "^0.1.1",
+    "request": "^2.51.0",
     "underscore": "^1.7.0"
   },
   "devDependencies": {
