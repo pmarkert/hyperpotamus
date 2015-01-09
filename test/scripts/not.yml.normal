@@ -1,0 +1,8 @@
+normalized : true
+steps:
+  - request: 
+      url : http://localhost:3000/get?url=medium
+      headers : {}
+    response: 
+      - not:
+          text : 'not found'
