@@ -3,6 +3,7 @@ var hyperpotamus = require("./lib");
 var querystring = require("querystring");
 var _ = require("underscore");
 var csv = require("fast-csv");
+var fs = require("fs");
 
 var args = require("yargs")
 	.usage("Run a hyperpotamus script (http://github.com/pmarkert/hyperpotamus)\nUsage: $0")
@@ -17,6 +18,9 @@ var args = require("yargs")
 	.describe("csv", "Loads input data from a csv file (headers on the first line")
 	.count("verbose")
 	.alias("verbose","v")
+	.describe("output", "Output file of emitted content")
+	.alias("out","output")
+	.alias("o","output")
 .argv;
 
 var session = {};
@@ -24,24 +28,31 @@ if(args.qs) {
 	session = querystring.parse(args.qs);
 }
 
+var outfile;
+if(args.output) {
+	outfile = fs.createWriteStream(args.output);
+}
+
 hyperpotamus.load.yaml.file(args.file, function(err, script) {
-	if(err) { console.err(err); process.exit(1) };
-	script = hyperpotamus.normalize(script);
+	if(err) { 
+		console.log(err); 
+		process.exit(1) 
+	};
+	script = hyperpotamus.normalize(script); // Pre-normalize script if we run it in a loop
 
 	if(args.csv) {
 		csv.fromPath(args.csv, { headers : true }).on("data", function(user) {
 			user = _.defaults(user, session);
-			process_user(script, user);
+			hyperpotamus.process(script, user, callbacks);
 		});
 	}
 	else {
-		process_user(script, user);
+		hyperpotamus.process(script, session, callbacks);
 	}
-
 });
 
-function process_user(script, user) {
-	hyperpotamus.process(script, user, function(err, session) {
+var callbacks = {
+	done : function(err, session) {
 		if(err) {
 			console.error("Error - " + err);
 			process.exit(1);
@@ -50,8 +61,20 @@ function process_user(script, user) {
 			console.log("Final session data is " + JSON.stringify(session));
 		if(args.echo)
 			console.log(hyperpotamus.interpolate(args.echo, session));
-	}, function(step, session, response, body) {
-		if(args.verbose>1)
-			console.log("Completed request for " + step.request.url + " - response was " + body);
-	});
+	},
+
+	before_request : function(request) {
+		if(args.verbose) console.log("Requesting - " + request.url);
+	},
+
+	after_validate : function(step, err, jump_to_key) {
+		if(args.verbose) console.log("After validation - " + jump_to_key);
+	},
+
+	emit : function(message) {
+		if(outfile) 
+			outfile.write(message + "\n");
+		else
+			console.log(message);
+	}
 }
