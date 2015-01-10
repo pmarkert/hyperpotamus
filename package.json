@@ -24,6 +24,7 @@
   ],
   "dependencies": {
     "async": "^0.9.0",
+    "fast-csv": "^0.5.4",
     "jquery": "^2.1.3",
     "js-yaml": "^3.2.4",
     "jsdom": "^2.0.0",
@@ -32,7 +33,8 @@
     "named-regexp": "^0.1.1",
     "request": "^2.51.0",
     "socks5-http-client": "^0.1.6",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "yargs": "^1.3.3"
   },
   "devDependencies": {
     "body-parser": "^1.10.0",

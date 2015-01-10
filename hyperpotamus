@@ -1,21 +1,57 @@
 #!/usr/bin/env node
 var hyperpotamus = require("./lib");
 var querystring = require("querystring");
-var interpolate = require("./lib/interpolate");
+var _ = require("underscore");
+var csv = require("fast-csv");
+
+var args = require("yargs")
+	.usage("Run a hyperpotamus script (http://github.com/pmarkert/hyperpotamus)\nUsage: $0")
+	.example("$0 -f", "Executes the given script")
+	.example("$0 -f filename.yml -e 'Name was <%first%>", "Executes the script, and interpolates the output string")
+	.demand("file")
+	.alias("file", "f")
+	.describe("file", "YAML script to execute")
+	.alias("echo", "e")
+	.describe("echo", "Echoes the formatted string after the session")
+	.describe("qs", "Initial session state from querystring encoded value")
+	.describe("csv", "Loads input data from a csv file (headers on the first line")
+	.count("verbose")
+	.alias("verbose","v")
+.argv;
+
 var session = {};
-if(process.argv.length>3) {
-	session = querystring.parse(process.argv[3]);
+if(args.qs) {
+	session = querystring.parse(args.qs);
 }
-hyperpotamus.yaml.process_file(process.argv[2], session, function(err, session) {
-	if(err) {
-		console.error("Error - " + err);
-		return process.exit(1);
+
+hyperpotamus.load.yaml.file(args.file, function(err, script) {
+	if(err) { console.err(err); process.exit(1) };
+	script = hyperpotamus.normalize(script);
+
+	if(args.csv) {
+		csv.fromPath(args.csv, { headers : true }).on("data", function(user) {
+			user = _.defaults(user, session);
+			process_user(script, user);
+		});
 	}
-	if(process.argv.length<=4)
-		console.log("Final session data is " + JSON.stringify(session));
-	else
-		console.log(interpolate(process.argv[4], session));
-}, function(step, session, response, body) {
-	if(process.argv.length<=4)
-		console.log("Completed request for " + step.request.url + " - response was " + body);
+	else {
+		process_user(script, user);
+	}
+
 });
+
+function process_user(script, user) {
+	hyperpotamus.process(script, user, function(err, session) {
+		if(err) {
+			console.error("Error - " + err);
+			process.exit(1);
+		}
+		if(args.verbose)
+			console.log("Final session data is " + JSON.stringify(session));
+		if(args.echo)
+			console.log(hyperpotamus.interpolate(args.echo, session));
+	}, function(step, session, response, body) {
+		if(args.verbose>1)
+			console.log("Completed request for " + step.request.url + " - response was " + body);
+	});
+}
