@@ -4,12 +4,13 @@ var querystring = require("querystring");
 var _ = require("underscore");
 var csv = require("fast-csv");
 var fs = require("fs");
+var package = require("./package.json");
 
 var args = require("yargs")
 	.usage("Run a hyperpotamus script (http://github.com/pmarkert/hyperpotamus)\nUsage: $0")
-	.example("$0 -f", "Executes the given script")
+	.example("$0 filename.yml", "Executes the given script")
 	.example("$0 -f filename.yml -e 'Name was <%first%>", "Executes the script, and interpolates the output string")
-	.demand("file")
+	.example("$0 filename.yml -e 'Name was <%first%>", "Executes the script, and interpolates the output string")
 	.alias("file", "f")
 	.describe("file", "YAML script to execute")
 	.alias("echo", "e")
@@ -21,7 +22,19 @@ var args = require("yargs")
 	.describe("output", "Output file of emitted content")
 	.alias("out","output")
 	.alias("o","output")
+	.check(function(args, options) {
+		if(!args.file && !args._.length>=1) {
+			throw new Error("Must specify the file to process either with -f, --file, or as the first positional argument.");
+		}
+		else if((args.file && args._.length>0) || args._.length>1) {
+			throw new Error("Unexpected positional arguments.");
+		}
+	})
+	.version("hyperpotamus version " + package.version + "\n", "version")
+	.strict()
 .argv;
+
+if(!args.file) args.file = args._[0];
 
 var session = {};
 if(args.qs) {
@@ -39,6 +52,9 @@ hyperpotamus.load.yaml.file(args.file, function(err, script) {
 		process.exit(1) 
 	};
 	script = hyperpotamus.normalize(script); // Pre-normalize script if we run it in a loop
+	if(args.verbose>=2) {
+		console.log("Normalized script is " + JSON.stringify(script));
+	}
 
 	if(args.csv) {
 		csv.fromPath(args.csv, { headers : true }).on("data", function(user) {
