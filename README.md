@@ -1,8 +1,5 @@
 # hyperpotamus
-
 YAML based HTTP script processing engine
-
-Hyperpotamus is a node.js library that enables you to automate sending HTTP requests and to verify/capture data in the responses. Hyperpotamus scripts are written as simple YAML files. 
 
 Why might someone want to do this? There are many reasons that I have needed to use such a tool in my own career, including:
 * Setting up an automated suite of integration/regression tests for your new web-application
@@ -55,8 +52,7 @@ Integer validations are a shortcut for { status: ... } and match against the HTT
       request:
         url: http://httpbin.org/post
         method: POST
-        mode: json
-        data:
+        form:
           message: "But this one does"
 
 Give your requests a name and you can specify an on_success or on_failure value for any validation.
@@ -176,24 +172,38 @@ The intention is that the library can be used on a timer (maybe for monitoring),
 or called multiple times asynchronously (for stress testing).
 
 ##CLI interface
-There is also a sample command-line interface that can be used to test out your scripts or do some basic web-scraping, but it isn't quite ready 
-for prime-time yet. To use it
+There is also a command-line interface that can be used to test out your scripts or do some basic web-scraping.  Running the command gives you some 
+usage information.
 
-    hyperpotamus /path/to/script.yml "url encoded session values" "output format string"
+    # Process a script, passing in key1,key2 as initial session data and echo out the formatted string at the end, double-verbose
+    hyperpotamus /path/to/script --qs "key1=value1&key2=value2" --echo "Key1 was <% key1 %>" -vv
 
+--qs means to initialize the session with the specified key/value pairs.  The url encoded session values should be in the format of a querystring 
+i.e. key1=value1&key2=value2. (NOTE: Put this in quotes if you don't want the & to be interpreted by your shell.) 
 
-The url encoded session values should be in the format of a querystring i.e. key1=value1&key2=value2. (NOTE: Put this in quotes if you don't want the 
-& to be interpreted by your shell.) 
+--echo means that when the whole script has finished running, interpolate the given string and print the results
 
-If you leave off the "output format string", then you will see some diagnostic information about the requests and responses from your script. 
-If you do specify an output format string then the only output will be the result of your format string interpolated with the final session values 
-at the end of the script. You can use this to store and record scraped values.
+-v is the same as --verbose. -vv is double-verbose.
 
-    hyperpotamus capturing_data_from_the_response.yml "favorite_verse=Colossians%203%3a23" "Request_Id is <%=request_id%>"
+    # Process a script, reading in session values from a .csv file (with headers), save "emitted" text to out.csv
+    hyperpotamus -f script.yml --csv input.csv --out out.csv
 
-##Todo
+--out saves any emitted text from the script. There is an "emit" action that will return the results of an interpolated string. This is useful
+for saving data from your session (i.e. you are screen scraping to build a .csv file). If you do not specify --out, emitted text goes to stdout.
+
+##TODO
 There are still a few features left to be added:
-* Capture/validate using XPath against JSON responses
-* Better handling for redirects (auto-follow option)
 * Testing and support for cookie containers
-* Configurable support for Javascript functions for validation/captures
+* Finish out documentation
+* More unit-test coverage
+* Finish the handler "plug-in" setup to allow for the addition of custom handlers and disabling of unsafe handlers (like save and function).
+* Options to limit script execution to prevent indefinite loops, long-running scripts, etc.
+* Some more work around the interpolation logic to allow for specific array access, splits, manual array building, randomized array access
+* Add support for "think-time" and parallelism limiting to throttle-back traffic.
+
+#### Hyperpotamus is still in the pre-release stage
+NOTE: I am building this library for my own purposes and have decided to open-source it while I am in process, instead of waiting until I have a stable 
+release to present. API stability and options will be in flux until I mark the module as a 1.0 release. Documentation is lagging a bit behind the current 
+codebase, until I stabilize things a bit more, so if something doesn't work for you as expected, there's a good chance "it's not you... it's me". :)
+Hyperpotamus is a node.js library that enables you to automate sending HTTP requests and to verify/capture data in the responses. Hyperpotamus scripts are written as simple YAML files. 
+
