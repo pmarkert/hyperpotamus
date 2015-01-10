@@ -148,4 +148,23 @@ describe("String Interpolation", function() {
 			assert.equal(prefix + value + suffix, interpolate(prefix + "<%@ value %>" + suffix, { value: value }));
 		});
 	});
+
+	describe("Array join", function() {
+		var array = [ "one", "two", "three" ];
+		it("Comma-delimited", function() {
+			assert.equal("one,two,three", interpolate("<%& array|, %>", { array: array }));
+		});
+		it("Pipe-delimited", function() {
+			assert.equal("one|two|three", interpolate("<%& array|| %>", { array: array }));
+		});
+		it("Default delimiter", function() {
+			assert.equal("one,two,three", interpolate("<%& array %>", { array: array }));
+		});
+		it("Tab delimiter", function() {
+			assert.equal("one	two	three", interpolate("<%& array|\\t %>", { array: array }));
+		});
+		it("Space delimiter", function() {
+			assert.equal("one two three", interpolate("<%& array|\\s %>", { array: array }));
+		});
+	});
 });
