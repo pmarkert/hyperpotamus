@@ -147,6 +147,23 @@ describe("String Interpolation", function() {
 		it("Non-array, fake index", function() {
 			assert.equal(prefix + value + suffix, interpolate(prefix + "<%@ value %>" + suffix, { value: value }));
 		});
+		it("Array specific indexing, 0", function() {
+			assert.equal("one", interpolate("<%@ array|0 %>", { array : array }));
+		});
+		it("Array specific indexing, 1", function() {
+			assert.equal("two", interpolate("<%@ array|1 %>", { array : array }));
+		});
+		it("Array specific indexing, 2", function() {
+			assert.equal("three", interpolate("<%@ array|2 %>", { array : array }));
+		});
+		it("Array specific indexing, 3 (out of bounds)", function() {
+			try {
+				interpolate("<%@ array|3 %>", { array : array });
+				assert.fail("Should have thrown an error");
+			} catch(err) {
+				// Noop
+			}
+		});
 	});
 
 	describe("Array join", function() {
