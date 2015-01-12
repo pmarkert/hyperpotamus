@@ -83,6 +83,10 @@ var callbacks = {
 		if(args.verbose) console.log("Requesting - " + request.url);
 	},
 
+        before_validate: function(step, context) {
+		if(args.verbose>2) console.log("Response was " + context.body);
+	},
+
 	after_validate : function(step, err, jump_to_key) {
 		if(args.verbose) console.log("After validation - " + jump_to_key);
 	},

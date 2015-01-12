@@ -1,6 +1,8 @@
 # hyperpotamus
 YAML based HTTP script processing engine
 
+You can also read the [Hyperpotamus Documentation wiki](http://github.com/pmarkert/hyperpotamus/wiki)
+
 Why might someone want to do this? There are many reasons that I have needed to use such a tool in my own career, including:
 * Setting up an automated suite of integration/regression tests for your new web-application
 * Creating a monitoring system that checks to make sure your website is working on a periodic basis
