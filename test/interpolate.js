@@ -1,6 +1,7 @@
 var interpolate = require("../lib/interpolate");
 var async = require("async");
 var assert = require("assert");
+var _ = require("underscore");
 
 describe("String Interpolation", function() {
 
@@ -115,6 +116,84 @@ describe("String Interpolation", function() {
 				callback();
 			});
 		}, done);
+	});
+
+	function verify_random_range(str, min, max, count) {
+		// Because this test is inherently "random" (which is bad for unit tests), 
+		// let's do it many times to lower the probability of false negative.
+		for(var i=0; i<(count || 100); i++) { 
+			var result = interpolate(str);
+			var int_result = parseInt(result);
+			assert(_.isNumber(int_result), "Result was not a number - " + result);
+			assert.equal(int_result, result, "Result did not seem to be an integer - " + result);
+			assert(int_result >= min , "Number was too low - " + result);
+			assert(int_result < max, "Number was too high - " + result);
+		}
+	}
+
+	describe("Random numbers", function() {
+		it("Should generate a random number within a range", function() {
+			var min = 3, max=7;
+			verify_random_range("<%$ " + min + "-" + max + " %>", min, max);
+		});
+		it("Should generate a random number within a range and whitespace", function() {
+			var min = 3, max=7;
+			verify_random_range("<%$ " + min + " - " + max + " %>", min, max);
+		});
+		it("Should throw an error if min == max", function() {
+			var min = 3, max=3;
+			try {
+				verify_random_range("<%$ " + min + " - " + max + " %>", min, max, 1);
+				assert.fail("Should have thrown an error");
+			} catch(err) { };
+		});
+		it("Should throw an error if min > max", function() {
+			var min = 4, max=3;
+			try {
+				verify_random_range("<%$ " + min + " - " + max + " %>", min, max, 1);
+				assert.fail("Should have thrown an error");
+			} catch(err) { };
+		});
+		it("Should generate a random number from X -> X+1 (same number)", function() {
+			var min = 3, max=4;
+			verify_random_range("<%$ " + min + " - " + max + " %>", min, max);
+		});
+		it("Should generate a random number from 0 to max-1", function() {
+			var max = 7;
+			verify_random_range("<%$ " + max + " %>", 0, max);
+		});
+	});
+
+	describe("Random array elements", function() {
+		it("Should return a random element from an array", function() {
+			var array = [ "one", "two", "three" ];
+			// Because this test is inherently "random" (which is bad for unit tests), 
+			// let's do it many times to lower the probability of false negative.
+			for(var i=0; i<100; i++) {
+				var result = interpolate("<%$@ array %>", { array : array });
+				assert(_.contains(array, result));
+			}
+		});
+
+		it("Should return the single element from a single-element array", function() {
+			var array = [ "one" ];
+			// Because this test is inherently "random" (which is bad for unit tests), 
+			// let's do it many times to lower the probability of false negative.
+			for(var i=0; i<100; i++) {
+				var result = interpolate("<%$@ array %>", { array : array });
+				assert(_.contains(array, result));
+			}
+		});
+
+		it("Should return the element from a non array", function() {
+			var array = "one";
+			// Because this test is inherently "random" (which is bad for unit tests), 
+			// let's do it many times to lower the probability of false negative.
+			for(var i=0; i<100; i++) {
+				var result = interpolate("<%$@ array %>", { array : array });
+				assert.equal(array, result);
+			}
+		});
 	});
 
 	describe("Multiple tokens", function() {
