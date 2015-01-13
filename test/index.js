@@ -22,6 +22,10 @@ function expect_failure(filename, data, done) {
 	});
 }
 
+before(function() {
+	hyperpotamus.handlers(); // Force load all handler.js to prevent the first unit test from getting penalized time-wise
+});
+
 describe("HTTP Tests", function() {
 	before(function(done) {
 		server = require("./httpsite").listen(3000, done);
