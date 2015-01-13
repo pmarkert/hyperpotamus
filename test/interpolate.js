@@ -118,6 +118,13 @@ describe("String Interpolation", function() {
 		}, done);
 	});
 
+	describe("Delimiter quote", function(done) {
+		assert.equal("\"as,df\"", interpolate("<%# value %>", { value : "as,df" }));
+		assert.equal("as,df", interpolate("<%# value|; %>", { value : "as,df" }));
+		assert.equal("\"as;df\"", interpolate("<%# value|; %>", { value : "as;df" }));
+		assert.equal("asdf", interpolate("<%# value %>", { value : "asdf" }));
+	});
+
 	function verify_random_range(str, min, max, count) {
 		// Because this test is inherently "random" (which is bad for unit tests), 
 		// let's do it many times to lower the probability of false negative.
