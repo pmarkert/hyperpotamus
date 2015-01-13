@@ -97,7 +97,7 @@ function callbacks(master_callback) {
 		},
 
 		after_validate : function(step, err, jump_to_key) {
-			if(args.verbose) console.log("After validation - " + jump_to_key);
+			if(args.verbose && jump_to_key) console.log("After validation - Jump to key is " + jump_to_key);
 		},
 
 		emit : function(message) {
