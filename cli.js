@@ -27,6 +27,7 @@ var args = require("yargs")
 	.alias("concurrency", "c")
 	.default("concurrency", 1)
 	.describe("handlers", "Folder containing custom action handlers to load in")
+	.describe("safe", "Do not allow unsafe YAML types")
 	.check(function(args, options) {
 		if(!args.file && !args._.length>=1) {
 			throw new Error("Must specify the file to process either with -f, --file, or as the first positional argument.");
@@ -51,7 +52,12 @@ if(args.output) {
 	outfile = fs.createWriteStream(args.output);
 }
 
-hyperpotamus.load.yaml.file(args.file, function(err, script) {
+var loader = hyperpotamus.load.unsafe_yaml;
+if(args.safe) {
+	loader = hyperpotamus.load.yaml;
+}
+
+loader.file(args.file, function(err, script) {
 	if(err) { 
 		console.log(err); 
 		process.exit(1) 
