@@ -1,11 +1,11 @@
 {
   "name": "hyperpotamus",
-  "version": "0.14.1",
+  "version": "0.15.0",
   "description": "YAML based HTTP script processing engine",
   "homepage": "https://github.com/pmarkert/hyperpotamus/wiki",
   "main": "lib/index.js",
   "bin": {
-    "hyperpotamus" : "./cli.js"
+    "hyperpotamus": "./cli.js"
   },
   "scripts": {
     "test": "mocha"
@@ -43,6 +43,7 @@
     "body-parser": "^1.10.0",
     "chai": "^1.10.0",
     "express": "^4.10.6",
+    "hyperpotamus-jquery": "file:../hyperpotamus-jquery",
     "mocha": "^2.1.0",
     "node-uuid": "^1.4.2"
   },

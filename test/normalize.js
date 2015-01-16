@@ -14,15 +14,11 @@ describe("Normalize", function(done) {
 		if(path.extname(filename)===".normal") {
 			var compare = path.basename(filename, ".normal");
 			it(path.join(dir, compare), function(done) {
-				load.yaml.file(path.join(__dirname, dir, compare), function(err, to_normalize) {
-					should.not.exist(err, "Failed to load target file " + compare);
-					load.yaml.file(path.join(__dirname, dir, filename), function(err, expected) {
-						should.not.exist(err, "Failed to load comparison file " + filename);
-						var normalized = normalize(to_normalize);
-						normalized.should.deep.equal(expected, JSON.stringify(normalized));
-						done();
-					});
-				});
+				var to_normalize = load.scripts.yaml.file(path.join(__dirname, dir, compare));
+				var expected = load.scripts.yaml.file(path.join(__dirname, dir, filename));
+				var normalized = normalize(to_normalize);
+				normalized.should.deep.equal(expected, JSON.stringify(normalized));
+				done();
 			});
 		};
 	}, done); 

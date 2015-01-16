@@ -23,7 +23,7 @@ function expect_failure(filename, data, done) {
 }
 
 before(function() {
-	hyperpotamus.handlers(); // Force load all handler.js to prevent the first unit test from getting penalized time-wise
+	hyperpotamus.load.plugins.defaults(false); // Force load all handler.js to prevent the first unit test from getting penalized time-wise
 });
 
 describe("HTTP Tests", function() {

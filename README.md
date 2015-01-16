@@ -19,7 +19,7 @@ The hyperpotamus YAML syntax attempts to be as fluid as possible. I.e. there are
 ###Show me the examples
 
 ####A super-simple script
-----------
+
     http://www.google.com
 
 ####OK, a little bit harder?
@@ -74,8 +74,7 @@ Give your requests a name and you can specify an on_success or on_failure value 
         "request": {
           "url": "http://httpbin.org/post",
           "method": "POST",
-          "mode": "json",
-          "data": {
+          "form": {
             "message": "But this one does"
           }
         }
@@ -89,25 +88,17 @@ Give your requests a name and you can specify an on_success or on_failure value 
        user-agent: Mozilla/5.0 (Hyperpotamus; FTW!) 
        custom-header: show off
 
+Hyperpotamus uses the [request](https://github.com/request/request) library, so you can use any of the options that request supports.
+
 ####POSTing user-supplied data to a login form
     request:
       url: http://httpbin.org/post
       method: POST
-      mode: form
-      data: 
+      form: 
         username: <%= username %>
         password: <%= password %>
 
 "Session" data can be passed into hyperpotamus as a name/value pair object and those values can be inserted into your requests with replacement tokens. 
-
-####POST w/Form encoded values (equivalent)
-    request:
-      url: http://httpbin.org/post
-      method: POST
-      mode: form
-      data: username=<%+ username %>&password=<%+ password %>
-
-There are options to control url encoding(+)/decoding(-) for replacement tokens. Notice the <%+ ... %> vs <%= %>. Multi-level encoding/decoding can also be done (+++)/(--).
 
 ####Optional replacement tokens with default values
     request: http://httpbin.org/get?param=<%?+ search|cat videos %>
@@ -156,24 +147,6 @@ innerHTML, outerHTML, etc. can be captured from the matching nodes. If the captu
 will be added to the session as an array. If the target is not inside an array, then only the last matching item will be captured. 
 
 ##Getting started
-hyperpotamus can be used as a library in your node.js applications. 
-
-    var hyp = require("hyperpotamus")
-    hyp.yaml.process_file("/path/to/file.yml", { session : "data" }, script_complete, step_complete);
-
-    function script_complete(err, final_session) {
-      if(err) { return console.log("Error - " + err); };
-      console.log("Final session state is " + JSON.stringify(final_session));
-    }
- 
-    function step_complete(step, session, http_response, body) {
-      console.log("Completed request for " + step.request.url);
-    }
-
-The intention is that the library can be used on a timer (maybe for monitoring), in a loop (for processing session data from a csv file), 
-or called multiple times asynchronously (for stress testing).
-
-##CLI interface
 There is also a command-line interface that can be used to test out your scripts or do some basic web-scraping.  Running the command gives you some 
 usage information.
 

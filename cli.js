@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-var hyperpotamus = require("./lib");
 var querystring = require("querystring");
 var _ = require("underscore");
 var csv = require("fast-csv");
@@ -26,8 +25,9 @@ var args = require("yargs")
 	.describe("concurrency", "Number of concurrent requests allowed")
 	.alias("concurrency", "c")
 	.default("concurrency", 1)
-	.describe("handlers", "Folder containing custom action handlers to load in")
-	.describe("safe", "Do not allow unsafe YAML types")
+	.describe("plugins", "Folder containing custom action plugins to load in")
+	.describe("safe", "Do not allow unsafe YAML types or plugins")
+	.boolean("safe")
 	.check(function(args, options) {
 		if(!args.file && !args._.length>=1) {
 			throw new Error("Must specify the file to process either with -f, --file, or as the first positional argument.");
@@ -52,44 +52,35 @@ if(args.output) {
 	outfile = fs.createWriteStream(args.output);
 }
 
-var loader = hyperpotamus.load.unsafe_yaml;
-if(args.safe) {
-	loader = hyperpotamus.load.yaml;
+var hyperpotamus = require("./lib").processor(args.safe);
+if(args.plugins) {
+	if(!_.isArray(args.plugins)) args.plugins = [ args.plugins ];
+	for(var i=0; i<args.plugins.length; i++) {
+		hyperpotamus.use(args.plugins[i], args.safe);
+	}
 }
 
-loader.file(args.file, function(err, script) {
-	if(err) { 
-		console.log(err); 
-		process.exit(1) 
-	};
-	script = hyperpotamus.normalize(script, options()); // Pre-normalize script if we run it in a loop
-	if(args.verbose>=2) {
-		console.log("Normalized script is " + JSON.stringify(script));
-	}
+var script = hyperpotamus.load.scripts.yaml.file(args.file, args.safe);
+script = hyperpotamus.normalize(script); // Pre-normalize script if we run it in a loop
+if(args.verbose>=2) {
+	console.log("Normalized script is " + JSON.stringify(script));
+}
 
-	if(args.csv) {
-		var queue = async.queue(function(user, callback) {
-			user = _.defaults(user, session);
-			hyperpotamus.process(script, user, options(callback));
-		}, args.concurrency);
-		csv.fromPath(args.csv, { headers : true }).on("data", function(user) {
-			queue.push(user);
-		});
-	}
-	else {
-		hyperpotamus.process(script, session, options());
-	}
-});
+if(args.csv) {
+	var queue = async.queue(function(user, callback) {
+		user = _.defaults(user, session);
+		hyperpotamus.process(script, user, options(callback));
+	}, args.concurrency);
+	csv.fromPath(args.csv, { headers : true }).on("data", function(user) {
+		queue.push(user);
+	});
+}
+else {
+	hyperpotamus.process(script, session, options());
+}
 
 function options(master_callback) {
-	var handlers;
-	if(args.handlers) {
-		handlers = hyperpotamus.handlers(args.handlers).concat(hyperpotamus.handlers());
-	}
-
 	return {
-		handlers : handlers,
-
 		done : function(err, session) {
 			if(err) {
 				console.error("Error - " + err);
