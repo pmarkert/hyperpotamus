@@ -1,0 +1,8 @@
+normalized : true
+steps:
+  - request: 
+      url : !!null
+      headers : { }
+    response:
+      actions:
+        - delay: 1

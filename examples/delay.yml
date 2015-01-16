@@ -1,0 +1,15 @@
+# Features used in this script:
+# Null request - Steps do not necessarily need to have a request. 
+#   Steps without requests can be used to allow actions to be executed before the first request or between requests.
+# The set action can be used to explicitly set session variables. Multiple session variables can be set with a single action
+# The "$" format specifier picks a random number. Values can be a range "min-max" or just "max". 
+#   The randomly selected integer will be from min (inclusive) to max (exclusive).
+# The emit action echoes back text for output
+# The ":" format specifier formats the current date/time
+# The delay action causes the script to sleep for the specified number of milliseconds
+- actions: 
+    - set: 
+        sleep_amount: <%$ 4000 %> 
+    - emit: "<%: YYYY-MM-DD hh:mm:ss.SSS %> Sleeping for <% sleep_amount %>" 
+    - delay: <% sleep_amount %> 
+    - emit: "<%: YYYY-MM-DD hh:mm:ss.SSS %> Done"
