@@ -1,0 +1,11 @@
+actions:
+  - compare: [ 1, 2, 3 ]
+    operator: "<"
+  - compare: [ 1, 2, 2, 3 ]
+    operator: "<="
+  - compare: [ 3, 2, 1 ]
+    operator: ">"
+  - compare: [ 3, 2, 1 ]
+    operator: ">"
+  - compare: [ "3", 2, 1 ]
+    operator: ">"
