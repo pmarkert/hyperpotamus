@@ -1,0 +1,23 @@
+normalized: true
+steps: 
+  - request: 
+      url: "http://localhost:3000/static/test.html"
+      headers: {}
+    response:
+      actions:
+        - text: This is a test
+        - jquery: a
+          count: 2
+          capture:
+            href: "@href"
+            text: text
+            innerHTML: innerHTML
+            html: html
+            outerHTML: outerHTML
+            all_href: [ "@href" ]
+            all_text: [ text ]
+            all_innerHTML: [ innerHTML ]
+            all_html: [ html ]
+            all_outerHTML: [ outerHTML ]
+        - equals: [ 'Link 2', <%= text %> ]
+
