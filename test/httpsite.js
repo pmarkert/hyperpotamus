@@ -28,6 +28,10 @@ app.get("/redirect-to", function(req, res) {
 	return res.redirect(req.query.url);
 });
 
+app.post("/json", function(req, res) {
+	return res.json(req.body);
+});
+
 app.use("/static", express.static(__dirname + "/static"));
 
 module.exports = app;

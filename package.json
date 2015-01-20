@@ -1,6 +1,6 @@
 {
   "name": "hyperpotamus",
-  "version": "0.15.2",
+  "version": "0.15.3",
   "description": "YAML based HTTP script processing engine",
   "homepage": "https://github.com/pmarkert/hyperpotamus/wiki",
   "main": "lib/index.js",
@@ -27,6 +27,7 @@
     "website monitoring"
   ],
   "dependencies": {
+    "JSONPath": "^0.10.0",
     "async": "^0.9.0",
     "cheerio": "^0.18.0",
     "fast-csv": "^0.5.4",
