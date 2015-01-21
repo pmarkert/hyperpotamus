@@ -1,0 +1,20 @@
+# This script loops through a list of the four gospels and prints them out
+
+# Features used in this script:
+# -----------------------------
+# Named steps.
+# Explictly setting an array value
+# using emit and iterate to repeat a set of actions for each element in an array
+#   The default behavior for iterate is to repeat the current step, so the step 
+#   names and the next: print lines could be removed and it would have the same effect.
+
+- name: setup
+  actions:
+    set:
+      gospels: [ 'Matthew', 'Mark', 'Luke', 'John' ]
+- name: print
+  actions:
+    - emit: The Gospel according to <%@ gospels %>
+    - iterate: gospels
+      next: print
+

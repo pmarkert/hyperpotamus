@@ -1,0 +1,15 @@
+- request: https://www.npmjs.com/package/hyperpotamus
+  response:
+    - jquery: "ul>li:contains('downloads in the last month') strong"
+      capture:
+        month: text
+    - jquery: "ul>li:contains('downloads in the last week') strong"
+      capture:
+        week: text
+    - jquery: "ul>li:contains('downloads in the last day') strong"
+      capture:
+        day: text
+    - emit: Hyperpotamus has been downloaded
+    - emit: <% month %> times in the past month.
+    - emit: <% week %> times in the past week.
+    - emit: <% day %> times in the past day.

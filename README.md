@@ -1,184 +1,264 @@
 # hyperpotamus
 YAML based HTTP script processing engine
 
-You can also read the [Hyperpotamus Documentation wiki](http://github.com/pmarkert/hyperpotamus/wiki)
+This README just scratches the surface and gives you enough information to know what hyperpotamus tastes like to either 
+get excited or scratch your head and wonder why anyone would be interested. For those who get excited, it is worth 
+reading the [Hyperpotamus documentation wiki](http://github.com/pmarkert/hyperpotamus/wiki)
 
-Why might someone want to do this? There are many reasons that I have needed to use such a tool in my own career, including:
-* Setting up an automated suite of integration/regression tests for your new web-application
-* Creating a monitoring system that checks to make sure your website is working on a periodic basis
+### What does hyperpotamus do?
+Hyperpotamus allows you to write simple, human-readable scripts with a text-editor that describe a sequence of web (HTTP/s) requests
+and the actions that you want to take to either verify or capture data from the responses. Hyperpotamus scripts support multi-step 
+processes where you may need to retrieve content from one web-page to use in a later request. For example, you have to log into a 
+website before you can look at your user-profile.
+
+### Why might someone want to do this? 
+There are many reasons that I have needed to use such a tool in my own career, including:
+* Setting up an automated suite of integration/regression tests for a new web-application
+* Creating a monitoring system that checks on a periodic basis to make sure a website or webservice is working
 * Stress-testing a web application for performance optimization and tuning
-* **Boss:** Hey, we need to get all of these products entered on the customer's website by tomorrow morning, but they don't have any automated API. I need you guys to fill out the 3-page form on their website to submit each one of these 5,000 items? I'll buy the pizza!
+* **Boss:** Hey, we need to get all of these products entered on the customer's website by tomorrow morning, but they don't have any automated API. 
+  I need you guys to fill out the 3-page form on their website to submit each one of these 5,000 items? You guys didn't have any plans tonight did 
+  you? I'll buy pizza!!
 
-  **Me:** Give me the spreadsheet and about 20 minutes... and deep-dish, please.
+  **Me:** Send me the spreadsheet and give me about 20 minutes... oh, and deep-dish, please.
 
------
+### Sounds awesome, but do I have to be a ninja to use it?
+Well, it depends upon how complicated your scripting needs are. :) You can write some pretty simple scripts in just a few seconds. I've tried
+to make it as easy and accessible as possible. In spite of that simplicity, however, there is a lot of power when you are ready to dig deeper. 
+
+Give this quickstart a try. If you can make it through without crying, then you have what it takes. ;) If, on the other hand, you do end up crying, 
+don't give up! There's plenty of hope for those who persist. [Romans 5:3-4](https://bible.com/59/rom.5.3-4.esv)
+
+## Quickstart
 Enough of that! Let's assume that you already know how awesome it would be if you had the power to automate the www's right at your fingertips.
 
-The hyperpotamus YAML syntax attempts to be as fluid as possible. I.e. there are lots of syntax shortcuts and sensible defaults- less is more. 
+1. Make sure you have [node.js](http://www.nodejs.org/) installed. (Be sure to include npm as well).
+2. Open a command-prompt/shell on your computer and type:
+ ```
+ npm install -g hyperpotamus
+ ```
+3. Create a text-file called "first.yml" with the following contents:
 
-###Show me the examples
+ ```yaml
+ request: https://github.com/pmarkert/hyperpotamus
+ response: YAML based HTTP script processing engine
+ ```
+4. Execute your script with
 
-####A super-simple script
+ ```
+ hyperpotamus first.yml --verbose
+ ```
 
-    http://www.google.com
+What did you just do? You made a script that requests the webpage on the first line and then checks to make sure that the text on the second line 
+appears somewhere on the page.
 
-####OK, a little bit harder?
-    - http://www.google.com
-    - http://www.github.com
+## Some sample scripts, please?
+The hyperpotamus YAML syntax attempts to be as simple and fluid as possible. There are lots of syntax shortcuts and sensible defaults-- less is more. 
 
-####How do I check the response for content?
-    request: http://www.nodejs.org
-    response: This simple web server written in Node responds with "Hello World" for every request.
+#### Super-simple script
+```yaml
+http://www.google.com
+```
 
-The response section allows you to validate the HTTP response. String values are a shortcut for { text : "..." } which will look for that exact text (case-sensitive) in the response body.
+This script makes a request to the url and makes sure that the page returned an HTTP 200 OK status code.
 
-####Regex anyone?
-    request: http://www.nodejs.org
-    response: /simple web server/
+#### OK, a little bit harder?
+```yaml
+- http://www.google.com
+- http://www.github.com
+```
 
-Regex validations are a shortcut for { regex : "...", options : ".." } and also match against the response content. The regex can also be enclosed in 
-double or single quotes (like "/regex/g") if there are special characters that would invalidate the YAML.
+This script contains two separate steps. Each step makes a request. If your script only has a single step, then you do not need to 
+mark it as an array (with a - in YAML). Hyperpotamus will figure out what you meant. If you want to have multiple requests, you do need to use 
+the - syntax to demark where one step ends and another begins.
+
+#### How do I check the response for content?
+```yaml
+request: http://www.nodejs.org
+response: This simple web server written in Node responds with "Hello World" for every request.
+```
+
+The response section allows you to validate the HTTP response, capture data, or take actions. If your response action is just plain text 
+like this example, it is secretly a shortcut for { text : "..." }.  A text action which will look for exact text (case-sensitive) in the 
+response body.
+
+#### Regex anyone?
+```yaml
+request: http://www.nodejs.org
+response: /simple web server/i
+```
+
+[Regex](http://www.regular-expressions.info/) actions are a shortcut for { regex : "...", options : ".." }. Regex actions also match against the 
+response content, but can also contain wild-cards, patterns, captures, and options. In this example the case in-sensitive option is specified 
+with the /i option. To make it cooperate with the YAML parser, your regex can also be enclosed in double or single quotes and it will still be 
+interpreted as a regex as long as the pattern is like "/regex/options". Valid options are "g", "i", and "m". 
 
 ####Validate HTTP Status codes
-    request: http://httpbin.org/redirect/1
-    response: 302 
+```yaml
+request: http://httpbin.org/status/404
+response: 404
+```
 
-Integer validations are a shortcut for { status: ... } and match against the HTTP status code.
+Integer actions are a shortcut for { status: ... }. Status matches verify that the HTTP status code is what you expected. If you omit the response 
+property for a step, the default rule is to make sure that a 200 OK HTTP status code is returned (after following any redirects, by default).
 
 ####Conditional branching on validation success (or failure)
-    - request: http://httpbin.org/get
-      resposne: { status: 200, on_success: json_post }
-    - request: http://httpbin.org/get
-      response: "This request should not get executed"
-    - name: json_post
-      request:
-        url: http://httpbin.org/post
-        method: POST
-        form:
-          message: "But this one does"
+```yaml
+- request: http://httpbin.org/get
+  response: 
+    status: 200
+    on_success: Form Post
+- request: http://httpbin.org/get
+  response: "This request should not get executed"
+- name: Form Post
+  request:
+    url: http://httpbin.org/post
+    method: POST
+    form:
+      message: "But this one does"
+```
 
-Give your requests a name and you can specify an on_success or on_failure value for any validation.
+Notice the extra parameters for the last request (the method and form elements). Hyperpotamus makes use of the 
+[request module](https://github.com/request/request), so almost all of the supported options will work. This includes custom headers, 
+cookies, posting JSON or Form URL Encoded data, uploading files, and setting up proxy servers. 
+  
+Name your requests, and you can jump to that request with an on_success or on_failure directive from another action. You can also jump to the 
+"END" to finish your script early.
     
-####Of course, JSON is also valid YAML, so if you roll that way, this is equivalent
-    [
-      {
-        "request": "http://httpbin.org/get",
-        "response": { "status": 200, "on_success": "json_post" }
-      },
-      {
-        "request": "http://httpbin.org/get",
-        "response": "This request should not get executed"
-      },
-      {
-        "name": "json_post",
-        "request": {
-          "url": "http://httpbin.org/post",
-          "method": "POST",
-          "form": {
-            "message": "But this one does"
-          }
-        }
+#### Of course, JSON is also valid YAML, so if you roll that way, this script is equivalent
+```yaml
+[
+  {
+    "request": "http://httpbin.org/get",
+    "response": { "status": 200, "on_success": "json_post" }
+  },
+  {
+    "request": "http://httpbin.org/get",
+    "response": "This request should not get executed"
+  },
+  {
+    "name": "Form Post",
+    "request": {
+      "url": "http://httpbin.org/post",
+      "method": "POST",
+      "form": {
+        "message": "But this one does"
       }
-    ]
+    }
+  }
+]
+```
 
-####Setting HTTP headers
-    request: 
-     url: http://httpbin.org/get
-     headers: 
-       user-agent: Mozilla/5.0 (Hyperpotamus; FTW!) 
-       custom-header: show off
+I like JSON--  a lot... but after typing all of those symbols the YAML starts looking nicer and nicer. 
 
-Hyperpotamus uses the [request](https://github.com/request/request) library, so you can use any of the options that request supports.
+### Session data
+```yaml
+request:
+  url: http://httpbin.org/post
+  method: POST
+  form: 
+    username: <% username %>
+    password: <% password %>
+```
 
-####POSTing user-supplied data to a login form
-    request:
-      url: http://httpbin.org/post
-      method: POST
-      form: 
-        username: <%= username %>
-        password: <%= password %>
+Hyperpotamus supports the idea of a session. A session is a name/value store that is used to collect and use information as your script is processed. 
+Notice those `<% .. %>` items? `<% username %>` means: Take whatever value is stored in the session under the key "username" and insert it.
 
-"Session" data can be passed into hyperpotamus as a name/value pair object and those values can be inserted into your requests with replacement tokens. 
+Session data can be passed into hyperpotamus as query-string encoded name/value pairs.
 
-####Optional replacement tokens with default values
-    request: http://httpbin.org/get?param=<%?+ search|cat videos %>
+```
+hyperpotamus sample.yml --qs "username=pmarkert&password=secret"
+```
 
-Normally if a replacement token can't be found, it reports an error.  The ? control directive makes it optional and a |default 
-provides the value if no session value is found (otherwise it's blank). In this example it's also url-encoded for use in the url.
+Session data can also be read in from a .csv file and your script will be executed once for each record in the file.
 
-###Capturing data from the response
+```
+hyperpotamus sample.yml --csv users.csv
+```
+
+### Capturing data from the response
 In many cases, you want to capture parts of the response either for reporting at the end of your script, or for use in subsequent steps.
+Captured values are stored in the session so that they can be replayed with `<% .. %>` tokens.
 
-####Capturing using regex
-    request: http://httpbin.org/get?favorite_verse=<%+ favorite_verse %>
-    response: /"X-Request-Id"\s*:\s*"(:<request_id>.+?)"/
+#### Capturing using regex
+```yaml
+request: http://httpbin.org/get?favorite_verse=<%+ favorite_verse %>
+response: /"X-Request-Id"\s*:\s*"(:<request_id>.+?)"/
+```
 
-Named captures (:<group>...) in a regular expression are added to the session object for use in future replacements. In this example, 
-<%= request_id %> is captured from the json response.
+[Named captures](https://github.com/cho45/named-regexp.js) allow you to extract data from the web-page by matching content and extracting data 
+into the session using the capture name as the session key. `(:<group>...)` would save the matched portion of the response into session so that it
+can be used as `<% group %>`.  In this example, `<% request_id %>` is captured from the response.
 
-####Validating/capturing from HTTP headers
-    request: http://localhost:3000/get?url=medium
-    response: 
-      - headers:
-          content-type: /(:<content_type>[^;]*)/
-      - equals: [ "application/json", "<%= content_type %>" ]
+NOTE: By default, only the first match is captured. Adding the /g option at the end of the regex will cause all instances to be captured 
+into an array. (See below for more about arrays and iteration).
 
-Here the response element is an array of two items. You can have as many different validations mixed together as you like.
-* The headers validation element has name/value pairs to compare to HTTP response headers.  The right hand side can either be a string or a regex 
-(with capturing groups if desired).
-* The equals validation element is an array of strings that after interpolation of any variables, should all be the same.
-          
-####Capturing with jquery
-    request: http://httpbin.org/
-    response: 
-      jquery: "div.mp ul:first a"
-      count: 32
+#### Capturing with jquery
+```yaml
+- request: https://www.npmjs.com/package/hyperpotamus
+  response:
+    - jquery: "ul>li:contains('downloads in the last month') strong"
       capture:
-        href: "@href"
-        text: text
-        innerHTML: innerHTML
-        outerHTML: outerHTML
-        all_hrefs: [ "@href" ]
-        all_html: [ outerHTML ]
+        last_month: text
+    - emit: Hyperpotamus has been downloaded <% last_month %> times in the past month.
+```
 
-JQuery validation uses [selectors|http://api.jquery.com/category/selectors/] to find elements on the page. The optional count property can be used to 
-validate that the number of elements matched by the selector fits the expectation. Once a list of elements is obtained, various attributes, text, 
-innerHTML, outerHTML, etc. can be captured from the matching nodes. If the capture target is in an array then the values from all matching elements 
-will be added to the session as an array. If the target is not inside an array, then only the last matching item will be captured. 
+JQuery actions use [selectors](http://api.jquery.com/category/selectors/) to find elements in the HTML.  
 
-##Getting started
-There is also a command-line interface that can be used to test out your scripts or do some basic web-scraping.  Running the command gives you some 
-usage information.
+Data (attribute values, text content, innerHTML, outerHTML) from the matching elements can be captured into session variables using the `capture`
+element. The keys of the capture element are the session keys to which the values will be captured. The value of each element can be one 
+of the following:
+* text - The textual content of this element and all child elements concatenated together
+* @attribute - The value of an HTML attribute, i.e. @href to capture the url for a hyperlink.
+* outerHTML - The HTML including the element itself.
+* innerHTML - The HTML of all child-nodes for the element.
 
-    # Process a script, passing in key1,key2 as initial session data and echo out the formatted string at the end, double-verbose
-    hyperpotamus /path/to/script --qs "key1=value1&key2=value2" --echo "Key1 was <% key1 %>" -vv
+By default only the first item matching the query is captured. If you want to capture all of the elements from the page, surround your
+value target in `[ ]`, like so: `last_month: [ text ]`. This will capture each instance into your session as an array.
 
---qs means to initialize the session with the specified key/value pairs.  The url encoded session values should be in the format of a querystring 
-i.e. key1=value1&key2=value2. (NOTE: Put this in quotes if you don't want the & to be interpreted by your shell.) 
+Notice that the response element has an array of actions (`jquery` and `emit` in this case). You can stack as many actions together as you like
+they will be processed in the order they appear. The results of one action are available to all subsequent actions. 
 
---echo means that when the whole script has finished running, interpolate the given string and print the results
+That `emit` action is used to echo content that can be captured for reporting or display.
 
--v is the same as --verbose. -vv is double-verbose.
+### Arrays and iteration
 
-    # Process a script, reading in session values from a .csv file (with headers), save "emitted" text to out.csv
-    hyperpotamus -f script.yml --csv input.csv --out out.csv
+```yaml
+- name: setup
+  actions:
+    set:
+      gospels: [ 'Matthew', 'Mark', 'Luke', 'John' ]
+- name: print
+  actions:
+    - emit: The Gospel according to <%@ gospels %>
+    - iterate: gospels
+      next: print
+```
 
---out saves any emitted text from the script. There is an "emit" action that will return the results of an interpolated string. This is useful
-for saving data from your session (i.e. you are screen scraping to build a .csv file). If you do not specify --out, emitted text goes to stdout.
+Arrays are useful for many reasons, but they are particularly helpful when you want to repeat a process multiple times. When you want to use
+a value from an array, you add the `@` format specifier to your macro, in this example: `<%@ gospels %>`. This is saying: 'Insert the current 
+value from the array called gospels'. What does it mean when I say 'the current value from the array'? 
 
-##TODO
-There are still a few features left to be added:
-* Testing and support for cookie containers
-* Finish out documentation
-* More unit-test coverage
-* Finish the handler "plug-in" setup to allow for the addition of custom handlers and disabling of unsafe handlers (like save and function).
-* Options to limit script execution to prevent indefinite loops, long-running scripts, etc.
-* Some more work around the interpolation logic to allow for specific array access, splits, manual array building, randomized array access
-* Add support for "think-time" and parallelism limiting to throttle-back traffic.
+When the `@` format specifier is used, hyperpotamus looks for a second session variable, 'gospels.index' in this case. If that value does not 
+exist (which is typically the case at first), then a default value of 0 will be assumed and assigned. Requesting `<%@ gospels %>` will return 
+the respective value in the array based upon the current value of `gospels.index`. In this case, it will print out "Matthew", because that's
+the first element, at index=0.
 
-#### Hyperpotamus is still in the pre-release stage
-NOTE: I am building this library for my own purposes and have decided to open-source it while I am in process, instead of waiting until I have a stable 
-release to present. API stability and options will be in flux until I mark the module as a 1.0 release. Documentation is lagging a bit behind the current 
-codebase, until I stabilize things a bit more, so if something doesn't work for you as expected, there's a good chance "it's not you... it's me". :)
-Hyperpotamus is a node.js library that enables you to automate sending HTTP requests and to verify/capture data in the responses. Hyperpotamus scripts are written as simple YAML files. 
+If the story ended there, then arrays really wouldn't be very helpful, but fortunately, there's hope! Notice that `iterate` action? The `iterate` 
+action takes either the name of an array or an array of names of arrays. `iterate` will then increments the current index for each of them. After 
+incrementing the array index, it will cause the script execution to jump to the request named in the `next` parameter.  When any of the arrays 
+have been exhausted, meaning that the index reached the end, then the index is reset and script processing falls through to the rest of the script
+in normal sequence.
 
+NOTE: If the `next` parameter on an `iterate` action is omitted, then the current step will be repeated. (In this example, we could have left 
+off the `next: print` and the `name: print` and the effect would have been the same). 
+
+#### Project Status:
+I started working on Hyperpotamus about 3 weeks ago (2014-12-28) to solve some specific issues that I needed to tackle for my own work. I decided 
+to open-source the project while I am in the process of building it, as opposed to waiting until I have a stable finalized release.  I mentioned 
+before that API stability and features will be in flux until I mark the module as a 1.0 release. At that point, I will more strictly adhere 
+to [semantic versioning](http://semver.org). For now, however, I'm loosely using the minor version number for backwards incompatibilities and the 
+hotfix number for improvements and additions. 
+
+Documentation obviously lags a bit behind the current codebase, until I stabilize things a bit more, so if something doesn't work for you as expected, 
+there's a good chance it's not your fault.. :) Send me a message or create a github issue.
