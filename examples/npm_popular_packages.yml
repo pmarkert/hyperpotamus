@@ -1,0 +1,32 @@
+# Reports in csv format the current popular packages on the www.npmjs.com
+# by collecting all of the links to the popular packages and then retrieving
+# the package page to capture the number of downloads for the package within the past month
+
+# Features used in this script:
+# -----------------------------
+# Using an initial step with a set action to set a reusable variable for the base-url
+# Emitting an initial csv header
+# Using some advanced jquery selectors to find content in a page
+# Capturing an array of hyperlinks and names
+# Playing back a request that utilizes the current array value with <%@ .. %>
+# Emitting a csv-formatted line for the current package
+# Using the iterate action to advance the link and name arrays' current index and to 
+#   repeat the current request until the arrays are exhausted.
+
+- actions:
+    - set:
+        baseUrl: https://www.npmjs.com
+    - emit: package,downloads (past month),link
+- request: <% baseUrl %>
+  response:
+    - jquery: "h2:contains(\"Packages People 'npm install' a Lot\") + ul.columnar a.name"
+      capture: 
+        link: [ "@href" ]
+        name: [ text ]
+- request: <% baseUrl %><%@ link %>
+  response:
+    - jquery: "ul>li:contains('downloads in the last month') strong"
+      capture:
+        last_month: text
+    - emit: <%@# name %>,<% last_month %>,<% baseUrl %><%@ link %>
+    - iterate: [ link, name ]

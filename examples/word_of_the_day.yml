@@ -1,0 +1,15 @@
+# Prints the current word of the day according to Merriam-Webster
+
+# Features used in this script:
+# -----------------------------
+# A simple HTTP get request to a url
+# The jquery action matches elements in the HTML
+#   and captures text, outerHTML, innerHTML, attribute values, etc.
+# The emit action echoes back text for output
+
+request: http://www.merriam-webster.com/word-of-the-day/
+response: 
+  - jquery: .main_entry_word
+    capture: 
+      word : text
+  - emit: <% word %>
