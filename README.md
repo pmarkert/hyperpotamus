@@ -89,7 +89,7 @@ response: /simple web server/i
 ```
 
 [Regex](http://www.regular-expressions.info/) actions are a shortcut for { regex : "...", options : ".." }. Regex actions also match against the 
-response content, but can also contain wild-cards, patterns, captures, and options. In this example the case in-sensitive option is specified 
+response content, but can also contain wild-cards, patterns, captures, and options. In this example the case insensitive option is specified 
 with the /i option. To make it cooperate with the YAML parser, your regex can also be enclosed in double or single quotes and it will still be 
 interpreted as a regex as long as the pattern is like "/regex/options". Valid options are "g", "i", and "m". 
 
@@ -182,13 +182,15 @@ Captured values are stored in the session so that they can be replayed with `<% 
 
 #### Capturing using regex
 ```yaml
-request: http://httpbin.org/get?favorite_verse=<%+ favorite_verse %>
-response: /"X-Request-Id"\s*:\s*"(:<request_id>.+?)"/
+request: https://github.com/pmarkert/hyperpotamus
+response:
+  - /latest commit <span.+?>(:<latest_commit>.+?)</span>/
+  - emit: Latest commit is <% latest_commit %>
 ```
 
 [Named captures](https://github.com/cho45/named-regexp.js) allow you to extract data from the web-page by matching content and extracting data 
 into the session using the capture name as the session key. `(:<group>...)` would save the matched portion of the response into session so that it
-can be used as `<% group %>`.  In this example, `<% request_id %>` is captured from the response.
+can be used as `<% group %>`.  In this example, `<% latest_commit %>` is captured from the response.
 
 NOTE: By default, only the first match is captured. Adding the /g option at the end of the regex will cause all instances to be captured 
 into an array. (See below for more about arrays and iteration).
@@ -213,10 +215,10 @@ of the following:
 * outerHTML - The HTML including the element itself.
 * innerHTML - The HTML of all child-nodes for the element.
 
-By default only the first item matching the query is captured. If you want to capture all of the elements from the page, surround your
+NOTE: By default only the first item matching the query is captured. If you want to capture all of the elements from the page, surround your
 value target in `[ ]`, like so: `last_month: [ text ]`. This will capture each instance into your session as an array.
 
-Notice that the response element has an array of actions (`jquery` and `emit` in this case). You can stack as many actions together as you like
+Notice that the response element has an array of actions (`jquery` and `emit` in this case). You can stack together as many actions as you like;
 they will be processed in the order they appear. The results of one action are available to all subsequent actions. 
 
 That `emit` action is used to echo content that can be captured for reporting or display.

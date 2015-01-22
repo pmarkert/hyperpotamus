@@ -1,0 +1,4 @@
+request: https://github.com/pmarkert/hyperpotamus
+response: 
+  - /latest commit <span.+?>(:<latest_commit>.+?)</span>/
+  - emit: Latest commit is <% latest_commit %>
