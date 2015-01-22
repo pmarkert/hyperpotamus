@@ -1,6 +1,6 @@
 {
   "name": "hyperpotamus",
-  "version": "0.15.4",
+  "version": "0.15.6",
   "description": "YAML based HTTP script processing engine",
   "homepage": "https://github.com/pmarkert/hyperpotamus/wiki",
   "main": "lib/index.js",
@@ -39,6 +39,8 @@
     "request": "^2.51.0",
     "socks5-http-client": "^0.1.6",
     "underscore": "^1.7.0",
+    "xmldom": "^0.1.19",
+    "xpath": "0.0.9",
     "yargs": "^1.3.3"
   },
   "devDependencies": {

@@ -1,0 +1,8 @@
+- request: http://www.feedforall.com/sample.xml
+  response:
+    xpath:
+      capture:
+        title: [ /rss/channel/item/title/text() ]
+- actions:
+    emit: Title is <%@ title %>
+    iterate: title
