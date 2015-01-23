@@ -19,6 +19,6 @@ steps:
             all_innerHTML: [ innerHTML ]
             all_html: [ html ]
             all_outerHTML: [ outerHTML ]
-        - compare: [ 'Link 2', <%= text %> ]
+        - compare: [ 'Link 1', <%= text %> ]
           operator: "="
 
