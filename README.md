@@ -20,7 +20,7 @@ There are many reasons that I have needed to use such a tool in my own career, i
   I need you guys to fill out the 3-page form on their website to submit each one of these 5,000 items? You guys didn't have any plans tonight did 
   you? I'll buy pizza!!
 
-  **Me:** Send me the spreadsheet and give me about 20 minutes... oh, and deep-dish, please.
+  **Me:** Send me the spreadsheet and give me about 20 minutes... oh, and thin crust, please.
 
 ### Sounds awesome, but do I have to be a ninja to use it?
 Well, it depends upon how complicated your scripting needs are. :) You can write some pretty simple scripts in just a few seconds. I've tried
