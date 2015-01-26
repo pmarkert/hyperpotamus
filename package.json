@@ -5,7 +5,7 @@
   "homepage": "https://github.com/pmarkert/hyperpotamus/wiki",
   "main": "lib/index.js",
   "bin": {
-    "hyperpotamus": "./cli.js"
+    "hyperpotamus": "./hyperpotamus.js"
   },
   "scripts": {
     "test": "mocha"
