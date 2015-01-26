@@ -60,7 +60,9 @@ The hyperpotamus YAML syntax attempts to be as simple and fluid as possible. The
 http://www.google.com
 ```
 
-This script makes a request to the url and makes sure that the page returned an HTTP 200 OK status code.
+This script makes a request to the url and makes sure that the page returned an HTTP 200 OK status code. Paste it into a separate text
+files, maybe 'super-simple.yml' and run it with `hyperpotamus super-simple.yml --verbose`. If you leave off the `--verbose` options, you
+won't see any results (at least not yet), but don't worry, hyperpotamus is still working. Go ahead and try it.
 
 #### OK, a little bit harder?
 ```yaml
@@ -70,39 +72,39 @@ This script makes a request to the url and makes sure that the page returned an 
 
 This script contains two separate steps. Each step makes a request. If your script only has a single step, then you do not need to 
 mark it as an array (with a - in YAML). Hyperpotamus will figure out what you meant. If you want to have multiple requests, you do need to use 
-the - syntax to demark where one step ends and another begins.
+the - syntax to mark where one step ends and another begins.
 
-#### How do I check the response for content?
+#### Checking the content of the response
 ```yaml
 request: http://www.nodejs.org
 response: This simple web server written in Node responds with "Hello World" for every request.
 ```
 
-The response section allows you to validate the HTTP response, capture data, or take actions. If your response action is just plain text 
-like this example, it is secretly a shortcut for { text : "..." }.  A text action which will look for exact text (case-sensitive) in the 
-response body.
+The response element allows you to validate the HTTP response, capture data, or take actions. If your response action is just plain text,
+as in this example, it is a shortcut for `text: "..."`.  A text action which will look for exact (case-sensitive) text in the response body.
 
-#### Regex anyone?
+#### Regex validation
 ```yaml
 request: http://www.nodejs.org
 response: /simple web server/i
 ```
 
-[Regex](http://www.regular-expressions.info/) actions are a shortcut for { regex : "...", options : ".." }. Regex actions also match against the 
-response content, but can also contain wild-cards, patterns, captures, and options. In this example the case insensitive option is specified 
-with the /i option. To make it cooperate with the YAML parser, your regex can also be enclosed in double or single quotes and it will still be 
-interpreted as a regex as long as the pattern is like "/regex/options". Valid options are "g", "i", and "m". 
+[Regex](http://www.regular-expressions.info/) actions are a shortcut for `{ regex : { pattern : "...", options : ".." } }`. Regex actions also match 
+against the response content, but can also contain wild-cards, patterns, captures, and options. In this example the case insensitive option is specified 
+with the /i option. To make it cooperate with the YAML parser, if you need to use special characters inside your regex, then your regex can also be 
+enclosed in double or single quotes and it will still be treated as a regex as long as it looks like "/regex/options". Valid options are "g", "i", and "m". 
 
-####Validate HTTP Status codes
+#### Validating HTTP Status codes
 ```yaml
 request: http://httpbin.org/status/404
 response: 404
 ```
 
-Integer actions are a shortcut for { status: ... }. Status matches verify that the HTTP status code is what you expected. If you omit the response 
-property for a step, the default rule is to make sure that a 200 OK HTTP status code is returned (after following any redirects, by default).
+Integer actions are a shortcut for `{ status: ... }`. Status actions verify that the HTTP status code from the response matches what you expected. 
+If you omit the response element for a step altogether, a default step is automatically added for you to make sure that a 200 OK HTTP status code 
+is returned.
 
-####Conditional branching on validation success (or failure)
+### Conditional branching on success or failure
 ```yaml
 - request: http://httpbin.org/get
   response: 
@@ -118,14 +120,17 @@ property for a step, the default rule is to make sure that a 200 OK HTTP status 
       message: "But this one does"
 ```
 
-Notice the extra parameters for the last request (the method and form elements). Hyperpotamus makes use of the 
-[request module](https://github.com/request/request), so almost all of the supported options will work. This includes custom headers, 
-cookies, posting JSON or Form URL Encoded data, uploading files, and setting up proxy servers. 
-  
-Name your requests, and you can jump to that request with an on_success or on_failure directive from another action. You can also jump to the 
-"END" to finish your script early.
+If you give your scripting step a name, then other actions can jump to that step. By default, each action supports an `on_success` or `on_failure` 
+property. Normally if an action succeeds, processing continues to the next step. If the action fails, then an error is raised and processing stops.
+By setting the on_success and on_failure value for an action to the name of another request, the execution flow will jump to that step appropriately.
     
-#### Of course, JSON is also valid YAML, so if you roll that way, this script is equivalent
+Also, notice the extra parameters for the last request (the method and form elements). Hyperpotamus makes use of the 
+[request module](https://github.com/request/request), so almost any option supported by [request](https://github.com/request/request) will work. 
+This includes custom headers, cookies, posting JSON or Form URL Encoded data, uploading files, and setting up proxy servers.
+  
+#### JSON scripts
+Of course, JSON is also valid YAML, so if you roll that way, this script is equivalent to the previous one. 
+
 ```yaml
 [
   {
@@ -149,7 +154,8 @@ Name your requests, and you can jump to that request with an on_success or on_fa
 ]
 ```
 
-I like JSON--  a lot... but after typing all of those symbols the YAML starts looking nicer and nicer. 
+I like JSON-- a lot... but after typing all of those symbols the YAML starts looking nicer and nicer. You can even mix and match JSON and YAML within 
+a single script, so you can achieve that perfect blend of short and sweet vs. explicit syntax in your recipes...
 
 ### Session data
 ```yaml
@@ -161,8 +167,8 @@ request:
     password: <% password %>
 ```
 
-Hyperpotamus supports the idea of a session. A session is a name/value store that is used to collect and use information as your script is processed. 
-Notice those `<% .. %>` items? `<% username %>` means: Take whatever value is stored in the session under the key "username" and insert it.
+Hyperpotamus supports the idea of a session. Sessions are name->value stores that are used to collect and re-use information as your script is processed. 
+Notice those `<% .. %>` macros? `<% username %>` means: Take whatever value is stored in the session under the key "username" and insert it.
 
 Session data can be passed into hyperpotamus as query-string encoded name/value pairs.
 
@@ -178,7 +184,7 @@ hyperpotamus sample.yml --csv users.csv
 
 ### Capturing data from the response
 In many cases, you want to capture parts of the response either for reporting at the end of your script, or for use in subsequent steps.
-Captured values are stored in the session so that they can be replayed with `<% .. %>` tokens.
+Captured values are stored in the session so that they can be replayed with `<% .. %>` macros.
 
 #### Capturing using regex
 ```yaml

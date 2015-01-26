@@ -1,5 +1,16 @@
 # Performs a ZIP Code lookup against the USPS service to find the city for a given ZIP
+# NOTE: I have seen sometimes that the usps site does not always respond properly. If you
+# see "ERROR" for the zipcode values, try your request again. Sometimes you may have to wait
+# a few minutes if their systems are not responding properly.
 
+# Execute this script by passing a single vale for ZIP_Code on the command-line like so:
+#
+# hyperpotamus usps.zip --qs "ZIP_Code=30152"
+#
+# or feed the input from a .csv file
+#
+# hyperpotamus usps.zip --csv zipcodes.csv
+#
 # Features used in this script:
 # -----------------------------
 # Url encoding a parameterized session value in the URL with <%+ .. %>
@@ -7,6 +18,7 @@
 # Quote-wrapping for parameterized session values only if they contain commas with <%# .. %> 
 # Default values for missing session elements with <%? ..|Default %>
 # Emitting text for reporting
+
 request: https://tools.usps.com/go/ZipLookupResultsAction!input.action?resultMode=2&postalCode=<%+ ZIP_Code %>
 response: 
   - jquery: "#result-cities .std-address"
