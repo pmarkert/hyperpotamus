@@ -5,6 +5,7 @@ var csv = require("fast-csv");
 var fs = require("fs");
 var package = require("./package.json");
 var async = require("async");
+var yaml = require("js-yaml");
 
 var args = require("yargs")
 	.usage("Run a hyperpotamus script (http://github.com/pmarkert/hyperpotamus)\nUsage: $0")
@@ -34,8 +35,9 @@ var args = require("yargs")
 	.default("concurrency", 1)
 	.describe("plugins", "Folder containing custom plugins to be loaded")
 	.requiresArg("plugins")
+	.describe("normalize", "Display the normalized version of the input script and then immediately exit (does not execute script)")
+	.boolean("normalize")
 	.describe("safe", "Do not allow unsafe YAML types or plugins")
-	.boolean("safe")
 	.check(function(args, options) {
 		if(!args.file && !args._.length>=1) {
 			throw new Error("Must specify the file to process either with -f, --file, or as the first positional argument.");
@@ -70,9 +72,17 @@ if(args.plugins) {
 
 var script = hyperpotamus.load.scripts.yaml.file(args.file, args.safe);
 script = hyperpotamus.normalize(script); // Pre-normalize script if we run it in a loop
-if(args.verbose>=2) {
-	console.log("Normalized script is " + JSON.stringify(script));
+if(args.verbose>=2 || args.normalize) {
+	console.log("Normalized YAML:");
+	console.log("================");
+	console.log(yaml.dump(script));
+	console.log("");
+	console.log("Normalized JSON:");
+	console.log("================");
+	console.log(JSON.stringify(script, null, 2));
 }
+if(args.normalize)
+	process.exit(0);
 
 if(args.csv) {
 	var queue = async.queue(function(user, callback) {
@@ -114,7 +124,7 @@ function options(master_callback) {
 		},
 
 		emit : function(message) {
-			if(outfile) 
+			if(outfile)
 				outfile.write(message + "\n");
 			else
 				console.log(message);
