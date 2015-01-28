@@ -6,6 +6,8 @@ var fs = require("fs");
 var package = require("./package.json");
 var async = require("async");
 var yaml = require("js-yaml");
+var log4js = require("log4js");
+var logger = log4js.getLogger("hyperpotamus");
 
 var args = require("yargs")
 	.usage("Run a hyperpotamus script (http://github.com/pmarkert/hyperpotamus)\nUsage: $0")
@@ -50,6 +52,30 @@ var args = require("yargs")
 	.strict()
 .argv;
 
+// Setup log4js configuration
+switch(args.verbose) {
+	case 4:
+		level = "DEBUG";
+		break;
+	case 3:
+		level = "INFO";
+		break;
+	case 2:
+		level = "WARN";
+		break;
+	case 1:
+		level = "ERROR";
+		break;
+	case 0:
+		level = "FATAL";
+		break;
+	default:
+		level = "TRACE";
+		break;
+}
+log4js.configure( { appenders: [ { type : 'console' } ] } );
+log4js.setGlobalLogLevel(level);
+
 if(!args.file) args.file = args._[0];
 
 var session = {};
@@ -72,7 +98,7 @@ if(args.plugins) {
 
 var script = hyperpotamus.load.scripts.yaml.file(args.file, args.safe);
 script = hyperpotamus.normalize(script); // Pre-normalize script if we run it in a loop
-if(args.verbose>=2 || args.normalize) {
+if(args.normalize) {
 	console.log("Normalized YAML:");
 	console.log("================");
 	console.log(yaml.dump(script));
@@ -80,20 +106,27 @@ if(args.verbose>=2 || args.normalize) {
 	console.log("Normalized JSON:");
 	console.log("================");
 	console.log(JSON.stringify(script, null, 2));
-}
-if(args.normalize)
 	process.exit(0);
+}
+logger.debug("Script normalized as YAML:");
+logger.debug(yaml.dump(script));
+logger.debug("Script normalized JSON:");
+logger.debug(JSON.stringify(script, null, 2));
 
 if(args.csv) {
+	logger.info("Loading data from csv file - " + args.csv);
+	logger.info("Maximum concurrency level is " + args.concurrency);
 	var queue = async.queue(function(user, callback) {
 		user = _.defaults(user, session);
 		hyperpotamus.process(script, user, options(callback));
 	}, args.concurrency);
 	csv.fromPath(args.csv, { headers : true }).on("data", function(user) {
 		queue.push(user);
+		logger.debug("Queued user for processing %s", JSON.stringify(user));
 	});
 }
 else {
+	logger.info("Processing script.");
 	hyperpotamus.process(script, session, options());
 }
 
@@ -104,23 +137,10 @@ function options(master_callback) {
 				console.error("Error - " + err);
 				process.exit(1);
 			}
-			if(args.verbose)
-				console.log("Final session data is " + JSON.stringify(session));
+			logger.info("Final session data is %s", JSON.stringify(session));
 			if(args.echo)
 				console.log(hyperpotamus.interpolate(args.echo, session));
 			if(master_callback) master_callback();
-		},
-
-		before_request : function(request) {
-			if(args.verbose) console.log("Requesting - " + request.url);
-		},
-
-		before_validate: function(step, context) {
-			if(args.verbose>2) console.log("Response was " + context.body);
-		},
-
-		after_validate : function(step, err, jump_to_key) {
-			if(args.verbose && jump_to_key) console.log("After validation - Jump to key is " + jump_to_key);
 		},
 
 		emit : function(message) {
