@@ -1,0 +1,9 @@
+- request: http://localhost:3000/cookie?cookie1=value2
+- request: 
+   url: http://localhost:3000/cookie
+   json: true
+  response:
+   - json:
+      cookie1: "$.cookies.cookie1"
+   - equals: [ <% cookie1 %>, "value2" ]
+    

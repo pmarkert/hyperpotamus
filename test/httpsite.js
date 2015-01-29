@@ -1,6 +1,7 @@
 var express = require("express");
 var app = express();
 var bodyParser = require('body-parser')
+app.use(require("cookie-parser")());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -30,6 +31,13 @@ app.get("/redirect-to", function(req, res) {
 
 app.post("/json", function(req, res) {
 	return res.json(req.body);
+});
+
+app.get("/cookie", function(req, res) {
+	for(var key in req.query) {
+		res.cookie(key, req.query[key]);
+	}
+	return res.json( { cookies: req.cookies } );
 });
 
 app.use("/static", express.static(__dirname + "/static"));

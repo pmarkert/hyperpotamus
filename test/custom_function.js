@@ -21,8 +21,8 @@ describe("Custom function validation", function() {
 				}
 			}
 		}
-		hyperpotamus.process(script, {}, function(err, session) {
-			if(session["matched"]) return done();
+		hyperpotamus.process(script, {}, function(err, context) {
+			if(context.session["matched"]) return done();
 			else return done("Didn't find matched element in session");
 		});
 	});
@@ -41,7 +41,7 @@ describe("Custom function validation", function() {
 				}
 			}
 		}
-		hyperpotamus.process(script, {}, function(err, session) {
+		hyperpotamus.process(script, {}, function(err, context) {
 			if(err) return done();
 			return done("Expected error but didn't get one");
 		});

@@ -1,4 +1,5 @@
 normalized : true
+defaults: {}
 steps :
   - request:
       url: http://localhost:3000/get

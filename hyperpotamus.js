@@ -132,14 +132,14 @@ else {
 
 function options(master_callback) {
 	return {
-		done : function(err, session) {
+		done : function(err, context) {
 			if(err) {
 				console.error("Error - " + err);
 				process.exit(1);
 			}
-			logger.info("Final session data is %s", JSON.stringify(session));
+			logger.info("Final session data is %s", JSON.stringify(context.session));
 			if(args.echo)
-				console.log(hyperpotamus.interpolate(args.echo, session));
+				console.log(hyperpotamus.interpolate(args.echo, context.session));
 			if(master_callback) master_callback();
 		},
 
