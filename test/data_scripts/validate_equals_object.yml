@@ -1,5 +1,0 @@
-request: http://localhost:3000/get?param=value
-response: 
-  equals:
-    a : '<%=one%>'
-    b : '1'
