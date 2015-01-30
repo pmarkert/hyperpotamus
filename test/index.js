@@ -3,9 +3,9 @@ var async = require("async");
 var fs = require("fs");
 var path = require("path");
 var _ = require("underscore");
-var log4js = require("log4js");
+var logging = require("../lib/logging");
 
-log4js.setGlobalLogLevel(process.env.LOG_LEVEL || "OFF");
+logging.set_level(process.env.LOG_LEVEL || "OFF");
 
 function run_scripts(dir, extension, processor, data, done) {
 	async.each(fs.readdirSync(path.join(__dirname, dir)), function(filename) {

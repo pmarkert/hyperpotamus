@@ -6,8 +6,8 @@ var fs = require("fs");
 var package = require("./package.json");
 var async = require("async");
 var yaml = require("js-yaml");
-var log4js = require("log4js");
-var logger = log4js.getLogger("hyperpotamus");
+var logging = require("./lib/logging");
+var logger = logging.logger("hyperpotamus.cli");
 
 var args = require("yargs")
 	.usage("Run a hyperpotamus script (http://github.com/pmarkert/hyperpotamus)\nUsage: $0")
@@ -52,29 +52,11 @@ var args = require("yargs")
 	.strict()
 .argv;
 
-// Setup log4js configuration
-switch(args.verbose) {
-	case 4:
-		level = "DEBUG";
-		break;
-	case 3:
-		level = "INFO";
-		break;
-	case 2:
-		level = "WARN";
-		break;
-	case 1:
-		level = "ERROR";
-		break;
-	case 0:
-		level = "FATAL";
-		break;
-	default:
-		level = "TRACE";
-		break;
+// Setup logging configuration
+logging.set_level(args.verbose);
+for(var key in logging.levels) {
+	logger.log(logging.levels[key], "Message from " + key);
 }
-log4js.configure( { appenders: [ { type : 'console' } ] } );
-log4js.setGlobalLogLevel(level);
 
 if(!args.file) args.file = args._[0];
 
