@@ -6,6 +6,7 @@ var fs = require("fs");
 var package = require("./package.json");
 var async = require("async");
 var yaml = require("js-yaml");
+var hyperpotamus = require("./lib");
 var logging = require("./lib/logging");
 var logger = logging.logger("hyperpotamus.cli");
 
@@ -54,9 +55,6 @@ var args = require("yargs")
 
 // Setup logging configuration
 logging.set_level(args.verbose);
-for(var key in logging.levels) {
-	logger.log(logging.levels[key], "Message from " + key);
-}
 
 if(!args.file) args.file = args._[0];
 
@@ -70,16 +68,16 @@ if(args.output) {
 	outfile = fs.createWriteStream(args.output);
 }
 
-var hyperpotamus = require("./lib").processor(args.safe);
+processor = hyperpotamus.processor(args.safe);
 if(args.plugins) {
 	if(!_.isArray(args.plugins)) args.plugins = [ args.plugins ];
 	for(var i=0; i<args.plugins.length; i++) {
-		hyperpotamus.use(args.plugins[i], args.safe);
+		processor.use(args.plugins[i], args.safe);
 	}
 }
 
-var script = hyperpotamus.load.scripts.yaml.file(args.file, args.safe);
-script = hyperpotamus.normalize(script); // Pre-normalize script if we run it in a loop
+var script = processor.load.scripts.yaml.file(args.file, args.safe);
+script = processor.normalize(script); // Pre-normalize script if we run it in a loop
 if(args.normalize) {
 	console.log("Normalized YAML:");
 	console.log("================");
@@ -100,7 +98,7 @@ if(args.csv) {
 	logger.info("Maximum concurrency level is " + args.concurrency);
 	var queue = async.queue(function(user, callback) {
 		user = _.defaults(user, session);
-		hyperpotamus.process(script, user, options(callback));
+		processor.process(script, user, options(callback));
 	}, args.concurrency);
 	csv.fromPath(args.csv, { headers : true }).on("data", function(user) {
 		queue.push(user);
@@ -109,7 +107,7 @@ if(args.csv) {
 }
 else {
 	logger.info("Processing script.");
-	hyperpotamus.process(script, session, options());
+	processor.process(script, session, options());
 }
 
 function options(master_callback) {
@@ -121,7 +119,7 @@ function options(master_callback) {
 			}
 			logger.info("Final session data is %s", JSON.stringify(context.session));
 			if(args.echo)
-				console.log(hyperpotamus.interpolate(args.echo, context.session));
+				console.log(processor.interpolate(args.echo, context.session));
 			if(master_callback) master_callback();
 		},
 
