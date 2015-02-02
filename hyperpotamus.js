@@ -40,13 +40,18 @@ var args = require("yargs")
 	.requiresArg("plugins")
 	.describe("normalize", "Display the normalized version of the input script and then immediately exit (does not execute script)")
 	.boolean("normalize")
-	.describe("safe", "Do not allow unsafe YAML types or plugins")
+	.describe("safe", "Do not allow unsafe YAML types or plugins (not valid with --csv)")
+	.describe("loop", "Specify the number of times to repeat the script")
+	.requiresArg("loop")
 	.check(function(args, options) {
 		if(!args.file && !args._.length>=1) {
 			throw new Error("Must specify the file to process either with -f, --file, or as the first positional argument.");
 		}
 		else if((args.file && args._.length>0) || args._.length>1) {
 			throw new Error("Unexpected positional arguments.");
+		}
+		if(args.csv && args.loop) {
+			throw new Error("--loop and --csv are not currently both supported at the same time.");
 		}
 	})
 	.version("hyperpotamus version " + package.version + "\n", "version")
@@ -93,6 +98,10 @@ logger.debug(yaml.dump(script));
 logger.debug("Script normalized JSON:");
 logger.debug(JSON.stringify(script, null, 2));
 
+var queue = async.queue(function(user, callback) {
+	user = _.defaults(user, session);
+	processor.process(script, user, options(callback));
+}, args.concurrency);
 if(args.csv) {
 	logger.info("Loading data from csv file - " + args.csv);
 	logger.info("Maximum concurrency level is " + args.concurrency);
@@ -106,8 +115,16 @@ if(args.csv) {
 	});
 }
 else {
-	logger.info("Processing script.");
-	processor.process(script, session, options());
+	if(args.loop) {
+		for(var i=0; i<args.loop; i++) {
+			queue.push({});
+			logger.debug("Queued user for processing #" + i);
+		};
+	}
+	else {
+		logger.info("Processing script.");
+		processor.process(script, session, options());
+	}
 }
 
 function options(master_callback) {
