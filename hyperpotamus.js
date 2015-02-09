@@ -111,7 +111,7 @@ if(args.csv) {
 	}, args.concurrency);
 	csv.fromPath(args.csv, { headers : true }).on("data", function(user) {
 		queue.push(user);
-		logger.debug("Queued user for processing %s", JSON.stringify(user));
+		logger.debug("Queued user for processing " + JSON.stringify(user));
 	});
 }
 else {
@@ -134,7 +134,7 @@ function options(master_callback) {
 				console.error("Error - " + err);
 				process.exit(1);
 			}
-			logger.info("Final session data is %s", JSON.stringify(context.session));
+			logger.info("Final session data is " + JSON.stringify(context.session));
 			if(args.echo)
 				console.log(processor.interpolate(args.echo, context.session));
 			if(master_callback) master_callback();
