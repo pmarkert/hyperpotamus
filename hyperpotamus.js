@@ -55,7 +55,7 @@ var args = require("yargs")
 		}
 		return true;
 	})
-	.version("hyperpotamus version " + package.version + "\n", "version")
+	.version(package.version)
 	.strict()
 .argv;
 
@@ -78,11 +78,11 @@ processor = hyperpotamus.processor(args.safe);
 if(args.plugins) {
 	if(!_.isArray(args.plugins)) args.plugins = [ args.plugins ];
 	for(var i=0; i<args.plugins.length; i++) {
-		processor.use(args.plugins[i], args.safe);
+		processor.use(args.plugins[i]);
 	}
 }
 
-var script = processor.load.scripts.yaml.file(args.file, args.safe);
+var script = processor.load.scripts.yaml.file(args.file);
 script = processor.normalize(script); // Pre-normalize script if we run it in a loop
 if(args.normalize) {
 	console.log("Normalized YAML:");
