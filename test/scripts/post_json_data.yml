@@ -2,7 +2,9 @@ name: json_post
 request:
   url: http://localhost:3000/post
   method: POST
-  mode: json
-  data: 
+  json: 
     test: true
-response: '"test":true'
+response: 
+  - json: 
+      test: "$.body.test"
+  - equals: [ "<% test %>", 'true' ]

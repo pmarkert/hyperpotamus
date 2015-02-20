@@ -1,7 +1,6 @@
 request:
   url: http://localhost:3000/post
   method: POST
-  mode: form
-  data: 
+  form: 
     test: true
 response: '"test":"true"'

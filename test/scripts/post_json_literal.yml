@@ -1,7 +1,0 @@
-name: json_post
-request:
-  url: http://localhost:3000/post
-  method: POST
-  mode: json
-  data: '{ "test": true }'
-response: '"test":true'

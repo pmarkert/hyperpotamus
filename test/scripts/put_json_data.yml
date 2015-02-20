@@ -2,9 +2,11 @@ name: json_post
 request:
   url: http://localhost:3000/put
   method: PUT
-  mode: json
-  data: 
+  json: 
     test: true
 response: 
-  - '"test":true'
-  - '"method":"PUT"'
+  - json:
+     test: "$.body.test"
+     method: "$.method"
+  - equals: [ <% test %>, "true" ]
+  - equals: [ <% method %>, PUT ]
