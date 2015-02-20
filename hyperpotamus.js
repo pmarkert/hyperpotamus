@@ -53,6 +53,7 @@ var args = require("yargs")
 		if(args.csv && args.loop) {
 			throw new Error("--loop and --csv are not currently both supported at the same time.");
 		}
+		return true;
 	})
 	.version("hyperpotamus version " + package.version + "\n", "version")
 	.strict()
