@@ -15,6 +15,7 @@ var args = require("yargs")
 	.example("$0 filename.yml", "Executes the script in filename.yml")
 	.example("$0 -f filename.yml -e 'Name was <%first%>'", "Executes filename.yml script, and prints the results of the interpolated string")
 	.example("$0 get_ranking.yml --csv users.csv --qs 'username=admin&password=secret'", "Executes the get_ranking.yml script once for each record in the .csv file")
+	.example("$0 script.yml --loop --concurrency=4", "Executes script.yml 4 at a time until Ctrl-C is pressed.")
 	.alias("file", "f")
 	.describe("file", "The YAML script to be executed")
 	.requiresArg("file")
@@ -41,8 +42,7 @@ var args = require("yargs")
 	.describe("normalize", "Display the normalized version of the input script and then immediately exit (does not execute script)")
 	.boolean("normalize")
 	.describe("safe", "Do not allow unsafe YAML types or plugins (not valid with --csv)")
-	.describe("loop", "Specify the number of times to repeat the script")
-	.requiresArg("loop")
+	.describe("loop", "Specify the number of times to repeat the script as an argument, or repeat indefinitely.")
 	.check(function(args, options) {
 		if(!args.file && !args._.length>=1) {
 			throw new Error("Must specify the file to process either with -f, --file, or as the first positional argument.");
@@ -64,9 +64,9 @@ logging.set_level(args.verbose);
 
 if(!args.file) args.file = args._[0];
 
-var session = {};
+var default_session = {};
 if(args.qs) {
-	session = querystring.parse(args.qs);
+	default_session = querystring.parse(args.qs);
 }
 
 var outfile;
@@ -83,7 +83,8 @@ if(args.plugins) {
 }
 
 var script = processor.load.scripts.yaml.file(args.file);
-script = processor.normalize(script); // Pre-normalize script if we run it in a loop
+// Pre-normalize script if we run it in a loop and for display/logging
+script = processor.normalize(script); 
 if(args.normalize) {
 	console.log("Normalized YAML:");
 	console.log("================");
@@ -92,17 +93,32 @@ if(args.normalize) {
 	console.log("Normalized JSON:");
 	console.log("================");
 	console.log(JSON.stringify(script, null, 2));
+	console.log("");
+	console.log("Exiting without processing script.");
 	process.exit(0);
 }
-logger.debug("Script normalized as YAML:");
-logger.debug(yaml.dump(script));
-logger.debug("Script normalized JSON:");
-logger.debug(JSON.stringify(script, null, 2));
+logger.debug("Script normalized as YAML:\n" + yaml.dump(script));
+logger.debug("Script normalized JSON:\n" + JSON.stringify(script, null, 2));
 
-var queue = async.queue(function(user, callback) {
-	user = _.defaults(user, session);
-	processor.process(script, user, options(callback));
-}, args.concurrency);
+function process_session(session, callback) {
+	logger.debug("About to start session for " + JSON.stringify(session));
+	user = _.defaults(session, default_session); // Copy in default session values from qs
+	processor.process(script, session, options(callback));
+}
+
+var queue = async.queue(process_session, args.concurrency); // Worker queue to process requests with set concurrency
+var exiting = false;
+process.on('SIGINT', function() {
+	if(!exiting) {
+		exiting = true;
+		queue.kill(); // Finish processing in-flight scripts, but stop any new ones
+		console.log("Gracefully shutting down from SIGINT (Press Ctrl-C again to exit immediately.)" );
+	}
+	else {
+		// Ok, tired of waiting, exit NOW!!
+		process.exit();
+	}
+});
 if(args.csv) {
 	logger.info("Loading data from csv file - " + args.csv);
 	logger.info("Maximum concurrency level is " + args.concurrency);
@@ -115,17 +131,26 @@ if(args.csv) {
 		logger.debug("Queued user for processing " + JSON.stringify(user));
 	});
 }
-else {
-	if(args.loop) {
-		for(var i=0; i<args.loop; i++) {
-			queue.push({});
-			logger.debug("Queued user for processing #" + i);
+else if(args.loop) {
+	var iterations = 0;
+	// fill the queue up to max concurrency and whenever the queue is emptied (but still processing the current items), keep refilling until 
+	// we have finished. This prevents having to pre-queue a large (or potentially infinite) number of entries.
+	function refill() {
+		for(var i=0; i<args.concurrency && (args.loop==true || iterations<args.loop); i++) {
+			iterations++;
+			queue.push({ "hyperpotamus.index" : iterations } );
+			logger.trace("Queued user for processing #" + iterations);
 		};
+		if(args.loop!=true && args.loop==iterations) {
+			queue.empty = null;
+		}
 	}
-	else {
-		logger.info("Processing script.");
-		processor.process(script, session, options());
-	}
+	queue.empty = refill;
+	refill();
+}
+else {
+	logger.info("Processing script.");
+	queue.push();
 }
 
 function options(master_callback) {
