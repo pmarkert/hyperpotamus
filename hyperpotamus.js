@@ -69,11 +69,10 @@ if(args.qs) {
 	default_session = querystring.parse(args.qs);
 }
 
-var outfile;
-if(args.output) {
-	outfile = fs.createWriteStream(args.output);
-}
+// Setup output stream
+var outfile = args.output ? fs.createWriteStream(args.output) : process.stdout;
 
+// Setup the processor and load plugins
 processor = hyperpotamus.processor(args.safe);
 if(args.plugins) {
 	if(!_.isArray(args.plugins)) args.plugins = [ args.plugins ];
@@ -100,18 +99,19 @@ if(args.normalize) {
 logger.debug("Script normalized as YAML:\n" + yaml.dump(script));
 logger.debug("Script normalized JSON:\n" + JSON.stringify(script, null, 2));
 
-function process_session(session, callback) {
+// Worker queue to process requests with set concurrency
+var queue = async.queue(function(session, callback) {
 	logger.debug("About to start session for " + JSON.stringify(session));
 	user = _.defaults(session, default_session); // Copy in default session values from qs
 	processor.process(script, session, options(callback));
-}
+} , args.concurrency); 
 
-var queue = async.queue(process_session, args.concurrency); // Worker queue to process requests with set concurrency
+// Handler for graceful shutdown
 var exiting = false;
 process.on('SIGINT', function() {
 	if(!exiting) {
 		exiting = true;
-		queue.kill(); // Finish processing in-flight scripts, but stop any new ones
+		queue.kill(); // Finish processing in-flight scripts, but stop any new ones from starting
 		console.log("Gracefully shutting down from SIGINT (Press Ctrl-C again to exit immediately.)" );
 	}
 	else {
@@ -119,6 +119,7 @@ process.on('SIGINT', function() {
 		process.exit();
 	}
 });
+
 if(args.csv) {
 	logger.info("Loading data from csv file - " + args.csv);
 	logger.info("Maximum concurrency level is " + args.concurrency);
@@ -167,10 +168,7 @@ function options(master_callback) {
 		},
 
 		emit : function(message) {
-			if(outfile)
-				outfile.write(message + "\n");
-			else
-				console.log(message);
+			outfile.write(message + "\n");
 		}
 	}
 }
