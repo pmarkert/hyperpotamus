@@ -2,6 +2,8 @@
 // Create a .zip file of this whole repository, upload it to AWS as a lambda function
 // package, and then specify "lambda.js" for the filename and "handler" for the method
 // name. To invoke the function, POST { "script" : JSON-encoded script }
+// You can optionally add session values and other options to the event object that
+// you are posting in.
 var hyperpotamus = require("hyperpotamus").processor(false);
 
 function options(options, context) {

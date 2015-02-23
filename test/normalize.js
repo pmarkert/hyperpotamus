@@ -1,5 +1,5 @@
 var normalize = require("../lib/normalize");
-var load = require("../lib/load");
+var load = require("../lib/load")(false);
 var async = require("async");
 var fs = require("fs");
 var path = require("path");
@@ -14,9 +14,9 @@ describe("Normalize", function(done) {
 		if(path.extname(filename)===".normal") {
 			var compare = path.basename(filename, ".normal");
 			it(path.join(dir, compare), function(done) {
-				var to_normalize = load(false).scripts.yaml.file(path.join(__dirname, dir, compare));
-				var expected = load(false).scripts.yaml.file(path.join(__dirname, dir, filename));
-				var normalized = normalize(to_normalize);
+				var to_normalize = load.scripts.yaml.file(path.join(__dirname, dir, compare));
+				var expected = load.scripts.yaml.file(path.join(__dirname, dir, filename));
+				var normalized = normalize(to_normalize, load.plugins.defaults());
 				normalized.should.deep.equal(expected, JSON.stringify(normalized));
 				done();
 			});

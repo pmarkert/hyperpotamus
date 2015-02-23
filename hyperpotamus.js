@@ -151,7 +151,7 @@ else if(args.loop) {
 }
 else {
 	logger.info("Processing script.");
-	queue.push();
+	queue.push({});
 }
 
 function options(master_callback) {
