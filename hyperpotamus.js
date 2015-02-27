@@ -60,7 +60,7 @@ var args = require("yargs")
 .argv;
 
 // Setup logging configuration
-logging.set_level(args.verbose);
+logging.set_level(args.verbose+1);
 
 if(!args.file) args.file = args._[0];
 
@@ -123,10 +123,6 @@ process.on('SIGINT', function() {
 if(args.csv) {
 	logger.info("Loading data from csv file - " + args.csv);
 	logger.info("Maximum concurrency level is " + args.concurrency);
-	var queue = async.queue(function(user, callback) {
-		user = _.defaults(user, session);
-		processor.process(script, user, options(callback));
-	}, args.concurrency);
 	csv.fromPath(args.csv, { headers : true }).on("data", function(user) {
 		queue.push(user);
 		logger.debug("Queued user for processing " + JSON.stringify(user));
