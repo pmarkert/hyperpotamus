@@ -4,12 +4,10 @@ steps:
   - request:  
       url: http://localhost:3000/get?url=one
       headers: {}
-    response: 
-      actions:
-        - status: 200 
+    actions:
+      - status: 200 
   - request: 
       url: http://localhost:3000/get?url=two
       headers: {}
-    response: 
-      actions:
-        - status : 200
+    actions:
+      - status : 200

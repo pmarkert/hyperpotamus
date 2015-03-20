@@ -4,6 +4,5 @@ steps :
   - request:
       url: http://localhost:3000/get
       headers: {}
-    response:
-      actions:
-        -  status: 200
+    actions:
+      -  status: 200

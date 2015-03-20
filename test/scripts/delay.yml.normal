@@ -4,6 +4,5 @@ steps:
   - request: 
       url : !!null
       headers : { }
-    response:
-      actions:
-        - delay: 1
+    actions:
+      - delay: 1
