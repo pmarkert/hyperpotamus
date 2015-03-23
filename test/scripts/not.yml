@@ -1,3 +1,5 @@
-request: http://localhost:3000/get?url=medium
-response:
-  not : 'not found'
+actions:
+  - set:
+      answer: "true"
+  - not: 
+      equals: [ <% answer %>, "false" ]

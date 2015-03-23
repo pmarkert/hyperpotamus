@@ -1,4 +1,4 @@
-request: !!null
+request: null
 response:
   set: 
     executed : "true"

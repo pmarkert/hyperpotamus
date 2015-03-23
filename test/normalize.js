@@ -1,5 +1,5 @@
 var normalize = require("../lib/normalize");
-var load = require("../lib/load")(false);
+var load = require("../lib/load")({ safe : false });
 var async = require("async");
 var fs = require("fs");
 var path = require("path");
@@ -16,7 +16,7 @@ describe("Normalize", function(done) {
 			it(path.join(dir, compare), function(done) {
 				var to_normalize = load.scripts.yaml.file(path.join(__dirname, dir, compare));
 				var expected = load.scripts.yaml.file(path.join(__dirname, dir, filename));
-				var normalized = normalize(to_normalize, load.plugins.defaults());
+				var normalized = normalize(to_normalize, load.plugins);
 				normalized.should.deep.equal(expected, JSON.stringify(normalized));
 				done();
 			});

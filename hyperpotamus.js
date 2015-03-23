@@ -72,15 +72,7 @@ if(args.qs) {
 // Setup output stream
 var outfile = args.output ? fs.createWriteStream(args.output) : process.stdout;
 
-// Setup the processor and load plugins
-processor = hyperpotamus.processor(args.safe);
-if(args.plugins) {
-	if(!_.isArray(args.plugins)) args.plugins = [ args.plugins ];
-	for(var i=0; i<args.plugins.length; i++) {
-		processor.use(args.plugins[i]);
-	}
-}
-
+var processor = hyperpotamus.processor( { safe : args.safe, plugins : args.plugins, emit : emit } );
 var script = processor.load.scripts.yaml.file(args.file);
 // Pre-normalize script if we run it in a loop and for display/logging
 script = processor.normalize(script); 
@@ -150,21 +142,19 @@ else {
 	queue.push({});
 }
 
-function options(master_callback) {
-	return {
-		done : function(err, context) {
-			if(err) {
-				console.error("Error - " + err);
-				process.exit(1);
-			}
-			logger.info("Final session data is " + JSON.stringify(context.session));
-			if(args.echo)
-				console.log(processor.interpolate(args.echo, context.session));
-			if(master_callback) master_callback();
-		},
+function emit(message) {
+	outfile.write(message + "\n");
+}
 
-		emit : function(message) {
-			outfile.write(message + "\n");
+function options(master_callback) {
+	return function(err, context) {
+		if(err) {
+			console.error("Error - " + err);
+			process.exit(1);
 		}
-	}
+		logger.info("Final session data is " + JSON.stringify(context.session));
+		if(args.echo)
+			console.log(processor.interpolate(args.echo, context.session));
+		if(master_callback) master_callback();
+	};
 }

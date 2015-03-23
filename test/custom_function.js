@@ -1,4 +1,4 @@
-var hyperpotamus = require("../lib/index").processor();
+var hyperpotamus = require("../lib/index");
 describe("Custom function validation", function() {
 	before(function(done) {
                 server = require("./httpsite").listen(3000, done);
@@ -21,10 +21,10 @@ describe("Custom function validation", function() {
 				}
 			}
 		}
-		hyperpotamus.process(script, {}, function(err, context) {
+		hyperpotamus.processor(function(err, context) {
 			if(context.session["matched"]) return done();
 			else return done("Didn't find matched element in session");
-		});
+		}).process(script, {});
 	});
 	it("Should allow a failed validation", function(done) {
 		var script = {
@@ -41,9 +41,9 @@ describe("Custom function validation", function() {
 				}
 			}
 		}
-		hyperpotamus.process(script, {}, function(err, context) {
+		hyperpotamus.processor(function(err, context) {
 			if(err) return done();
 			return done("Expected error but didn't get one");
-		});
+		}).process(script, {});
 	});
 });

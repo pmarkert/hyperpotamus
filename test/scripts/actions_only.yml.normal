@@ -2,7 +2,7 @@ normalized : true
 defaults: {}
 steps:
   - request: 
-      url : !!null
+      url : null
       headers : { }
     actions:
       - set:
