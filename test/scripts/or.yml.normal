@@ -9,3 +9,11 @@ steps:
           actions:
             - status : 200
             - status : 302
+  - request:
+      url : http://localhost:3000/get
+      headers : {}
+    actions:
+      - or:
+          actions:
+            - status : 302
+            - status : 200
