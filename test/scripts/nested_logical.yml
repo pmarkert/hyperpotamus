@@ -1,0 +1,8 @@
+steps:
+  - actions:
+    - set:
+       a: 1
+       b: 2
+    - or:
+      - equals: [ <% a %>, 1 ]
+      - equals: [ <% a %>, 2 ]
