@@ -5,5 +5,4 @@ steps:
   - request:
      url: http://localhost:3000/get
     actions:
-      debugger: true
-      json: "$.headers.cookie"
+      text: "from=defaults"
