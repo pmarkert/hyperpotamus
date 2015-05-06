@@ -1,6 +1,6 @@
 {
   "name": "hyperpotamus",
-  "version": "0.20.5",
+  "version": "0.20.6",
   "description": "YAML based HTTP script processing engine",
   "homepage": "https://github.com/pmarkert/hyperpotamus/wiki",
   "main": "lib/index.js",
@@ -38,7 +38,7 @@
     "moment": "^2.8.4",
     "named-regexp": "^0.1.1",
     "request": "^2.51.0",
-    "socks5-http-client": "^0.1.6",
+    "socks5-http-client": "^1.0.1",
     "tough-cookie": "^0.12.1",
     "underscore": "^1.7.0",
     "xmldom": "^0.1.19",
