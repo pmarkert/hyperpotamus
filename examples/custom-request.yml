@@ -1,0 +1,3 @@
+- request:
+   url: http://www.httpbin.org/post
+   method: POST

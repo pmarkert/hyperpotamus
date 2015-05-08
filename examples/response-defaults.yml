@@ -1,0 +1,7 @@
+defaults:
+ response:
+  - not: "An Error Occurred"
+
+steps:
+ - http://httpbin.org
+ - http://httpbin.org/404

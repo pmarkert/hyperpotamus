@@ -1,0 +1,6 @@
+defaults:
+ actions: []
+
+steps:
+ - http://httpbin.org
+ - http://httpbin.org/404

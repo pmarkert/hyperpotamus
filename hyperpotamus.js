@@ -28,7 +28,7 @@ var args = require("yargs")
 	.requiresArg("csv")
 	.count("verbose")
 	.alias("verbose","v")
-	.describe("verbose", "Verbose output, more flags for more output i.e. -vvv")
+	.describe("verbose", "Verbose output; more flags for more output (up to 3) for INFO, DEBUG, and TRACE logging respectively i.e. -vvv")
 	.describe("output", "Output file for emitted content. See documentation on the emit action.")
 	.requiresArg("output")
 	.alias("output","o")
@@ -60,7 +60,7 @@ var args = require("yargs")
 .argv;
 
 // Setup logging configuration
-logging.set_level(args.verbose+1);
+logging.set_level(args.verbose+3); // Starts at Warning, adding verbose flags bumps to INFO, DEBUG, or TRACE
 
 if(!args.file) args.file = args._[0];
 

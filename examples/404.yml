@@ -1,0 +1,5 @@
+request: http://httpbin.org/status/404
+response:
+ - status: 404
+ # or the equivalent short-cut
+ - 404

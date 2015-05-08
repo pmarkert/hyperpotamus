@@ -6,10 +6,10 @@ get excited or scratch your head and wonder why anyone would be interested. For 
 reading the [Hyperpotamus documentation wiki](http://github.com/pmarkert/hyperpotamus/wiki)
 
 ### What does hyperpotamus do?
-Hyperpotamus allows you to write simple, human-readable scripts with a text-editor that describe a sequence of web (HTTP/s) requests
-and the actions that you want to take to either verify or capture data from the responses. Hyperpotamus scripts support multi-step 
-processes where you may need to retrieve content from one web-page to use in a later request. For example, you have to log into a 
-website before you can look at your user-profile.
+Hyperpotamus allows you to write simple, human-readable scripts using any text-editor to describe a sequence of web (HTTP/s) requests
+and actions that you want to take to verify or capture data from the responses. Hyperpotamus scripts support multi-step processes where 
+you retrieve information from one request to use in a subsequent request. For example, you may need to retrieve a listing of photos from
+one page before you select one or all of them to download.
 
 ### Why might someone want to do this? 
 There are many reasons that I have needed to use such a tool in my own career, including:
@@ -24,64 +24,170 @@ There are many reasons that I have needed to use such a tool in my own career, i
 
 ### Sounds awesome, but do I have to be a ninja to use it?
 Well, it depends upon how complicated your scripting needs are. :) You can write some pretty simple scripts in just a few seconds. I've tried
-to make it as easy and accessible as possible. In spite of that simplicity, however, there is a lot of power when you are ready to dig deeper. 
+to make the scripting as easy and accessible as possible. There are lots of features in hyperpotamus that aim to make it easy to write scripts. 
+In spite of that simplicity, however, there is quite a lot of power when you are ready to dig deeper. 
 
-Give this quickstart a try. If you can make it through without crying, then you have what it takes. ;) If, on the other hand, you do end up crying, 
-don't give up! There's plenty of hope for those who persist. [Romans 5:3-4](https://bible.com/59/rom.5.3-4.esv)
+Hyperpotamus is at the core a processing engine that can be embedded into other software, but it comes with a command-line program that you can 
+use to drive it; there is currently no graphical user-interface, but I'm open for contributions if anyone is interested. 
+
+If you can use a text editor and know how to use your computer's terminal/command-prompt to run some basic commands, then you have the technical
+skills you need to get started. Give this quickstart a try; if you make it through without crying, then you have what it takes. ;) 
+If, on the other hand, you do end up crying, don't give up! Persistence pays off and builds character. [Romans 5:3-4](https://bible.com/59/rom.5.3-4.esv)
 
 ## Quickstart
-Enough of that! Let's assume that you already know how awesome it would be if you had the power to automate the www's right at your fingertips.
+Let's assume that you already know how awesome it would be if you had the power to automate the www's right at your fingertips. Let's get started.
 
-1. Make sure you have [node.js](http://www.nodejs.org/) installed. (Be sure to include npm as well).
-2. Open a command-prompt/shell on your computer and type:
+1. Make sure you have [node.js](http://www.nodejs.org/) installed. Installing nodejs will also install npm, the node package manager.
+2. Open a command-prompt/terminal on your computer and type:
  ```
  npm install -g hyperpotamus
  ```
 3. Create a text-file called "first.yml" with the following contents:
-
  ```yaml
  request: https://github.com/pmarkert/hyperpotamus
  response: YAML based HTTP script processing engine
  ```
 4. Execute your script with
-
  ```
  hyperpotamus first.yml --verbose
  ```
 
-What did you just do? You made a script that requests the webpage on the first line and then checks to make sure that the text on the second line 
+If it worked, then you should see nothing -- pretty anti-climatic. :) 
+
+What did we just do? You made a script that requests the webpage specified on the first line and then checks to make sure that the text on the second line 
 appears somewhere on the page.
 
-## Some sample scripts, please?
-The hyperpotamus YAML syntax attempts to be as simple and fluid as possible. There are lots of syntax shortcuts and sensible defaults-- less is more. 
+If you run the script again adding a verbose flag (-v) you will see what hyperpotamus is doing. The more v's you add, the more output you get. 
 
-#### Super-simple script
+## Some sample scripts
+The hyperpotamus YAML syntax attempts to be as simple and fluid as possible. There are lots of syntax shortcuts and sensible defaults -- less is more. 
+
+NOTE: All of these scripts can be found under /examples
+
+#### Super-simple script `examples/super-simple.yml`
 ```yaml
 http://www.google.com
 ```
 
-This script makes a request to the url and makes sure that the page returned an HTTP 200 OK status code. Paste it into a separate text
-files, maybe 'super-simple.yml' and run it with `hyperpotamus super-simple.yml --verbose`. If you leave off the `--verbose` options, you
-won't see any results (at least not yet), but don't worry, hyperpotamus is still working. Go ahead and try it.
+This script makes a request to the url and then runs the default validation rules. The default validation rules make sure that the request returns an 
+HTTP 200 OK status code, but you can change that. 
 
-#### OK, a little bit harder?
+Paste the script it into a text file called `super-simple.yml`. Run the script with a few verbose flags like so: `hyperpotamus super-simple.yml -vv`. 
+
+#### OK, a little bit harder? `examples/two-step.yml`
+This script contains two separate steps. Each step makes a request to a different url. If your script only has a single step, then you do not need to 
+put it into an array (with a - in YAML), hyperpotamus will figure out what you meant. If you want to send multiple requests, howerver, then you do need
+to use the array syntax to separate each step.
+
 ```yaml
 - http://www.google.com
 - http://www.github.com
 ```
 
-This script contains two separate steps. Each step makes a request. If your script only has a single step, then you do not need to 
-mark it as an array (with a - in YAML). Hyperpotamus will figure out what you meant. If you want to have multiple requests, you do need to use 
-the - syntax to mark where one step ends and another begins.
+#### Shortcuts 
+Up until now we have been using some shortcuts. Hyperpotamus allows and encourges you to use shortcuts to keep your scripts simple. 
+
+One of the shortcuts that we have been using is that for each step, we did not have to specify the "request" property. If you do not need to modify the
+default validation rules for a step, then hyperpotamus lets you treat the whole step as the request configuration.
+
+The second shortcut that we have been using is that if the request only needs to specify the url, then you do not need to include the "url" property of the
+request configuration.
+
+`examples/equivalent.yml`
+```yaml
+# The following steps are all equivalent: 
+- http://github.com/pmarkert/hyperpotamus
+- request: http://github.com/pmarkert/hyperpotamus
+- request: 
+   url: http://github.com/pmarkert/hyperpotamus
+```
+
+#### Customizing the request
+Hyperpotamus makes use of the most excellent [request module](https://github.com/request/request), so any option supported by 
+[request](https://github.com/request/request) should work.  Some common customizations you may want to use include:
+
+* modifying the HTTP method 
+* modifying standard headers like user-agent, accept-language, cache-control, etc.
+* sending cookies
+* setting custom headers
+* posting JSON, Form URL Encoded data, or multi-part file uploads
+* requesting through proxy servers
+* automatically following redirects
+
+#### POST example `examples/custom-request.yml`
+```yaml 
+- request: 
+   url: http://www.httpbin.org/post
+   method: POST
 
 #### Checking the content of the response
+Sending requests with hyperpotamus is really only part of the story. Hyperpotamus also allows you to check or capture parts of the response as well.
+
 ```yaml
 request: http://www.nodejs.org
 response: This simple web server written in Node responds with "Hello World" for every request.
 ```
 
-The response element allows you to validate the HTTP response, capture data, or take actions. If your response action is just plain text,
-as in this example, it is a shortcut for `text: "..."`.  A text action which will look for exact (case-sensitive) text in the response body.
+The response configuration allows you to handle the HTTP response to validate, capture data, or take other actions. If your response action is a plain string,
+as in this example, then it is a shortcut for `text: "..."`.  A text action which will look for the exact (case-sensitive) text in the response body. If the
+text is not found, an error is raised. If the text is found, then the script continues processing.
+
+#### Validating HTTP Status codes
+```yaml
+request: http://httpbin.org/status/404
+response: 
+ - status: 404
+ # or the equivalent short-cut
+ - 404
+```
+
+Status actions verify that the HTTP status code from the response matches what you expected. As a shortcut for a status action, you can just supply
+the status code as an integer. 
+
+#### Request/Response defaults
+All of the scripts we have used above have made use of the shortcut that steps can directly specified at the top-level of the configuration. If you 
+want to configure default values for requests and/or responses, then you will have to explicitly use the "steps" element.
+
+Default values can be specified under the top-level "defaults" element. Any request options specified here will be merged with values in your actual
+steps. If the same values are specified in a step's request, then the values from the step will take precedence.
+
+```yaml
+defaults:
+ request: 
+  # these headers will be added to all requests
+  headers:
+   Accept-Language: us-en
+
+steps:
+ - request: 
+    url: http://httpbin.org
+```
+
+Likewise, you can also modify the default response actions for all steps. Unlike the request defaults where values are merged together for each 
+step, response values will only be applied if no response/actions element is specified for a step.
+
+As mentioned above, the default options for response validation include a check for `status: 200`. You change this behavior by overriding the
+response defaults.
+
+`examples/request-defaults.yml`
+```yaml
+defaults:
+ response:
+  - not: "An Error Occurred"
+
+steps:
+ - http://httpbin.org
+ - http://httpbin.org/404
+```
+
+Normally the second step would have failed (because httpbin.org will return a 404 error code), however in this case, we setup a default validation
+rule to be that the page may not include the text "An Error Occurred". Setting up this default rule removed the existing default status-code check.
+
+NOTE: If you wish to remove the default status code check but do not want to add any other rules, just set defaults.response to an empty array.
+```
+defaults: 
+  response: []
+```
 
 #### Regex validation
 ```yaml
@@ -89,45 +195,18 @@ request: http://www.nodejs.org
 response: /simple web server/i
 ```
 
-[Regex](http://www.regular-expressions.info/) actions are a shortcut for `{ regex : { pattern : "...", options : ".." } }`. Regex actions also match 
-against the response content, but can also contain wild-cards, patterns, captures, and options. In this example the case insensitive option is specified 
-with the /i option. To make it cooperate with the YAML parser, if you need to use special characters inside your regex, then your regex can also be 
-enclosed in double or single quotes and it will still be treated as a regex as long as it looks like "/regex/options". Valid options are "g", "i", and "m". 
+[Regex](http://www.regular-expressions.info/) actions (delimited by the '/' characters around the text) are a shortcut for 
+`{ regex : { pattern : "...", options : ".." } }`. 
 
-#### Validating HTTP Status codes
-```yaml
-request: http://httpbin.org/status/404
-response: 404
-```
+Regex actions also match against the response content, but may contain wild-cards, patterns, captures, and other options. 
 
-Integer actions are a shortcut for `{ status: ... }`. Status actions verify that the HTTP status code from the response matches what you expected. 
-If you omit the response element for a step altogether, a default step is automatically added for you to make sure that a 200 OK HTTP status code 
-is returned.
+NOTE: If your regex pattern contains certain character combinations, it may invalidate the YAML syntax of the script (for example ": " 
+in the middle of the pattern or other special YAML characters). In that case, you can always enclose your pattern in double or single quotes and it 
+will still be treated as a regex as long as it still looks like "/regex/options". 
 
-### Conditional branching on success or failure
-```yaml
-- request: http://httpbin.org/get
-  response: 
-    status: 200
-    on_success: Form Post
-- request: http://httpbin.org/get
-  response: "This request should not get executed"
-- name: Form Post
-  request:
-    url: http://httpbin.org/post
-    method: POST
-    form:
-      message: "But this one does"
-```
+In this example the case insensitive option is specified with the /i option.  Valid regex options are "g" (global), "i" (case-insensitive), 
+and "m" (multi-line). 
 
-If you give your scripting step a name, then other actions can jump to that step. By default, each action supports an `on_success` or `on_failure` 
-property. Normally if an action succeeds, processing continues to the next step. If the action fails, then an error is raised and processing stops.
-By setting the on_success and on_failure value for an action to the name of another request, the execution flow will jump to that step appropriately.
-    
-Also, notice the extra parameters for the last request (the method and form elements). Hyperpotamus makes use of the 
-[request module](https://github.com/request/request), so almost any option supported by [request](https://github.com/request/request) will work. 
-This includes custom headers, cookies, posting JSON or Form URL Encoded data, uploading files, and setting up proxy servers.
-  
 #### JSON scripts
 Of course, JSON is also valid YAML, so if you roll that way, this script is equivalent to the previous one. 
 
@@ -261,12 +340,35 @@ in normal sequence.
 NOTE: If the `next` parameter on an `iterate` action is omitted, then the current step will be repeated. (In this example, we could have left 
 off the `next: print` and the `name: print` and the effect would have been the same). 
 
+### Conditional branching on success or failure
+```yaml
+- request: http://httpbin.org/get
+  response: 
+    status: 200
+    on_success: Form Post
+- request: http://httpbin.org/get
+  response: "This request should not get executed"
+- name: Form Post
+  request:
+    url: http://httpbin.org/post
+    method: POST
+    form:
+      message: "But this one does"
+```
+
+If you give your scripting step a name, then other actions can jump to that step. By default, each action supports an `on_success` or `on_failure` 
+property. Normally if an action succeeds, processing continues to the next step. If the action fails, then an error is raised and processing stops.
+By setting the on_success and on_failure value for an action to the name of another request, the execution flow will jump to that step appropriately.
+    
+Also, notice the extra parameters for the last request (the method and form elements). 
+
+
 #### Project Status:
-I started working on Hyperpotamus about 3 weeks ago (2014-12-28) to solve some specific issues that I needed to tackle for my own work. I decided 
-to open-source the project while I am in the process of building it, as opposed to waiting until I have a stable finalized release.  I mentioned 
-before that API stability and features will be in flux until I mark the module as a 1.0 release. At that point, I will more strictly adhere 
-to [semantic versioning](http://semver.org). For now, however, I'm loosely using the minor version number for backwards incompatibilities and the 
-hotfix number for improvements and additions. 
+I started working on Hyperpotamus at the beginning of this year to solve some specific issues that I needed to tackle for a project I was working on. 
+I decided to open-source the project while I am in the process of building it, as opposed to waiting until I have a stable finalized release.  
+I mentioned before that API stability and features will be in flux until I mark the module as a 1.0 release. At that point, I will more strictly 
+adhere to [semantic versioning](http://semver.org). For now, however, I'm loosely using the minor version number for backwards incompatibilities 
+and the hotfix number for improvements and additions. 
 
 Documentation obviously lags a bit behind the current codebase, until I stabilize things a bit more, so if something doesn't work for you as expected, 
 there's a good chance it's not your fault.. :) Send me a message or create a github issue.
