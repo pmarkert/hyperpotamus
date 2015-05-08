@@ -43,6 +43,7 @@ Let's assume that you already know how awesome it would be if you had the power 
  npm install -g hyperpotamus
  ```
 3. Create a text-file called "first.yml" with the following contents:
+
  ```yaml
  request: https://github.com/pmarkert/hyperpotamus
  response: YAML based HTTP script processing engine
