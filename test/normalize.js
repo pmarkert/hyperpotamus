@@ -7,6 +7,7 @@ var chai = require("chai");
 chai.config.showDiff = true;
 var should = chai.should();
 var _ = require("underscore");
+var useragent = require("../lib/useragent");
 
 describe("Normalize", function(done) {
 	var dir = "scripts";
@@ -16,6 +17,7 @@ describe("Normalize", function(done) {
 			it(path.join(dir, compare), function(done) {
 				var to_normalize = load.scripts.yaml.file(path.join(__dirname, dir, compare));
 				var expected = load.scripts.yaml.file(path.join(__dirname, dir, filename));
+				fix_useragent(expected);
 				var normalized = normalize(to_normalize, load.plugins);
 				normalized.should.deep.equal(expected, JSON.stringify(normalized));
 				done();
@@ -24,3 +26,11 @@ describe("Normalize", function(done) {
 	}, done); 
 	
 });
+
+function fix_useragent(script) {
+	for(var i=0;i<script.steps.length;i++) {
+		if(script.steps[i].request && script.steps[i].request.headers && script.steps[i].request.headers["user-agent"]==="hyperpotamus") {
+			script.steps[i].request.headers["user-agent"] = useragent;
+		}
+	}
+}

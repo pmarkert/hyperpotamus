@@ -1,9 +1,10 @@
 normalized: true
-defaults: {}
+defaults: 
+ request: null
+ actions: 
+  - status: 200 
 steps:
-  - request: 
-      url : null
-      headers : { }
+  - request: null
     actions:
       - set:
           executed: "true"

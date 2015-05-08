@@ -1,9 +1,13 @@
 normalized: true
-defaults: {}
+defaults: 
+ request: null
+ actions: 
+  - status: 200 
 steps: 
   - request: 
       url: "http://localhost:3000/static/test.html"
-      headers: {}
+      headers: 
+       user-agent: hyperpotamus
     actions:
       - text: This is a test
       - jquery: a

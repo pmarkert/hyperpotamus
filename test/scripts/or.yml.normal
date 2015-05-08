@@ -1,9 +1,13 @@
 normalized: true
-defaults: {}
+defaults: 
+ request: null
+ actions: 
+  - status: 200 
 steps:
   - request:
       url : http://localhost:3000/get
-      headers : {}
+      headers: 
+       user-agent: hyperpotamus
     actions:
       - or:
           actions:
@@ -11,7 +15,8 @@ steps:
             - status : 302
   - request:
       url : http://localhost:3000/get
-      headers : {}
+      headers: 
+       user-agent: hyperpotamus
     actions:
       - or:
           actions:

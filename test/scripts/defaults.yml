@@ -1,6 +1,7 @@
 defaults:
-  headers:
-    cookie: from=defaults
+  request:
+    headers:
+      cookie: from=defaults
 steps:
   - request:
      url: http://localhost:3000/get
