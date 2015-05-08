@@ -217,7 +217,7 @@ will still be treated as a regex as long as it still looks like "/regex/options"
 In this example the case insensitive option is specified with the /i option.  Valid regex options are "g" (global), "i" (case-insensitive), 
 and "m" (multi-line). 
 
-#### JSON scripts
+#### Writing your scripts in JSON
 Of course, JSON is also valid YAML, so if you roll that way, this script is equivalent to the previous one. 
 
 ```yaml
