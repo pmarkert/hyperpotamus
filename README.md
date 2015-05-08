@@ -53,19 +53,21 @@ Let's assume that you already know how awesome it would be if you had the power 
  hyperpotamus first.yml --verbose
  ```
 
-If it worked, then you should see nothing -- pretty anti-climatic. :) 
+If it worked, then you should see nothing-- pretty anti-climatic I know. But WAIT! There's more! :) 
 
-What did we just do? You made a script that requests the webpage specified on the first line and then checks to make sure that the text on the second line 
-appears somewhere on the page.
+So what just happened? You made a script that requests the webpage specified on the first line and then checks to make sure that the text on the 
+second line appears somewhere on the page.
 
-If you run the script again adding a verbose flag (-v) you will see what hyperpotamus is doing. The more v's you add, the more output you get. 
+If you run the script again adding a few verbose flags (-vvv) you will see what hyperpotamus is doing. The more v's you add, the more output you get. 
 
 ## Some sample scripts
 The hyperpotamus YAML syntax attempts to be as simple and fluid as possible. There are lots of syntax shortcuts and sensible defaults -- less is more. 
 
 NOTE: All of these scripts can be found under /examples
 
-#### Super-simple script `examples/super-simple.yml`
+#### Super-simple script 
+examples/super-simple.yml
+
 ```yaml
 http://www.google.com
 ```
@@ -75,7 +77,10 @@ HTTP 200 OK status code, but you can change that.
 
 Paste the script it into a text file called `super-simple.yml`. Run the script with a few verbose flags like so: `hyperpotamus super-simple.yml -vv`. 
 
-#### OK, a little bit harder? `examples/two-step.yml`
+#### OK, a little bit harder? 
+
+examples/two-step.yml
+
 This script contains two separate steps. Each step makes a request to a different url. If your script only has a single step, then you do not need to 
 put it into an array (with a - in YAML), hyperpotamus will figure out what you meant. If you want to send multiple requests, howerver, then you do need
 to use the array syntax to separate each step.
@@ -94,7 +99,8 @@ default validation rules for a step, then hyperpotamus lets you treat the whole 
 The second shortcut that we have been using is that if the request only needs to specify the url, then you do not need to include the "url" property of the
 request configuration.
 
-`examples/equivalent.yml`
+examples/equivalent.yml
+
 ```yaml
 # The following steps are all equivalent: 
 - http://github.com/pmarkert/hyperpotamus
