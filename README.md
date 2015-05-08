@@ -75,7 +75,9 @@ http://www.google.com
 This script makes a request to the url and then runs the default validation rules. The default validation rules make sure that the request returns an 
 HTTP 200 OK status code, but you can change that. 
 
-Paste the script it into a text file called `super-simple.yml`. Run the script with a few verbose flags like so: `hyperpotamus super-simple.yml -vv`. 
+Paste the script it into a text file called `super-simple.yml` and run it with a few verbose flags like so: 
+
+`hyperpotamus super-simple.yml -vv`. 
 
 #### OK, a little bit harder? 
 
@@ -126,6 +128,7 @@ Hyperpotamus makes use of the most excellent [request module](https://github.com
 - request: 
    url: http://www.httpbin.org/post
    method: POST
+```
 
 #### Checking the content of the response
 Sending requests with hyperpotamus is really only part of the story. Hyperpotamus also allows you to check or capture parts of the response as well.
