@@ -58,7 +58,7 @@ fingertips. Let's get started.
  hyperpotamus first.yml --verbose
  ```
 
-If it worked, then you should see nothing-- pretty anti-climatic I know. But WAIT! There's more! :) 
+If it worked, then you should see nothing-- pretty anti-climatic right? But WAIT! There's more!
 
 So what just happened? You made a script that requests the webpage specified on the first line and then checks to make sure
 that the text on the second line appears somewhere on the page.
@@ -86,18 +86,18 @@ Paste the script it into a text file called `super-simple.yml` and run it with a
 
 `hyperpotamus super-simple.yml -vv`. 
 
-#### OK, a little bit harder? 
+#### Multi-step scripts
+
+This script contains two separate steps, specified as a YAML array (with the - character). Each step makes a request to a
+different url. 
 
 examples/two-step.yml
-
-This script contains two separate steps. Each step makes a request to a different url. If your script only has a single step,
-then you do not need to put it into an array (with a - in YAML), hyperpotamus will figure out what you meant. If you want to
-send multiple requests, then you need to use the array syntax to separate each step.
-
 ```yaml
 - http://www.google.com
 - http://www.github.com
 ```
+
+If your script only has a single step as in the previous "super-simple" example, then you you can leave out the array and hyperpotamus will figure out what you meant.
 
 #### Shortcuts 
 Up until now we have been using some shortcuts. Hyperpotamus allows and encourges you to use shortcuts to keep your scripts simple. 
@@ -118,6 +118,10 @@ examples/equivalent.yml
 - request: 
    url: http://github.com/pmarkert/hyperpotamus
 ```
+
+If you want to see how hyperpotamus understands and expands your script, run it with the --normalize flag and you will see
+the expanded version of your script in both JSON and YAML forms. This can also be helpful when troubleshooting indentation
+problems in your YAML.
 
 #### Customizing the request
 Hyperpotamus makes use of the most excellent [request module](https://github.com/request/request), so any option supported by
