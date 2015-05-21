@@ -1,0 +1,6 @@
+actions: 
+  - and:
+    - true
+    - or:
+      - false
+      - true

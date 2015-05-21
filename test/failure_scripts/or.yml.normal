@@ -1,0 +1,11 @@
+normalized: true
+defaults:
+  request: null
+  actions:
+    - status: 200
+steps:
+  - actions:
+      - or:
+          actions:
+            - noop: true
+    request: null

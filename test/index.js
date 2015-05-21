@@ -43,6 +43,10 @@ describe("HTTP Tests", function() {
 		var data = {};
 		run_scripts("scripts", ".yml", hyperpotamus.yaml.process_file, data, { safe : false }, done);
 	});
+	describe("Logical tests", function(done) {
+		var data = {};
+		run_scripts("logical", ".yml", hyperpotamus.yaml.process_file, data, { safe : false }, done);
+	});
 	describe("YAML file tests with data", function(done) {
 		var data = { data : "asdf", one : "1", two : "2" }
 		run_scripts("data_scripts", ".yml", hyperpotamus.yaml.process_file, data, { safe : false }, done);

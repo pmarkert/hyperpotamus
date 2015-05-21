@@ -10,7 +10,14 @@ var _ = require("underscore");
 var useragent = require("../lib/useragent");
 
 describe("Normalize", function(done) {
-	var dir = "scripts";
+	run_normal_tests("scripts", done);
+});
+
+describe("Normalize logical", function(done) {
+	run_normal_tests("logical", done);
+});
+
+function run_normal_tests(dir, done) {
 	async.each(fs.readdirSync(path.join(__dirname, dir)), function(filename) {
 		if(path.extname(filename)===".normal") {
 			var compare = path.basename(filename, ".normal");
@@ -24,8 +31,7 @@ describe("Normalize", function(done) {
 			});
 		};
 	}, done); 
-	
-});
+}
 
 function fix_useragent(script) {
 	for(var i=0;i<script.steps.length;i++) {

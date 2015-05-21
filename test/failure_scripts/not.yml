@@ -1,7 +1,2 @@
 actions:
-  - set:
-     answer: "true"
-  - not:
-      equals:
-        - <% answer %>
-        - "true"
+  - not: true

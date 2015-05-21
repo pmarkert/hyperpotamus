@@ -1,5 +1,0 @@
-actions:
-  - set:
-      answer: "true"
-  - not: 
-      equals: [ <% answer %>, "false" ]

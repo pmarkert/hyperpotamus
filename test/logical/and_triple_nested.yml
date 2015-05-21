@@ -1,0 +1,8 @@
+actions: 
+  - and:
+    - true
+    - and:
+      - true
+      - and:
+        - true
+        - true

@@ -1,0 +1,6 @@
+- name: first
+  actions: 
+   goto: END
+- name: second
+  actions:
+   compare: [ true, false ]

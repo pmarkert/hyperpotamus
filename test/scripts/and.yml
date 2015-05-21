@@ -1,3 +1,0 @@
-- request: http://localhost:3000/get
-  response:
-    and: [ 200, "localhost" ]

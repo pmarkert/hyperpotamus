@@ -1,0 +1,2 @@
+- actions:
+   fail: This should have failed
