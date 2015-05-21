@@ -10,7 +10,7 @@ describe("Custom function validation", function() {
 		var script = {
 			request: "http://localhost:3000/static/test.html",
 			response: {
-				custom_function: function(context, callback) {
+				function: function(context, callback) {
 					if(context.body.indexOf("is a test")>=0) {
 						context.session["matched"] = true;
 						return callback();
@@ -30,7 +30,7 @@ describe("Custom function validation", function() {
 		var script = {
 			request: "http://localhost:3000/static/test.html",
 			response: {
-				custom_function: function(context, callback) {
+				function: function(context, callback) {
 					if(context.body.indexOf("do not match")>=0) {
 						context.session["matched"] = true;
 						return callback();

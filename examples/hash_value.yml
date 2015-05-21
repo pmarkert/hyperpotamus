@@ -1,0 +1,12 @@
+- actions:
+  - value_to_hash: <% value_to_hash %>
+    imports:
+      crypto: crypto
+    function: !!js/function >
+      function(context, callback) {
+        var md5 = this.imports.crypto.createHash("MD5");
+        md5.update(this.value_to_hash);
+        context.session["hash"] = md5.digest("hex");
+        callback();
+      }
+  - emit: <% hash %>

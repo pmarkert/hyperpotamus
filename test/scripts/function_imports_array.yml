@@ -1,0 +1,10 @@
+- actions:
+   - imports: [ 'crypto', 'url', "underscore" ]
+     function: !!js/function >
+       function(context) {
+         for(var i=0; i<3; i++) { 
+           if(!this.imports[i]) { 
+             return "Expected imports to be populated";
+           }
+         }
+       }
