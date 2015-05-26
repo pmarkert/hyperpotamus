@@ -116,8 +116,10 @@ if(args.csv) {
 	logger.info("Loading data from csv file - " + args.csv);
 	logger.info("Maximum concurrency level is " + args.concurrency);
 	csv.fromPath(args.csv, { headers : true }).on("data", function(user) {
-		queue.push(user);
-		logger.debug("Queued user for processing " + JSON.stringify(user));
+		if(!exiting) {
+			queue.push(user);
+			logger.debug("Queued user for processing " + JSON.stringify(user));
+		}
 	});
 }
 else if(args.loop) {
