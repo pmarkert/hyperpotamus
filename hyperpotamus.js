@@ -118,7 +118,7 @@ if(args.csv) {
 	csv.fromPath(args.csv, { headers : true }).on("data", function(user) {
 		if(!exiting) {
 			queue.push(user);
-			logger.debug("Queued user for processing " + JSON.stringify(user));
+			logger.trace("Queued user for processing " + JSON.stringify(user));
 		}
 	});
 }
