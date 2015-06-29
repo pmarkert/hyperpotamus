@@ -1,4 +1,4 @@
 request: http://localhost:3000/get?url=medium
 response: 
   headers: 
-    content-type: 'do not match'
+    content-type: { text : 'do not match' }
