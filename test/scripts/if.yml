@@ -1,0 +1,8 @@
+- actions:
+   - set:
+       key: first value
+   - if: true
+     then:
+      - set: 
+          key: second value
+      - equals: [ <% key %>, "second value" ]
