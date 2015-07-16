@@ -1,0 +1,12 @@
+- actions:
+   - set: 
+      target: [ "a", "b", "c" ]
+      result: ""
+
+- actions:
+  - set:
+      result: <% result %><%@ target %>
+  - iterate: target
+
+- actions:
+   equals: [ "abc", "<% result %>" ]
