@@ -93,6 +93,10 @@ describe("String Interpolation", function() {
 		}, done);
 	});
 
+        describe("Literal escape", function(done) {
+		assert.equal("<%:? test|param %>", interpolate("<%%:? test|param %>"));
+	});
+
 	describe("Format the date", function(done) {
 		var moment = require("moment")();
 
