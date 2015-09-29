@@ -39,6 +39,7 @@
     "moment": "^2.8.4",
     "named-regexp": "^0.1.1",
     "request": "^2.51.0",
+    "semver": "^5.0.3",
     "socks5-http-client": "^1.0.1",
     "tough-cookie": "^0.12.1",
     "underscore": "^1.7.0",

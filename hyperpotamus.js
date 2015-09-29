@@ -75,7 +75,18 @@ var outfile = args.output ? fs.createWriteStream(args.output) : process.stdout;
 var processor = hyperpotamus.processor( { safe : args.safe, plugins : args.plugins, emit : emit } );
 var script = processor.load.scripts.yaml.file(args.file);
 // Pre-normalize script if we run it in a loop and for display/logging
-script = processor.normalize(script); 
+try {
+	script = processor.normalize(script); 
+}
+catch(ex) {
+	if(ex.message) {
+		console.log(ex.message);
+	}
+	else {
+		console.log(ex);
+	}
+	process.exit(1);
+}
 if(args.normalize) {
 	console.log("Normalized YAML:");
 	console.log("================");
