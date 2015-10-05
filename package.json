@@ -38,6 +38,7 @@
     "mkdirp": "^0.5.0",
     "moment": "^2.8.4",
     "named-regexp": "^0.1.1",
+    "prompt": "^0.2.14",
     "request": "^2.51.0",
     "semver": "^5.0.3",
     "socks5-http-client": "^1.0.1",
