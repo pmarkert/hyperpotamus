@@ -109,9 +109,6 @@ describe("String Interpolation", function() {
                         [ "<%:?= YYYY-MM-DD %>", "No whitespace, option optional, equals" ],
                         [ "<%?:= YYYY-MM-DD %>", "No whitespace, option optional" ],
                         [ "<%?=: YYYY-MM-DD %>", "Trailing whitespace, option optional" ],
-                        [ "<%: YYYY-MM-DD|dummy %>", "Whitespace, option optional, default" ],
-                        [ "<%:YYYY-MM-DD|dummy %>", "Trailing whitespace, default" ],
-                        [ "<%:YYYY-MM-DD|dummy%>", "No whitespace, option optional, default" ],
 		];
 
 		async.each(cases, function(testcase, callback) {

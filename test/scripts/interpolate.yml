@@ -1,2 +1,5 @@
-request: http://localhost:3000/get?url=<%:YYYYMMDD%>
-response: /url":"<%:YYYYMMDD%>/
+- actions:
+   moment:
+    now: now
+- request: http://localhost:3000/get?url=<%:YYYYMMDD%>
+  response: /url":"<%:YYYYMMDD%>/

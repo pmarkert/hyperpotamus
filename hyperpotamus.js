@@ -162,7 +162,7 @@ function emit(message) {
 function options(master_callback) {
 	return function(err, context) {
 		if(err) {
-			console.error("Error - " + err);
+			console.error("Error - " + JSON.stringify(err, null, 2));
 			process.exit(1);
 		}
 		logger.info("Final session data is " + JSON.stringify(context.session));
