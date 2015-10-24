@@ -41,6 +41,7 @@ var args = require("yargs")
 	.requiresArg("plugins")
 	.describe("normalize", "Display the normalized version of the input script and then immediately exit (does not execute script)")
 	.boolean("normalize")
+	.describe("data", "YAML/JSON file containing initial session data")
 	.describe("safe", "Do not allow unsafe YAML types or plugins (not valid with --csv)")
 	.describe("loop", "Specify the number of times to repeat the script as an argument, or repeat indefinitely.")
 	.check(function(args, options) {
@@ -66,7 +67,10 @@ if(!args.file) args.file = args._[0];
 
 var default_session = {};
 if(args.qs) {
-	default_session = querystring.parse(args.qs);
+	_.defaults(default_session, querystring.parse(args.qs));
+}
+if(args.data) {
+	_.defaults(default_session, yaml.load(fs.readFileSync(args.data, "UTF-8")));
 }
 
 // Setup output stream
