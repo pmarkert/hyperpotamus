@@ -1,0 +1,18 @@
+- actions:
+   - set:
+       my_array: [ 'a', 'b', 'c' ]
+   - in:
+      value: 'a'
+      array: my_array
+     debugger: true
+   - in:
+      value: 'a'
+      array: [ 'a', 'b' ]
+   - not:
+      in:
+       value: 'd'
+       array: my_array
+   - not: 
+      in:
+       value: 'd'
+       array: [ 'a', 'b' ]
