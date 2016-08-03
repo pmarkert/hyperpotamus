@@ -1,0 +1,6 @@
+actions:
+ - resolve:
+    answer: 
+      base: 'http://example.com/one'
+      relative: '/two'
+ - equals: [ <% answer %>, "http://example.com/two" ]
