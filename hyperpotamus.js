@@ -9,6 +9,7 @@ var yaml = require("js-yaml");
 var hyperpotamus = require("./lib");
 var logging = require("./lib/logging");
 var logger = logging.logger("hyperpotamus.cli");
+var semver = require("semver");
 
 var args = require("yargs")
 	.usage("Run a hyperpotamus script (http://github.com/pmarkert/hyperpotamus)\nUsage: $0")
@@ -44,7 +45,12 @@ var args = require("yargs")
 	.describe("data", "YAML/JSON file containing initial session data")
 	.describe("safe", "Do not allow unsafe YAML types or plugins (not valid with --csv)")
 	.describe("loop", "Specify the number of times to repeat the script as an argument, or repeat indefinitely.")
+	.describe("requires", "A semver specification against which to check the current hyperpotamus version. Allows for compatibility/minimum version check to run the script.")
+	.requiresArg("requires")
 	.check(function(args, options) {
+		if(args.requires && !semver.satisfies(package.version, args.requires)) {
+			throw new Error("This version of hyperpotamus does not satisfy the required version. Required version=" + args.requires + ", Current version=" + package.version);
+		}
 		if(!args.file && !args._.length>=1) {
 			throw new Error("Must specify the file to process either with -f, --file, or as the first positional argument.");
 		}
