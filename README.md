@@ -15,6 +15,7 @@ retrieve a listing of photos from one page before you select one or all of them 
 There are many reasons that I have needed to use such a tool in my own career, including:
 * Setting up an automated suite of integration/regression tests for a new web-application
 * Creating a monitoring system that checks on a periodic basis to make sure a website or webservice is working
+* Invoking a JSON-based API to send requests, retrieve data and submit updates
 * Stress-testing a web application for performance optimization and tuning
 * **Boss:** Hey, we need to get all of these products entered on the customer's website by tomorrow morning, but they don't have any automated API. 
   I need you guys to fill out the 3-page form on their website to submit each one of these 5,000 items? You guys didn't have any plans tonight did 
