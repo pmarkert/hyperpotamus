@@ -1,2 +1,2 @@
-request: http://localhost:3000/get?url=<%=data%>
-response: '"url":"<%=data%>"'
+request: http://localhost:3000/get?url=<%data%>
+response: '"url":"<%data%>"'

@@ -5,7 +5,7 @@
 
 - actions:
   - set:
-      result: <% result %><%@ target %>
+      result: <% result %><% target | current %>
   - iterate: target
 
 - actions:

@@ -1,5 +1,5 @@
 - actions:
    moment:
     now: now
-- request: http://localhost:3000/get?url=<%:YYYYMMDD%>
-  response: /url":"<%:YYYYMMDD%>/
+- request: http://localhost:3000/get?url=<% now | date_format,YYYYMMDD %>
+  response: /url":"<% now | date_format,YYYYMMDD %>/

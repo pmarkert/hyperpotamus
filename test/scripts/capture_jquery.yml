@@ -14,4 +14,4 @@ response:
       all_innerHTML: [ innerHTML ]
       all_html: [ html ]
       all_outerHTML: [ outerHTML ]
-  - equals: [ 'Link 1', "<%= text %>"  ]
+  - equals: [ 'Link 1', "<% text %>"  ]

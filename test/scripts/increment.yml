@@ -5,19 +5,7 @@
       negative_other: -3
    - compare:
       [ <% value %>, 10 ]
-   - increment:
-      value: 1
+   - set:
+       value: <% value | plus,1 %>
    - compare:
       [ <% value %>, 11 ]
-   - increment:
-      value: <% other %>
-   - compare:
-      [ <% value %>, 14 ]
-   - increment:
-      value: -<% other %>
-   - compare:
-      [ <% value %>, 11 ]
-   - increment:
-      value: -<% negative_other %>
-   - compare:
-      [ <% value %>, NaN ]

@@ -2,4 +2,4 @@ request: http://localhost:3000/get?url=medium
 response: 
   - headers:
       content-type: content_type
-  - equals: [ "application/json; charset=utf-8", <%= content_type %> ]
+  - equals: [ "application/json; charset=utf-8", <% content_type %> ]

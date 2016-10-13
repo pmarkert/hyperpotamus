@@ -44,4 +44,4 @@
       categories : [ "$.store.book[*].category" ]
      debugger: true
    - equals: [ <% category %>, "reference" ]
-   - equals: [ <%& categories %>, "reference,fiction,fiction,fiction" ]
+   - equals: [ <% categories | join %>, "reference,fiction,fiction,fiction" ]

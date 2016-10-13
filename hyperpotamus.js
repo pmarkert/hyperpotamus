@@ -175,7 +175,7 @@ function options(master_callback) {
 			console.error("Error - " + JSON.stringify(err, null, 2));
 			process.exit(1);
 		}
-		logger.info("Final session data is " + JSON.stringify(context.session));
+		logger.info("Final session data is " + JSON.stringify(context.session, null, 2));
 		if(args.echo)
 			console.log(processor.interpolate(args.echo, context.session));
 		if(master_callback) master_callback();

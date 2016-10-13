@@ -12,7 +12,7 @@
      comparison: "a*c"
 
 - actions:
-   - compare: [ <%@ output %>, <% comparison %> ]
+   - compare: [ <% output | current %>, <% comparison %> ]
    - set:
       comparison: "*cd*"
    - iterate: output
