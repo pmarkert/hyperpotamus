@@ -1,6 +1,6 @@
 actions:
- - resolve:
-    answer: 
-      base: 'http://example.com/one'
-      relative: '/two'
+ - set:
+    base: 'http://example.com/one'
+ - set:
+    answer: <% base | resolve_url,/two %>
  - equals: [ <% answer %>, "http://example.com/two" ]

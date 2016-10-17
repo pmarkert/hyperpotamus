@@ -56,18 +56,12 @@ describe("String Interpolation", function() {
 		}, done);
 	});
 
-/*        describe("Literal escape", function(done) {
-		assert.equal("{{ test|param }}", interpolate("<%%:? test|param %>"));
-	});
-*/
-
 	describe("Format the date", function(done) {
 		var moment = require("moment");
 		var data = { the_date : moment() };
 
 		var cases = [
-			[ "<% the_date | date_format,YYYY-MM-DD %>", "date_format" ],
-			[ "<% the_date | format_date,YYYY-MM-DD %>", "format_date" ],
+			[ "<% the_date | date_format,YYYY-MM-DD %>", "date_format" ]
 		];
 
 		async.each(cases, function(testcase, callback) {
@@ -191,7 +185,7 @@ describe("String Interpolation", function() {
 			assert.equal("one,two,three", interpolate("<% array | join %>", { array: array }));
 		});
 		it("Pipe-delimited", function() {
-			assert.equal("one|two|three", interpolate("<% array| join,| %>", { array: array }));
+			assert.equal("one|two|three", interpolate("<% array| join_pipe %>", { array: array }));
 		});
 		it("Default delimiter", function() {
 			assert.equal("onetwothree", interpolate("<% array %>", { array: array }));
