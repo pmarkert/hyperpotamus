@@ -1,60 +1,475 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-
+    <meta charset="UTF-8">
     <title>Hyperpotamus by pmarkert</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Hyperpotamus</h1>
+      <h2 class="project-tagline">YAML based HTTP script processing engine</h2>
+      <a href="https://github.com/pmarkert/hyperpotamus" class="btn">View on GitHub</a>
+      <a href="https://github.com/pmarkert/hyperpotamus/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/pmarkert/hyperpotamus/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <header>
-      <div class="container">
-        <h1>Hyperpotamus</h1>
-        <h2>YAML based HTTP script processing engine</h2>
+    <section class="main-content">
+      <h1>
+<a id="hyperpotamus" class="anchor" href="#hyperpotamus" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>hyperpotamus</h1>
 
-        <section id="downloads">
-          <a href="https://github.com/pmarkert/hyperpotamus/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/pmarkert/hyperpotamus/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/pmarkert/hyperpotamus" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+<p>YAML based HTTP script processing engine</p>
 
-    <div class="container">
-      <section id="main_content">
-        <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
+<p>This README just scratches the surface and gives you enough information to know what hyperpotamus tastes like to either 
+get excited or scratch your head and wonder why anyone would be interested. For those who get excited, it is worth 
+reading the <a href="http://github.com/pmarkert/hyperpotamus/wiki">Hyperpotamus documentation wiki</a></p>
 
 <h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a id="what-does-hyperpotamus-do" class="anchor" href="#what-does-hyperpotamus-do" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What does hyperpotamus do?</h3>
 
-<p>We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.</p>
-
-<h3>
-<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating pages manually</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>Hyperpotamus allows you to write simple, human-readable scripts using any text-editor to describe a sequence of web (HTTP/s) requests
+and actions that you want to take to verify or capture data from the responses. Hyperpotamus scripts support multi-step
+processes where you retrieve information from one request to use in a subsequent request. For example, you may need to
+retrieve a listing of photos from one page before you select one or all of them to download.</p>
 
 <h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<a id="why-might-someone-want-to-do-this" class="anchor" href="#why-might-someone-want-to-do-this" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why might someone want to do this?</h3>
 
-<p>You can @mention a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>There are many reasons that I have needed to use such a tool in my own career, including:</p>
+
+<ul>
+<li>Setting up an automated suite of integration/regression tests for a new web-application</li>
+<li>Creating a monitoring system that checks on a periodic basis to make sure a website or webservice is working</li>
+<li>Invoking a JSON-based API to send requests, retrieve data and submit updates</li>
+<li>Stress-testing a web application for performance optimization and tuning</li>
+<li>
+<p><strong>Boss:</strong> Hey, we need to get all of these products entered on the customer's website by tomorrow morning, but they don't have any automated API. 
+I need you guys to fill out the 3-page form on their website to submit each one of these 5,000 items? You guys didn't have any plans tonight did 
+you? I'll buy pizza!!</p>
+
+<p><strong>Me:</strong> Send me the spreadsheet and give me about 20 minutes... oh, and deep-dish, please.</p>
+</li>
+</ul>
 
 <h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
+<a id="sounds-awesome-but-do-i-have-to-be-a-ninja-to-use-it" class="anchor" href="#sounds-awesome-but-do-i-have-to-be-a-ninja-to-use-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sounds awesome, but do I have to be a ninja to use it?</h3>
 
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
+<p>Well, it depends upon how complicated your scripting needs are. :) You can write some pretty simple scripts in just a few
+seconds. I've tried to make the scripting as easy and accessible as possible. There are lots of features in hyperpotamus 
+that aim to make it easy to write scripts. In spite of that simplicity, however, there is quite a lot of power when you are
+ready to dig deeper. </p>
 
-    
+<p>Hyperpotamus is at the core a processing engine that can be embedded into other software, but it comes with a command-line
+program that you can use to drive it; there is currently no graphical user-interface, but I'm open for contributions if
+anyone is interested. </p>
+
+<p>If you can use a text editor and know how to use your computer's terminal/command-prompt to run some basic commands, then you
+have the technical skills you need to get started. Give this quickstart a try; if you make it through without crying, then
+you have what it takes. ;) 
+If, on the other hand, you do end up crying, don't give up! Persistence pays off and builds character 
+-- <a href="https://bible.com/59/rom.5.3-4.esv">Romans 5:3-4</a></p>
+
+<h2>
+<a id="quickstart" class="anchor" href="#quickstart" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quickstart</h2>
+
+<p>Let's assume that you already know how awesome it would be if you had the power to automate the www's right at your
+fingertips. Let's get started.</p>
+
+<ol>
+<li>Make sure you have <a href="http://www.nodejs.org/">node.js</a> installed. Installing nodejs will also install npm, the node package manager.</li>
+<li>Open a command-prompt/terminal on your computer and type:
+<code>
+npm install -g hyperpotamus
+</code>
+</li>
+<li>
+<p>Create a text-file called "first.yml" with the following contents:</p>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">request:</span> <span class="pl-s">https://github.com/pmarkert/hyperpotamus</span>
+<span class="pl-ent">response:</span> <span class="pl-s">YAML based HTTP script processing engine</span></pre></div>
+</li>
+<li>Execute your script with
+<code>
+hyperpotamus first.yml --verbose
+</code>
+</li>
+</ol>
+
+<p>If it worked, then you should see nothing-- pretty anti-climatic right? But WAIT! There's more!</p>
+
+<p>So what just happened? You made a script that requests the webpage specified on the first line and then checks to make sure
+that the text on the second line appears somewhere on the page.</p>
+
+<p>If you run the script again adding a few verbose flags (-vvv) you will see what hyperpotamus is doing. The more v's you add,
+the more output you get. </p>
+
+<h2>
+<a id="some-sample-scripts" class="anchor" href="#some-sample-scripts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Some sample scripts</h2>
+
+<p>The hyperpotamus YAML syntax attempts to be as simple and fluid as possible. There are lots of syntax shortcuts and sensible
+defaults -- less is more. </p>
+
+<p>NOTE: All of these scripts can be found under /examples</p>
+
+<h4>
+<a id="super-simple-script" class="anchor" href="#super-simple-script" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Super-simple script</h4>
+
+<p>examples/super-simple.yml</p>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">http</span>://www.google.com</pre></div>
+
+<p>This script makes a request to the url and then runs the default validation rules. The default validation rules make sure
+that the request returns an HTTP 200 OK status code, but you can change that. </p>
+
+<p>Paste the script it into a text file called <code>super-simple.yml</code> and run it with a few verbose flags like so: </p>
+
+<p><code>hyperpotamus super-simple.yml -vv</code>. </p>
+
+<h4>
+<a id="multi-step-scripts" class="anchor" href="#multi-step-scripts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multi-step scripts</h4>
+
+<p>This script contains two separate steps, specified as a YAML array (with the - character). Each step makes a request to a
+different url. </p>
+
+<p>examples/two-step.yml</p>
+
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-s">http://www.google.com</span>
+- <span class="pl-s">http://www.github.com</span></pre></div>
+
+<p>If your script only has a single step as in the previous "super-simple" example, then you you can leave out the array and hyperpotamus will figure out what you meant.</p>
+
+<h4>
+<a id="shortcuts" class="anchor" href="#shortcuts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Shortcuts</h4>
+
+<p>Up until now we have been using some shortcuts. Hyperpotamus allows and encourges you to use shortcuts to keep your scripts simple. </p>
+
+<p>One of the shortcuts that we have been using is that for each step, we did not have to specify the "request" property. If you
+do not need to modify the default validation rules for a step, then hyperpotamus lets you treat the whole step as the request
+configuration.</p>
+
+<p>The second shortcut that we have been using is that if the request only needs to specify the url, then you do not need to
+include the "url" property of the request configuration.</p>
+
+<p>examples/equivalent.yml</p>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-c"># The following steps are all equivalent: </span>
+- <span class="pl-s">http://github.com/pmarkert/hyperpotamus</span>
+- <span class="pl-ent">request:</span> <span class="pl-s">http://github.com/pmarkert/hyperpotamus</span>
+- <span class="pl-ent">request:</span> 
+   <span class="pl-ent">url:</span> <span class="pl-s">http://github.com/pmarkert/hyperpotamus</span></pre></div>
+
+<p>If you want to see how hyperpotamus understands and expands your script, run it with the --normalize flag and you will see
+the expanded version of your script in both JSON and YAML forms. This can also be helpful when troubleshooting indentation
+problems in your YAML.</p>
+
+<h4>
+<a id="customizing-the-request" class="anchor" href="#customizing-the-request" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Customizing the request</h4>
+
+<p>Hyperpotamus makes use of the most excellent <a href="https://github.com/request/request">request module</a>, so any option supported by
+<a href="https://github.com/request/request">request</a> should work.  Some common customizations you may want to use include:</p>
+
+<ul>
+<li>modifying the HTTP method </li>
+<li>modifying standard headers like user-agent, accept-language, cache-control, etc.</li>
+<li>sending cookies</li>
+<li>setting custom headers</li>
+<li>posting JSON, Form URL Encoded data, or multi-part file uploads</li>
+<li>requesting through proxy servers</li>
+<li>automatically following redirects</li>
+</ul>
+
+<h4>
+<a id="post-example-examplescustom-requestyml" class="anchor" href="#post-example-examplescustom-requestyml" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>POST example <code>examples/custom-request.yml</code>
+</h4>
+
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">request:</span> 
+   <span class="pl-ent">url:</span> <span class="pl-s">http://www.httpbin.org/post</span>
+   <span class="pl-ent">method:</span> <span class="pl-s">POST</span></pre></div>
+
+<h4>
+<a id="checking-the-content-of-the-response" class="anchor" href="#checking-the-content-of-the-response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Checking the content of the response</h4>
+
+<p>Sending requests with hyperpotamus is really only part of the story. Hyperpotamus also allows you to check or capture parts 
+of the response as well.</p>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">request:</span> <span class="pl-s">http://www.nodejs.org</span>
+<span class="pl-ent">response:</span> <span class="pl-s">This simple web server written in Node responds with "Hello World" for every request.</span></pre></div>
+
+<p>The response configuration allows you to handle the HTTP response to validate, capture data, or take other actions. If your 
+response action is a plain string,
+as in this example, then it is a shortcut for <code>text: "..."</code>.  A text action which will look for the exact (case-sensitive) 
+text in the response body. If the
+text is not found, an error is raised. If the text is found, then the script continues processing.</p>
+
+<h4>
+<a id="validating-http-status-codes" class="anchor" href="#validating-http-status-codes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Validating HTTP Status codes</h4>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">request:</span> <span class="pl-s">http://httpbin.org/status/404</span>
+<span class="pl-ent">response:</span> 
+ - <span class="pl-ent">status:</span> <span class="pl-c1">404</span>
+ <span class="pl-c"># or the equivalent short-cut</span>
+ - <span class="pl-c1">404</span></pre></div>
+
+<p>Status actions verify that the HTTP status code from the response matches what you expected. As a shortcut for a status 
+action, you can just supply the status code as an integer. </p>
+
+<h4>
+<a id="requestresponse-defaults" class="anchor" href="#requestresponse-defaults" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Request/Response defaults</h4>
+
+<p>All of the scripts we have used above have made use of the shortcut that steps can directly specified at the top-level of the
+configuration. If you want to configure default values for requests and/or responses, then you will have to explicitly use 
+the "steps" element.</p>
+
+<p>Default values can be specified under the top-level "defaults" element. Any request options specified here will be merged 
+with values in your actual steps. If the same values are specified in a step's request, then the values from the step will 
+take precedence.</p>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">defaults:</span>
+ <span class="pl-ent">request:</span> 
+<span class="pl-s">  </span><span class="pl-c"># these headers will be added to all requests</span>
+  <span class="pl-ent">headers:</span>
+   <span class="pl-ent">Accept-Language:</span> <span class="pl-s">us-en</span>
+
+<span class="pl-ent">steps:</span>
+ - <span class="pl-ent">request:</span> 
+    <span class="pl-ent">url:</span> <span class="pl-s">http://httpbin.org</span></pre></div>
+
+<p>Likewise, you can also modify the default response actions for all steps. Unlike the request defaults where values are merged
+together for each step, response values will only be applied if no response/actions element is specified for a step.</p>
+
+<p>As mentioned above, the default options for response validation include a check for <code>status: 200</code>. You change this behavior 
+by overriding the response defaults.</p>
+
+<p><code>examples/request-defaults.yml</code></p>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">defaults:</span>
+ <span class="pl-ent">response:</span>
+  - <span class="pl-ent">not:</span> <span class="pl-s"><span class="pl-pds">"</span>An Error Occurred<span class="pl-pds">"</span></span>
+
+<span class="pl-ent">steps:</span>
+ - <span class="pl-s">http://httpbin.org</span>
+ - <span class="pl-s">http://httpbin.org/404</span></pre></div>
+
+<p>Normally the second step would have failed (because httpbin.org will return a 404 error code), however in this case, we setup
+a default validation rule to be that the page may not include the text "An Error Occurred". Setting up this default rule
+removed the existing default status-code check.</p>
+
+<p>NOTE: If you wish to remove the default status code check but do not want to add any other rules, just set defaults.response
+to an empty array.</p>
+
+<pre><code>defaults: 
+  response: []
+</code></pre>
+
+<h4>
+<a id="regex-validation" class="anchor" href="#regex-validation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Regex validation</h4>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">request:</span> <span class="pl-s">http://www.nodejs.org</span>
+<span class="pl-ent">response:</span> <span class="pl-s">/simple web server/i</span></pre></div>
+
+<p><a href="http://www.regular-expressions.info/">Regex</a> actions (delimited by the '/' characters around the text) are a shortcut for 
+<code>{ regex : { pattern : "...", options : ".." } }</code>. </p>
+
+<p>Regex actions also match against the response content, but may contain wild-cards, patterns, captures, and other options. </p>
+
+<p>NOTE: If your regex pattern contains certain character combinations, it may invalidate the YAML syntax of the script (for
+example ": " in the middle of the pattern or other special YAML characters). In that case, you can always enclose your
+pattern in double or single quotes and it will still be treated as a regex as long as it still looks like "/regex/options". </p>
+
+<p>In this example the case insensitive option is specified with the /i option.  Valid regex options are "g" (global), "i" 
+(case-insensitive), and "m" (multi-line). </p>
+
+<h4>
+<a id="writing-your-scripts-in-json" class="anchor" href="#writing-your-scripts-in-json" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Writing your scripts in JSON</h4>
+
+<p>Of course, JSON is also valid YAML, so if you roll that way, this script is equivalent to the previous one. </p>
+
+<div class="highlight highlight-source-yaml"><pre>[
+  {
+    <span class="pl-ent">"request":</span> <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span><span class="pl-s">,</span>
+    <span class="pl-ent">"response":</span> <span class="pl-s">{ "status": 200, "on_success": "json_post" }</span>
+<span class="pl-s">  },</span>
+<span class="pl-s">  {</span>
+    <span class="pl-ent">"request":</span> <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span><span class="pl-s">,</span>
+    <span class="pl-ent">"response":</span> <span class="pl-s"><span class="pl-pds">"</span>This request should not get executed<span class="pl-pds">"</span></span>
+<span class="pl-s">  },</span>
+<span class="pl-s">  {</span>
+    <span class="pl-ent">"name":</span> <span class="pl-s"><span class="pl-pds">"</span>Form Post<span class="pl-pds">"</span></span><span class="pl-s">,</span>
+    <span class="pl-ent">"request":</span> <span class="pl-s">{</span>
+      <span class="pl-ent">"url":</span> <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/post<span class="pl-pds">"</span></span><span class="pl-s">,</span>
+      <span class="pl-ent">"method":</span> <span class="pl-s"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span><span class="pl-s">,</span>
+      <span class="pl-ent">"form":</span> <span class="pl-s">{</span>
+        <span class="pl-ent">"message":</span> <span class="pl-s"><span class="pl-pds">"</span>But this one does<span class="pl-pds">"</span></span>
+<span class="pl-s">      }</span>
+<span class="pl-s">    }</span>
+<span class="pl-s">  }</span>
+<span class="pl-s">]</span></pre></div>
+
+<p>I like JSON-- a lot... but after typing all of those symbols the YAML starts looking nicer and nicer. You can even mix and 
+match JSON and YAML within a single script, so you can achieve that perfect blend of short and sweet vs. explicit syntax in 
+your recipes...</p>
+
+<h3>
+<a id="session-data" class="anchor" href="#session-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Session data</h3>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">request:</span>
+  <span class="pl-ent">url:</span> <span class="pl-s">http://httpbin.org/post</span>
+  <span class="pl-ent">method:</span> <span class="pl-s">POST</span>
+  <span class="pl-ent">form:</span> 
+    <span class="pl-ent">username:</span> <span class="pl-s">&lt;% username %&gt;</span>
+    <span class="pl-ent">password:</span> <span class="pl-s">&lt;% password %&gt;</span></pre></div>
+
+<p>Hyperpotamus supports the idea of a session. Sessions are name-&gt;value stores that are used to collect and re-use information 
+as your script is processed. Notice those <code>&lt;% .. %&gt;</code> macros? <code>&lt;% username %&gt;</code> means: Take whatever value is stored in the 
+session under the key "username" and insert it.</p>
+
+<p>Session data can be passed into hyperpotamus as query-string encoded name/value pairs.</p>
+
+<pre><code>hyperpotamus sample.yml --qs "username=pmarkert&amp;password=secret"
+</code></pre>
+
+<p>Session data can also be read in from a .csv file and your script will be executed once for each record in the file.</p>
+
+<pre><code>hyperpotamus sample.yml --csv users.csv
+</code></pre>
+
+<h3>
+<a id="capturing-data-from-the-response" class="anchor" href="#capturing-data-from-the-response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Capturing data from the response</h3>
+
+<p>In many cases, you want to capture parts of the response either for reporting at the end of your script, or for use in 
+subsequent steps. Captured values are stored in the session so that they can be replayed with <code>&lt;% .. %&gt;</code> macros.</p>
+
+<h4>
+<a id="capturing-using-regex" class="anchor" href="#capturing-using-regex" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Capturing using regex</h4>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">request:</span> <span class="pl-s">https://github.com/pmarkert/hyperpotamus</span>
+<span class="pl-ent">response:</span>
+  - <span class="pl-s">/latest commit &lt;span.+?&gt;(:&lt;latest_commit&gt;.+?)&lt;/span&gt;/</span>
+  - <span class="pl-ent">emit:</span> <span class="pl-s">Latest commit is &lt;% latest_commit %&gt;</span></pre></div>
+
+<p><a href="https://github.com/cho45/named-regexp.js">Named captures</a> allow you to extract data from the web-page by matching content
+and extracting data into the session using the capture name as the session key. <code>(:&lt;group&gt;...)</code> would save the matched
+portion of the response into session so that it can be used as <code>&lt;% group %&gt;</code>.  In this example, <code>&lt;% latest_commit %&gt;</code> is 
+captured from the response.</p>
+
+<p>NOTE: By default, only the first match is captured. Adding the /g option at the end of the regex will cause all instances to 
+be captured into an array. (See below for more about arrays and iteration).</p>
+
+<h4>
+<a id="capturing-with-jquery" class="anchor" href="#capturing-with-jquery" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Capturing with jquery</h4>
+
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">request:</span> <span class="pl-s">https://www.npmjs.com/package/hyperpotamus</span>
+  <span class="pl-ent">response:</span>
+    - <span class="pl-ent">jquery:</span> <span class="pl-s"><span class="pl-pds">"</span>ul&gt;li:contains('downloads in the last month') strong<span class="pl-pds">"</span></span>
+      <span class="pl-ent">capture:</span>
+        <span class="pl-ent">last_month:</span> <span class="pl-s">text</span>
+    - <span class="pl-ent">emit:</span> <span class="pl-s">Hyperpotamus has been downloaded &lt;% last_month %&gt; times in the past month.</span></pre></div>
+
+<p>JQuery actions use <a href="http://api.jquery.com/category/selectors/">selectors</a> to find elements in the HTML.  </p>
+
+<p>Data (attribute values, text content, innerHTML, outerHTML) from the matching elements can be captured into session variables
+using the <code>capture</code> element. The keys of the capture element are the session keys to which the values will be captured. The 
+value of each element can be one of the following:</p>
+
+<ul>
+<li>text - The textual content of this element and all child elements concatenated together</li>
+<li>
+<a href="https://github.com/attribute" class="user-mention">@attribute</a> - The value of an HTML attribute, i.e. <a href="https://github.com/href" class="user-mention">@href</a> to capture the url for a hyperlink.</li>
+<li>outerHTML - The HTML including the element itself.</li>
+<li>innerHTML - The HTML of all child-nodes for the element.</li>
+</ul>
+
+<p>NOTE: By default only the first item matching the query is captured. If you want to capture all of the elements from the 
+page, surround your value target in <code>[ ]</code>, like so: <code>last_month: [ text ]</code>. This will capture each instance into your session
+as an array.</p>
+
+<p>Notice that the response element has an array of actions (<code>jquery</code> and <code>emit</code> in this case). You can stack together as many
+actions as you like; they will be processed in the order they appear. The results of one action are available to all
+subsequent actions. </p>
+
+<p>That <code>emit</code> action is used to echo content that can be captured for reporting or display.</p>
+
+<h3>
+<a id="arrays-and-iteration" class="anchor" href="#arrays-and-iteration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Arrays and iteration</h3>
+
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">name:</span> <span class="pl-s">setup</span>
+  <span class="pl-ent">actions:</span>
+    <span class="pl-ent">set:</span>
+      <span class="pl-ent">gospels:</span> <span class="pl-s">[ 'Matthew', 'Mark', 'Luke', 'John' ]</span>
+- <span class="pl-ent">name:</span> <span class="pl-s">print</span>
+  <span class="pl-ent">actions:</span>
+    - <span class="pl-ent">emit:</span> <span class="pl-s">The Gospel according to &lt;%@ gospels %&gt;</span>
+    - <span class="pl-ent">iterate:</span> <span class="pl-s">gospels</span>
+      <span class="pl-ent">next:</span> <span class="pl-s">print</span></pre></div>
+
+<p>Arrays are useful for many reasons, but they are particularly helpful when you want to repeat a process multiple times. When
+you want to use a value from an array, you add the <code>@</code> format specifier to your macro, in this example: <code>&lt;%@ gospels %&gt;</code>.
+This is saying: 'Insert the current value from the array called gospels'. What does it mean when I say 'the current value
+from the array'? </p>
+
+<p>When the <code>@</code> format specifier is used, hyperpotamus looks for a second session variable, 'gospels.index' in this case. If
+that value does not exist (which is typically the case at first), then a default value of 0 will be assumed and assigned.
+Requesting <code>&lt;%@ gospels %&gt;</code> will return 
+the respective value in the array based upon the current value of <code>gospels.index</code>. In this case, it will print out "Matthew",
+because that's the first element, at index=0.</p>
+
+<p>If the story ended there, then arrays really wouldn't be very helpful, but fortunately, there's hope! Notice that <code>iterate</code>
+action? The <code>iterate</code> action takes either the name of an array or an array of names of arrays. <code>iterate</code> will then increments
+the current index for each of them. After incrementing the array index, it will cause the script execution to jump to the
+request named in the <code>next</code> parameter.  When any of the arrays have been exhausted, meaning that the index reached the end,
+then the index is reset and script processing falls through to the rest of the script in normal sequence.</p>
+
+<p>NOTE: If the <code>next</code> parameter on an <code>iterate</code> action is omitted, then the current step will be repeated. (In this example, we
+could have left off the <code>next: print</code> and the <code>name: print</code> and the effect would have been the same). </p>
+
+<h3>
+<a id="conditional-branching-on-success-or-failure" class="anchor" href="#conditional-branching-on-success-or-failure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Conditional branching on success or failure</h3>
+
+<div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">request:</span> <span class="pl-s">http://httpbin.org/get</span>
+  <span class="pl-ent">response:</span> 
+    <span class="pl-ent">status:</span> <span class="pl-c1">200</span>
+    <span class="pl-ent">on_success:</span> <span class="pl-s">Form Post</span>
+- <span class="pl-ent">request:</span> <span class="pl-s">http://httpbin.org/get</span>
+  <span class="pl-ent">response:</span> <span class="pl-s"><span class="pl-pds">"</span>This request should not get executed<span class="pl-pds">"</span></span>
+- <span class="pl-ent">name:</span> <span class="pl-s">Form Post</span>
+  <span class="pl-ent">request:</span>
+    <span class="pl-ent">url:</span> <span class="pl-s">http://httpbin.org/post</span>
+    <span class="pl-ent">method:</span> <span class="pl-s">POST</span>
+    <span class="pl-ent">form:</span>
+      <span class="pl-ent">message:</span> <span class="pl-s"><span class="pl-pds">"</span>But this one does<span class="pl-pds">"</span></span></pre></div>
+
+<p>If you give your scripting step a name, then other actions can jump to that step. By default, each action supports an
+<code>on_success</code> or <code>on_failure</code> property. Normally if an action succeeds, processing continues to the next step. If the action
+fails, then an error is raised and processing stops. By setting the on_success and on_failure value for an action to the name
+of another request, the execution flow will jump to that step appropriately.</p>
+
+<p>Also, notice the extra parameters for the last request (the method and form elements). </p>
+
+<h4>
+<a id="project-status" class="anchor" href="#project-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Status:</h4>
+
+<p>I started working on Hyperpotamus at the beginning of this year to solve some specific issues that I needed to tackle for a
+project I was working on. I decided to open-source the project while I am in the process of building it, as opposed to
+waiting until I have a stable finalized release.  I mentioned before that API stability and features will be in flux until I
+mark the module as a 1.0 release. At that point, I will more strictly adhere to <a href="http://semver.org">semantic versioning</a>. For
+now, however, I'm loosely using the minor version number for backwards incompatibilities and the hotfix number for
+improvements and additions.</p>
+
+<p>Documentation obviously lags a bit behind the current codebase, until I stabilize things a bit more, so if something doesn't
+work for you as expected, there's a good chance it's not your fault.. :) Send me a message or create a github issue.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/pmarkert/hyperpotamus">Hyperpotamus</a> is maintained by <a href="https://github.com/pmarkert">pmarkert</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
   </body>
 </html>
