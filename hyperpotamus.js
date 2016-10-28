@@ -76,7 +76,14 @@ if(args.qs) {
 	_.defaults(default_session, querystring.parse(args.qs));
 }
 if(args.data) {
-	_.defaults(default_session, yaml.load(fs.readFileSync(args.data, "UTF-8")));
+	if(_.isArray(args.data)) {
+		for(var i=0;i<args.data.length;i++) {
+		  _.defaults(default_session, yaml.load(fs.readFileSync(args.data[i], "UTF-8")));
+		}
+	}
+	else {
+		_.defaults(default_session, yaml.load(fs.readFileSync(args.data, "UTF-8")));
+	}
 }
 
 // Setup output stream
