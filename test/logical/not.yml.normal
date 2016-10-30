@@ -1,10 +1,5 @@
-normalized: true
-defaults: 
- request: null
- actions: 
-  - status: 200 
 steps:
-  - request: null
-    actions:
-      - not: 
-         fail: "Explicit false"
+  - actions:
+      - not:
+          fail: Explicit false
+normalized: true

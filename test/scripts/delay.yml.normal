@@ -1,9 +1,5 @@
-normalized: true
-defaults: 
- request: null
- actions: 
-  - status: 200 
 steps:
-  - request: null
-    actions:
+  - actions:
       - delay: 1
+normalized: true
+

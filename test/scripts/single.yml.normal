@@ -1,12 +1,7 @@
-normalized : true
-defaults: 
- request: null
- actions: 
-  - status: 200 
-steps :
-  - request:
-      url: http://localhost:3000/get
-      headers: 
-       user-agent: hyperpotamus
-    actions:
-      -  status: 200
+steps:
+  - actions:
+      - request:
+          url: 'http://localhost:3000/get'
+          headers:
+            user-agent: 'Hyperpotamus/1.0.6-markup (+http://github.com/pmarkert/hyperpotamus)'
+normalized: true

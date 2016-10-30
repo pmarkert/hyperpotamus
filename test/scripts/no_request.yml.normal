@@ -1,10 +1,5 @@
-normalized: true
-defaults: 
- request: null
- actions: 
-  - status: 200 
 steps:
-  - request: null
-    actions:
+  - actions:
       - set:
-          executed: "true"
+          executed: 'true'
+normalized: true
