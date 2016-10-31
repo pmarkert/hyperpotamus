@@ -2,10 +2,7 @@ steps:
   - actions:
       - request:
           url: 'http://localhost:3000/static/test.html'
-          headers:
-            user-agent: 'hyperpotamus'
         response:
-          and:
             - text: This is a test
             - jquery: a
               count: 2

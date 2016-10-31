@@ -1,0 +1,4 @@
+- actions:
+   - response_defaults:
+      - status: 500
+   - request: http://localhost:3000/status/500

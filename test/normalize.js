@@ -24,21 +24,10 @@ function run_normal_tests(dir, done) {
 			it(path.join(dir, compare), function(done) {
 				var to_normalize = load.scripts.yaml.file(path.join(__dirname, dir, compare));
 				var expected = load.scripts.yaml.file(path.join(__dirname, dir, filename));
-				fix_useragent(expected);
 				var normalized = normalize(to_normalize, load.plugins);
 				normalized.should.deep.equal(expected, JSON.stringify(normalized));
 				done();
 			});
 		};
 	}, done); 
-}
-
-function fix_useragent(script) {
-	for(var i=0;i<script.steps.length;i++) {
-		for(var j=0;j<script.steps[i].actions.length; j++) {
-			if (script.steps[i].actions[j].request && script.steps[i].actions[j].request.headers && script.steps[i].actions[j].request.headers["user-agent"] === "hyperpotamus") {
-				script.steps[i].actions[j].request.headers["user-agent"] = useragent;
-			}
-		}
-	}
 }

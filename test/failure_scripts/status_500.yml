@@ -1,0 +1,2 @@
+- actions:
+   - request: http://localhost:3000/status/500

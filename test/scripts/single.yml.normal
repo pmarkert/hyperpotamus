@@ -2,6 +2,4 @@ steps:
   - actions:
       - request:
           url: 'http://localhost:3000/get'
-          headers:
-            user-agent: 'hyperpotamus'
 normalized: true

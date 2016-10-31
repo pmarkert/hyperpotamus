@@ -1,5 +1,5 @@
 steps:
   - actions:
-      - set:
-          executed: 'true'
+      set:
+        executed: 'true'
 normalized: true
