@@ -2,7 +2,7 @@
    - imports: 
        crypto: 'crypto'
        URL: 'url'
-       _ : "underscore"
+       _ : "lodash"
      function: !!js/function >
        function(context) {
          for(var i=0; i<3; i++) { 

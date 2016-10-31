@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var querystring = require("querystring");
-var _ = require("underscore");
+var _ = require("lodash");
 var csv = require("fast-csv");
 var fs = require("fs");
 var package = require("./package.json");
@@ -30,7 +30,7 @@ var args = require("yargs")
 	.count("verbose")
 	.alias("verbose","v")
 	.describe("verbose", "Verbose output; more flags for more output (up to 3) for INFO, DEBUG, and TRACE logging respectively i.e. -vvv")
-	.describe("output", "Output file for emitted content. See documentation on the emit action.")
+	.describe("output", "Output file for emitted content. See documentation on the print/emit action.")
 	.requiresArg("output")
 	.alias("output","o")
 	.alias("output","out")

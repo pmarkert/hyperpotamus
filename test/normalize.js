@@ -6,7 +6,7 @@ var path = require("path");
 var chai = require("chai");
 chai.config.showDiff = true;
 var should = chai.should();
-var _ = require("underscore");
+var _ = require("lodash");
 var useragent = require("../lib/useragent");
 
 describe("Normalize", function(done) {
@@ -35,8 +35,10 @@ function run_normal_tests(dir, done) {
 
 function fix_useragent(script) {
 	for(var i=0;i<script.steps.length;i++) {
-		if(script.steps[i].request && script.steps[i].request.headers && script.steps[i].request.headers["user-agent"]==="hyperpotamus") {
-			script.steps[i].request.headers["user-agent"] = useragent;
+		for(var j=0;j<script.steps[i].actions.length; j++) {
+			if (script.steps[i].actions[j].request && script.steps[i].actions[j].request.headers && script.steps[i].actions[j].request.headers["user-agent"] === "hyperpotamus") {
+				script.steps[i].actions[j].request.headers["user-agent"] = useragent;
+			}
 		}
 	}
 }

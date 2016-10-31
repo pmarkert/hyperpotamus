@@ -1,5 +1,5 @@
 - actions:
-   - imports: [ 'crypto', 'url', "underscore" ]
+   - imports: [ 'crypto', 'url', "lodash" ]
      function: !!js/function >
        function(context) {
          for(var i=0; i<3; i++) { 

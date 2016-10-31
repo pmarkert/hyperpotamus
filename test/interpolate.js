@@ -1,7 +1,7 @@
 var interpolate = require("../lib/interpolate");
 var async = require("async");
 var assert = require("assert");
-var _ = require("underscore");
+var _ = require("lodash");
 
 describe("String Interpolation", function() {
 
@@ -122,7 +122,7 @@ describe("String Interpolation", function() {
 			// let's do it many times to lower the probability of false negative.
 			for(var i=0; i<100; i++) {
 				var result = interpolate("<% array | random %>", { array : array });
-				assert(_.contains(array, result));
+				assert(_.includes(array, result));
 			}
 		});
 
@@ -132,7 +132,7 @@ describe("String Interpolation", function() {
 			// let's do it many times to lower the probability of false negative.
 			for(var i=0; i<100; i++) {
 				var result = interpolate("<% array | random %>", { array : array });
-				assert(_.contains(array, result));
+				assert(_.includes(array, result));
 			}
 		});
 

@@ -2,7 +2,7 @@ var hyperpotamus = require("../lib/index");
 var async = require("async");
 var fs = require("fs");
 var path = require("path");
-var _ = require("underscore");
+var _ = require("lodash");
 var logging = require("../lib/logging");
 
 logging.set_level(process.env.LOG_LEVEL || logging.levels.none);

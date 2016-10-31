@@ -3,7 +3,7 @@ steps:
       - request:
           url: 'http://localhost:3000/static/test.html'
           headers:
-            user-agent: 'Hyperpotamus/1.0.6-markup (+http://github.com/pmarkert/hyperpotamus)'
+            user-agent: 'hyperpotamus'
         response:
           and:
             - text: This is a test
