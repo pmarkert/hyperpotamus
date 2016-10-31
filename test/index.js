@@ -1,4 +1,4 @@
-var hyperpotamus = require("../lib/index");
+var hyperpotamus = require("../lib/processor");
 var async = require("async");
 var fs = require("fs");
 var path = require("path");

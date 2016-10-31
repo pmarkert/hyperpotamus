@@ -3,7 +3,7 @@
   "version": "1.0.7-markup",
   "description": "YAML based HTTP script processing engine",
   "homepage": "https://github.com/pmarkert/hyperpotamus/wiki",
-  "main": "lib/index.js",
+  "main": "lib/processor.js",
   "bin": {
     "hyperpotamus": "./hyperpotamus.js",
     "hdb": "./hdb.js"

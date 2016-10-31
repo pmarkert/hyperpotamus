@@ -1,4 +1,4 @@
-var hyperpotamus = require("../lib/index");
+var hyperpotamus = require("../lib/processor");
 describe("Custom function validation", function() {
 	before(function(done) {
                 server = require("./httpsite").listen(3000, done);
