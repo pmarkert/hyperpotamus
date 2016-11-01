@@ -4,7 +4,6 @@
    - in:
       value: 'a'
       array: my_array
-     debugger: true
    - in:
       value: 'a'
       array: [ 'a', 'b' ]

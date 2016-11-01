@@ -88,30 +88,30 @@ describe("String Interpolation", function() {
 	describe("Random numbers", function() {
 		it("Should generate a random number within a range", function() {
 			var min = 3, max=7;
-			verify_random_range("<% | literal," + min + "-" + max + " | random %>", min, max);
+			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 		});
 		it("Should generate a random number within a range and whitespace", function() {
 			var min = 3, max=7;
-			verify_random_range("<% | literal," + min + "-" + max + " | random %>", min, max);
+			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 		});
 		it("Should return the number if min == max", function() {
 			var min = 3, max=3;
-			verify_random_range("<% | literal," + min + "-" + max + " | random %>", min, max);
+			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 		});
 		it("Should throw an error if min > max", function() {
 			var min = 4, max=3;
 			try {
-				verify_random_range("<% | literal," + min + "-" + max + " | random %>", min, max);
+				verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 				assert.fail("Should have thrown an error");
 			} catch(err) { };
 		});
 		it("Should generate a random number from X -> X+1 (same number)", function() {
 			var min = 3, max=4;
-			verify_random_range("<% | literal," + min + "-" + max + " | random %>", min, max);
+			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 		});
 		it("Should generate a random number from 0 to max-1", function() {
 			var max = 7;
-			verify_random_range("<% | literal," + max + " | random %>", 0, max);
+			verify_random_range("<% '" + max + "' | random %>", 0, max);
 		});
 	});
 
