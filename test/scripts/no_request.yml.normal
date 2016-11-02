@@ -1,5 +1,7 @@
 steps:
   - actions:
-      set:
-        executed: 'true'
+      merge:
+        data:
+         executed: 'true'
+        override: true
 normalized: true
