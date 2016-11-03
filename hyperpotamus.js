@@ -128,7 +128,7 @@ function run() {
 			}
 			if (args.loop == iterations) {
 				// As soon as we have enough iterations, stop the refill. if args.loop == true it will never stop.
-				queue.empty = null;
+				queue.empty = function() {};
 			}
 		}
 
