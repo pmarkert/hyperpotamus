@@ -36,7 +36,7 @@
     "js-yaml": "^3.2.4",
     "jsonpath": "0.1.8",
     "lodash": "^4.16.5",
-    "markup-js": "pmarkert/Markup.js#hyperpotamus",
+    "markup-js": "https://github.com/pmarkert/Markup.js/tarball/19fa3d77b91977aabdbddd42c307dcd1f172a22b",
     "mkdirp": "^0.5.0",
     "moment": "^2.8.4",
     "named-regexp": "^0.1.1",
