@@ -1,9 +1,9 @@
 {
   "name": "hyperpotamus",
-  "version": "1.0.10-markup",
+  "version": "1.1.0-markup",
   "description": "YAML based HTTP script processing engine",
   "homepage": "https://github.com/pmarkert/hyperpotamus/wiki",
-  "main": "lib/processor.js",
+  "main": "lib/index.js",
   "bin": {
     "hyperpotamus": "./hyperpotamus.js",
     "hdb": "./hdb.js"

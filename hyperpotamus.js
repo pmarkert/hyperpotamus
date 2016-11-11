@@ -5,52 +5,57 @@ var csv = require("fast-csv");
 var fs = require("fs");
 var async = require("async");
 var yaml = require("js-yaml");
-var hyperpotamus = require("./lib/processor");
-var logging = require("./lib/logging");
+var hyperpotamus = require("./lib");
 
-var logger = logging.logger("hyperpotamus.cli");
+var logger = hyperpotamus.logging.logger("hyperpotamus.cli");
 
 var args = require("./args");
 
 // Setup logging configuration
-logging.set_level(args.verbose+3); // Starts at Warning, adding --verbose flags bumps to INFO, DEBUG, or TRACE
+hyperpotamus.logging.set_level(args.verbose + 3); // Starts at Warning, adding --verbose flags bumps to INFO, DEBUG, or TRACE
 
-if(!args.file) {
+if (!args.file) {
 	args.file = args._[0];
 }
 
 var default_session = {};
-if(args.qs) {
+if (args.qs) {
 	// Load in data for the initial session from the qs parameter
-	default_session = _.merge(querystring.parse(args.qs), default_session);
+	_.forEach(_.castArray(args.qs), function (qs_data) {
+		default_session = _.defaultsDeep(default_session, querystring.parse(qs_data));
+	});
 }
-if(args.data) {
+if (args.data) {
 	// Load in data for the initial session from any data files (earlier files take precedence)
-	args.data = _.isArray(args.data) ? args.data : [ args.data ];
-	for(var i=0;i<args.data.length;i++) {
-	  default_session = _.merge(yaml.load(fs.readFileSync(args.data[i])), default_session);
-	}
+	_.forEach(_.castArray(args.data), function (data_file) {
+		default_session = _.defaultsDeep(default_session, hyperpotamus.yaml.loadFile(data_file, args.safe));
+	});
 }
 
 // Setup output stream
 var outfile = args.output ? fs.createWriteStream(args.output) : process.stdout;
 
-var processor = hyperpotamus.processor( { safe : args.safe, plugins : args.plugins, emit : emit } );
-var script = processor.load.scripts.yaml.file(args.file);
-// Pre-normalize script if we run it in a loop and for display/logging
+var script;
+
+var processor = new hyperpotamus.Processor({ safe: args.safe, plugins: args.plugins, emit: emit });
 try {
-	script = processor.normalize(script); 
+	script = hyperpotamus.yaml.loadFile(args.file, args.safe);
 }
-catch(ex) {
-	if(ex.message) {
-		console.log(ex.message);
-	}
-	else {
-		console.log(ex);
-	}
+catch (ex) {
+	console.trace("Error loading yaml script - " + ex);
 	process.exit(1);
 }
-if(args.normalize) {
+
+// Pre-normalize script if we run it in a loop and for display/logging
+try {
+	script = processor.normalize(script);
+}
+catch (ex) {
+	console.trace("Error normalizing script - " + ex);
+	process.exit(1);
+}
+
+if (args.normalize) {
 	console.log("Normalized YAML:");
 	console.log("================");
 	console.log(yaml.dump(script));
@@ -66,20 +71,34 @@ logger.debug("Script normalized as YAML:\n" + yaml.dump(script));
 logger.debug("Script normalized JSON:\n" + JSON.stringify(script, null, 2));
 
 // Worker queue to process requests with set concurrency
-var queue = async.queue(function(session, callback) {
+var queue = async.queue(function (session, callback) {
 	logger.debug("About to start session for " + JSON.stringify(session));
 	// Copy in default session values
 	var local_session = _.merge({}, default_session, session);
-	processor.process(script, local_session, options(callback), args.start);
+	processor.process_script(script, local_session,
+		function (err, context) {
+			if (err) {
+				console.error("Error - " + JSON.stringify(err, null, 2));
+				process.exit(1);
+			}
+			logger.info("Final session data is " + JSON.stringify(context.session, null, 2));
+			if (args.echo) {
+				console.log(processor.interpolate(args.echo, context.session));
+			}
+			if (callback) {
+				callback();
+			}
+		},
+		args.start);
 }, args.concurrency);
 
 // Handler for graceful (or forced) shutdown
 var exiting = false;
-process.on('SIGINT', function() {
-	if(!exiting) {
+process.on('SIGINT', function () {
+	if (!exiting) {
 		exiting = true;
 		queue.kill(); // Finish processing in-flight scripts, but stop any new ones from starting
-		console.log("Gracefully shutting down from SIGINT (Press Ctrl-C again to exit immediately.)" );
+		console.log("Gracefully shutting down from SIGINT (Press Ctrl-C again to exit immediately.)");
 	}
 	else {
 		// Ok, tired of waiting, exit NOW!!
@@ -87,14 +106,14 @@ process.on('SIGINT', function() {
 	}
 });
 
-if(args.init) {
-	if(args.init === true) {
+if (args.init) {
+	if (args.init === true) {
 		args.init = "init";
 	}
 
 	// Run the script with the init steps
-	processor.process(script, default_session, function(err, context) {
-		if(err) {
+	processor.process(script, default_session, function (err, context) {
+		if (err) {
 			console.error("Error running init session - " + JSON.stringify(err, null, 2));
 			process.exit(1);
 		}
@@ -128,7 +147,8 @@ function run() {
 			}
 			if (args.loop == iterations) {
 				// As soon as we have enough iterations, stop the refill. if args.loop == true it will never stop.
-				queue.empty = function() {};
+				queue.empty = function () {
+				};
 			}
 		}
 
@@ -145,15 +165,4 @@ function emit(message) {
 	outfile.write(message + "\n");
 }
 
-function options(master_callback) {
-	return function(err, context) {
-		if(err) {
-			console.error("Error - " + JSON.stringify(err, null, 2));
-			process.exit(1);
-		}
-		logger.info("Final session data is " + JSON.stringify(context.session, null, 2));
-		if(args.echo)
-			console.log(processor.interpolate(args.echo, context.session));
-		if(master_callback) master_callback();
-	};
-}
+
