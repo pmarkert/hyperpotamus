@@ -1,30 +1,46 @@
+**UPDATE:** There have been some significant improvements that have unfortunately required some breaking changes as I prepare for the upcoming 1.0 release. See the [changelog](wiki/changelog) for details.
+
 # hyperpotamus intro
-YAML based HTTP script processing engine
+Hyperpotamus n. [hyper·pot·a·mus] - an easily scriptable HTTP client
+
+```YAML
+- request: # Send a request to httpbin.org with our pizza order
+    url: http://httpbin.org/post
+    method: POST
+    auth:
+      username: foo
+      password: bar
+    json:
+      crust: deep-dish
+      toppings: [ pepperoni, extra-cheese ]
+  response:
+    - json: # Capture the IP address from the response
+       ip_address: "$.origin" 
+    - print: Your IP Address is <% ip_address %>
+```
 
 This README just scratches the surface and gives you enough information to know what hyperpotamus tastes like to either 
 get excited or scratch your head and wonder why anyone would be interested. For those who get excited, it is worth 
 reading the [Hyperpotamus documentation wiki](http://github.com/pmarkert/hyperpotamus/wiki)
 
 ## What does hyperpotamus do?
-Hyperpotamus allows you to write simple, human-readable scripts using any text-editor to describe a sequence of web (HTTP/HTTPS) requests and actions that you want to take to verify or capture data from the responses. Hyperpotamus scripts support multi-step processes where you retrieve information from one request to print out or use in subsequent requests. For example, you may need to retrieve a listing of photos from one page before you select one or all of them to download.
+Hyperpotamus allows you to write simple, human-readable scripts using any text-editor to describe a sequence of web requests (HTTP/HTTPS) and actions that you want to take to verify or capture data from the responses. Hyperpotamus scripts support multi-step processes where information can be retrieved from the results of one request to print out or use in subsequent requests. For example, you may need to retrieve a listing of photos from one page before you select one or all of them to download on a second page. Hyperpotamus uses powerful dynamic macros to customize parameters in the web-requests. The values for these macros can be passed in on the command-line, read from a spreadsheet, loaded from a JSON/YAML data-file, captured from a previous request, or read in from the user running the script at a prompt.
 
 ## Why might someone want to do this? 
 There are many reasons that I have needed to use such a tool in my own career, including:
-* Setting up an automated suite of integration/regression tests for a new web-application
+* Invoking a JSON-based API to send requests, retrieve data and submit updates
 * Creating a monitoring system that checks urls a regular basis to make sure a website or webservice is working
-* Invoking a JSON-based API to send requests, retrieve data and submit updates in batches
+* Screen-scraping HTML to retrieve documents and/or data
+* Setting up an automated suite of integration/regression tests for a new web-application or API
 * Stress-testing a web application for performance optimization and tuning
 * **Boss (7:30pm):** Hey! We need to get all the products on this spreadsheet entered on the customer's website by 8:00am tomorrow morning, but it is taking our team of 5 people *forever* to fill out the 3-page form on their website to copy/paste the fields for each row to submit these 8,000 items! We really need you to jump in and help us with the click/copy/paste/submit party, the team is desperate! You didn't have any plans for tonight did you? I'll buy pizza!!
 
   **You:** Sure -- I'm happy to help! Send me the spreadsheet and give me about 20 minutes... oh, and deep-dish, please. Can you order it "to-go"?
 
 ### Sounds awesome, but do I have to be a ninja to use it?
-Well, it depends upon how complicated your scripting needs are. :) You can write some pretty simple scripts in just a few
-seconds. I've tried to make the scripting as easy and accessible as possible. There are lots of features in hyperpotamus 
-aimed at making it easy to write scripts. In spite of that simplicity, however, there is plenty of power when you are
-ready to dig deeper. And if that's not enough, you can extend and bend hyperpotamus to do your will by writing custom plugins.
+No. You can write some pretty simple scripts in just a few seconds. Hyperpotamus scripting was designed to be easy and accessible. In spite of that simplicity, however, there is plenty of power when you are ready to dig deeper. If that's not enough, you can even extend and bend hyperpotamus to do your will by writing custom plugins.
 
-And when you are ready to become a ninja, checkout the [hyperpotamus dojo](wiki/dojo).
+When you are ready to become a ninja, checkout the [hyperpotamus dojo](wiki/dojo).
 
 # Quickstart
 Assuming you already know how awesome it would be if you had the power to automate the www's right at your fingertips. Let's get started.
@@ -36,26 +52,28 @@ Assuming you already know how awesome it would be if you had the power to automa
  npm install -g hyperpotamus
  ```
  NOTE: If you are on a Mac (or linux), you will want to use `sudo` for administrator permissions.
+ ```
+ sudo npm install -g hyperpotamus
+ ```
 
 3. Create a text-file called "first.yml" with the following contents:
 
  ```yaml
  request: https://github.com/pmarkert/hyperpotamus
- response: YAML based HTTP script processing engine
+ response: "Web scripting with hyperpotamus ftw"
  ```
 
-4. Execute your script with
+4. Execute your script by running it with hyperpotamus:
  ```
  hyperpotamus first.yml
  ```
 
-If it worked, then you should see nothing-- pretty anti-climatic right? But WAIT! There's more!
+If everything worked, then you should see nothing-- pretty anti-climatic. I know, right? But WAIT! There's more!
 
 So what just happened? You made a script that requests the webpage specified on the first line and then checks to make sure
 that the text on the second line appears somewhere on the page.
 
-If you run the script again adding a few verbose flags (-v or -vv or -vvv) you will see what hyperpotamus is doing. The more v's you add,
-the more output you get. 
+If you run the script again adding a few verbose flags (-v or -vv or -vvv) you will see what hyperpotamus is doing. The more v's you add, the more output you get. 
 
 ## Some sample scripts
 The hyperpotamus YAML syntax attempts to be as simple and fluid as possible. There are lots of syntax shortcuts and sensible
@@ -73,32 +91,18 @@ http://www.google.com
 This script makes a request to the url and then runs the default validation rules. The default validation rules make sure
 that the request returns an HTTP 200 OK status code, but you can change that. 
 
-Paste the script it into a text file called `super-simple.yml` and run it with a few verbose flags like so: 
-
-`hyperpotamus super-simple.yml -vv`. 
-
 #### Multi-step scripts
 
-This script contains two separate steps, specified as a YAML array (with the - character). Each step makes a request to a
-different url. 
+This script contains two separate steps, specified in YAML as an array (with the - character). Each step makes a separate request to a different url. 
 
 examples/two-step.yml
 ```yaml
 - http://www.google.com
-- http://www.github.com
+- http://www.github.com/pmarkert/hyperpotamus
 ```
 
-If your script only has a single step as in the previous "super-simple" example, then you you can leave out the array and hyperpotamus will figure out what you meant.
-
 #### Shortcuts 
-Up until now we have been using some shortcuts. Hyperpotamus allows and encourges you to use shortcuts to keep your scripts simple. 
-
-One of the shortcuts that we have been using is that for each step, we did not have to specify the "request" property. If you
-do not need to modify the default validation rules for a step, then hyperpotamus lets you treat the whole step as the request
-configuration.
-
-The second shortcut that we have been using is that if the request only needs to specify the url, then you do not need to
-include the "url" property of the request configuration.
+Hyperpotamus allows and encourges you to use shortcuts to keep your scripts simple. One shortcut that we have been using is that if an action element (the entries in the script) is just a string, then hyperpotamus treats that string as the URL for a request to be made.
 
 examples/equivalent.yml
 
@@ -107,31 +111,27 @@ examples/equivalent.yml
 - http://github.com/pmarkert/hyperpotamus
 - request: http://github.com/pmarkert/hyperpotamus
 - request: 
-   url: http://github.com/pmarkert/hyperpotamus
+    url: http://github.com/pmarkert/hyperpotamus
+- request:
+    url: http://github.com/pmarkert/hyperpotamus
+    method: GET
 ```
-
-If you want to see how hyperpotamus understands and expands your script, run it with the --normalize flag and you will see
-the expanded version of your script in both JSON and YAML forms. This can also be helpful when troubleshooting indentation
-problems in your YAML.
 
 #### Customizing the request
-Hyperpotamus makes use of the most excellent [request module](https://github.com/request/request), so any option supported by
-[request](https://github.com/request/request) should work.  Some common customizations you may want to use include:
+If you want to get fancier with your requests, you can customize them. Hyperpotamus makes use of the excellent [request module](https://github.com/request/request), so any option supported by
+[request](https://github.com/request/request) should work with hyperpotamus as well.  
+
+Some common customizations you may want to use include:
 
 * modifying the HTTP method 
-* modifying standard headers like user-agent, accept-language, cache-control, etc.
-* sending cookies
+* modifying standard headers like user-agent, accept-language, cache-control, cookies, etc.
+* setting authentication data (basic auth, bearer tokens, digest, or others.)
 * setting custom headers
-* posting JSON, Form URL Encoded data, or multi-part file uploads
+* submitting JSON, Form URL Encoded data, or multi-part file uploads
 * requesting through proxy servers
-* automatically following redirects
+* disabling automatic redirect following
 
-#### POST example `examples/custom-request.yml`
-```yaml 
-- request: 
-   url: http://www.httpbin.org/post
-   method: POST
-```
+The example at the top of this README in the intro section demonstrates a few of these options.
 
 #### Checking the content of the response
 Sending requests with hyperpotamus is really only part of the story. Hyperpotamus also allows you to check or capture parts 
