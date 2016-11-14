@@ -1,62 +1,52 @@
-# hyperpotamus
+# hyperpotamus intro
 YAML based HTTP script processing engine
 
 This README just scratches the surface and gives you enough information to know what hyperpotamus tastes like to either 
 get excited or scratch your head and wonder why anyone would be interested. For those who get excited, it is worth 
 reading the [Hyperpotamus documentation wiki](http://github.com/pmarkert/hyperpotamus/wiki)
 
-### What does hyperpotamus do?
-Hyperpotamus allows you to write simple, human-readable scripts using any text-editor to describe a sequence of web (HTTP/s) requests
-and actions that you want to take to verify or capture data from the responses. Hyperpotamus scripts support multi-step
-processes where you retrieve information from one request to use in a subsequent request. For example, you may need to
-retrieve a listing of photos from one page before you select one or all of them to download.
+## What does hyperpotamus do?
+Hyperpotamus allows you to write simple, human-readable scripts using any text-editor to describe a sequence of web (HTTP/HTTPS) requests and actions that you want to take to verify or capture data from the responses. Hyperpotamus scripts support multi-step processes where you retrieve information from one request to print out or use in subsequent requests. For example, you may need to retrieve a listing of photos from one page before you select one or all of them to download.
 
-### Why might someone want to do this? 
+## Why might someone want to do this? 
 There are many reasons that I have needed to use such a tool in my own career, including:
 * Setting up an automated suite of integration/regression tests for a new web-application
-* Creating a monitoring system that checks on a periodic basis to make sure a website or webservice is working
-* Invoking a JSON-based API to send requests, retrieve data and submit updates
+* Creating a monitoring system that checks urls a regular basis to make sure a website or webservice is working
+* Invoking a JSON-based API to send requests, retrieve data and submit updates in batches
 * Stress-testing a web application for performance optimization and tuning
-* **Boss:** Hey, we need to get all of these products entered on the customer's website by tomorrow morning, but they don't have any automated API. 
-  I need you guys to fill out the 3-page form on their website to submit each one of these 5,000 items? You guys didn't have any plans tonight did 
-  you? I'll buy pizza!!
+* **Boss (7:30pm):** Hey! We need to get all the products on this spreadsheet entered on the customer's website by 8:00am tomorrow morning, but it is taking our team of 5 people *forever* to fill out the 3-page form on their website to copy/paste the fields for each row to submit these 8,000 items! We really need you to jump in and help us with the click/copy/paste/submit party, the team is desperate! You didn't have any plans for tonight did you? I'll buy pizza!!
 
-  **Me:** Send me the spreadsheet and give me about 20 minutes... oh, and deep-dish, please.
+  **You:** Sure -- I'm happy to help! Send me the spreadsheet and give me about 20 minutes... oh, and deep-dish, please. Can you order it "to-go"?
 
 ### Sounds awesome, but do I have to be a ninja to use it?
 Well, it depends upon how complicated your scripting needs are. :) You can write some pretty simple scripts in just a few
 seconds. I've tried to make the scripting as easy and accessible as possible. There are lots of features in hyperpotamus 
-that aim to make it easy to write scripts. In spite of that simplicity, however, there is quite a lot of power when you are
-ready to dig deeper. 
+aimed at making it easy to write scripts. In spite of that simplicity, however, there is plenty of power when you are
+ready to dig deeper. And if that's not enough, you can extend and bend hyperpotamus to do your will by writing custom plugins.
 
-Hyperpotamus is at the core a processing engine that can be embedded into other software, but it comes with a command-line
-program that you can use to drive it; there is currently no graphical user-interface, but I'm open for contributions if
-anyone is interested. 
+And when you are ready to become a ninja, checkout the [hyperpotamus dojo](wiki/dojo).
 
-If you can use a text editor and know how to use your computer's terminal/command-prompt to run some basic commands, then you
-have the technical skills you need to get started. Give this quickstart a try; if you make it through without crying, then
-you have what it takes. ;) 
-If, on the other hand, you do end up crying, don't give up! Persistence pays off and builds character 
--- [Romans 5:3-4](https://bible.com/59/rom.5.3-4.esv)
-
-## Quickstart
-Let's assume that you already know how awesome it would be if you had the power to automate the www's right at your
-fingertips. Let's get started.
+# Quickstart
+Assuming you already know how awesome it would be if you had the power to automate the www's right at your fingertips. Let's get started.
 
 1. Make sure you have [node.js](http://www.nodejs.org/) installed. Installing nodejs will also install npm, the node package manager.
+
 2. Open a command-prompt/terminal on your computer and type:
  ```
  npm install -g hyperpotamus
  ```
+ NOTE: If you are on a Mac (or linux), you will want to use `sudo` for administrator permissions.
+
 3. Create a text-file called "first.yml" with the following contents:
 
  ```yaml
  request: https://github.com/pmarkert/hyperpotamus
  response: YAML based HTTP script processing engine
  ```
+
 4. Execute your script with
  ```
- hyperpotamus first.yml --verbose
+ hyperpotamus first.yml
  ```
 
 If it worked, then you should see nothing-- pretty anti-climatic right? But WAIT! There's more!
@@ -64,7 +54,7 @@ If it worked, then you should see nothing-- pretty anti-climatic right? But WAIT
 So what just happened? You made a script that requests the webpage specified on the first line and then checks to make sure
 that the text on the second line appears somewhere on the page.
 
-If you run the script again adding a few verbose flags (-vvv) you will see what hyperpotamus is doing. The more v's you add,
+If you run the script again adding a few verbose flags (-v or -vv or -vvv) you will see what hyperpotamus is doing. The more v's you add,
 the more output you get. 
 
 ## Some sample scripts
