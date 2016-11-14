@@ -1,4 +1,4 @@
-**UPDATE:** There have been some significant improvements that have unfortunately required some breaking changes as I prepare for the upcoming 1.0 release. See the [changelog](wiki/changelog) for details.
+**UPDATE:** There have been some significant improvements that have unfortunately required some breaking changes as I prepare for the upcoming 1.0 release. See the [changelog](https://github.com/pmarkert/hyperpotamus/wiki/changelog) for details.
 
 # hyperpotamus intro
 Hyperpotamus n. [hyper·pot·a·mus] - an easily scriptable HTTP client
@@ -40,7 +40,7 @@ There are many reasons that I have needed to use such a tool in my own career, i
 ### Sounds awesome, but do I have to be a ninja to use it?
 No. You can write some pretty simple scripts in just a few seconds. Hyperpotamus scripting was designed to be easy and accessible. In spite of that simplicity, however, there is plenty of power when you are ready to dig deeper. If that's not enough, you can even extend and bend hyperpotamus to do your will by writing custom plugins.
 
-When you are ready to become a ninja, checkout the [hyperpotamus dojo](wiki/dojo).
+When you are ready to become a ninja, checkout the [hyperpotamus dojo](https://github.com/pmarkert/hyperpotamus/wiki/dojo).
 
 # Quickstart
 Assuming you already know how awesome it would be if you had the power to automate the www's right at your fingertips. Let's get started.
