@@ -14,6 +14,6 @@
 - actions: 
     - set: 
         sleep_amount: <%$ 4000 %> 
-    - emit: "<%: YYYY-MM-DD hh:mm:ss.SSS %> Sleeping for <% sleep_amount %>" 
+    - emit: "<%: YYYY-MM-DD HH:mm:ss.SSS %> Sleeping for <% sleep_amount %>" 
     - delay: <% sleep_amount %> 
-    - emit: "<%: YYYY-MM-DD hh:mm:ss.SSS %> Done"
+    - emit: "<%: YYYY-MM-DD HH:mm:ss.SSS %> Done"
