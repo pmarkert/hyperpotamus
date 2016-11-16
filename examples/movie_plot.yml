@@ -1,0 +1,14 @@
+#!/usr/bin/env hyperpotamus
+- prompt: 
+    title: Movie title
+
+- request: http://www.omdbapi.com/?t=<% title | urlencode %>&y=&plot=full&r=json
+  response:
+    - status: 200
+    - json:
+        plot: "$.Plot"
+      on_failure:
+        - print: "Movie not found"
+        - goto: END
+    - print: <% plot %>
+    

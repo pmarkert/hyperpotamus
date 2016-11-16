@@ -1,0 +1,18 @@
+- prompt:
+    artist: Please enter all or part of an artist's name
+
+- request:
+    url: https://api.spotify.com/v1/search?q=<% artist | urlencode %>&type=artist
+  response:
+    - status: 200
+    - json:
+        names: [ "$.artists.items[?(@.images[0])].name" ]
+        images: [ "$.artists.items[?(@.images[0])].images[0].url" ]
+      debugger: true
+
+- request:
+    url: <% images | current %>
+    encoding: null
+  response:
+   - save: 'images/<% names | current %>.jpeg'
+   - iterate: [ names, images ]
