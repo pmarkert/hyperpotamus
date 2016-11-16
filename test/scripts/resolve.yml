@@ -2,5 +2,5 @@ actions:
  - set:
     base: 'http://example.com/one'
  - set:
-    answer: <% base | resolve_url,/two %>
+    answer: <% '/two' | resolve_url,`base` %>
  - equals: [ <% answer %>, "http://example.com/two" ]
