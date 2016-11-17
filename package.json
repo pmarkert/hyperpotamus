@@ -35,7 +35,7 @@
     "colors": "^1.0.3",
     "fast-csv": "^2.3.0",
     "js-yaml": "^3.6.1",
-    "jsonpath": "^0.2.7",
+    "jsonpath": "^0.2.8",
     "lodash": "^4.16.6",
     "markup-js": "https://github.com/pmarkert/Markup.js/tarball/19fa3d77b91977aabdbddd42c307dcd1f172a22b",
     "mkdirp": "^0.5.0",
