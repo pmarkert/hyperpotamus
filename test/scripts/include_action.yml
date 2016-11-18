@@ -1,0 +1,3 @@
+- !!inc/file ./includes/action.yml
+
+- equals: [ <%! data.included %>, true ]

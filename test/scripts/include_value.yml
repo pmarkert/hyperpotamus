@@ -1,0 +1,4 @@
+- set:
+    data: !!inc/file ./includes/value.yml
+
+- equals: [ <%! data %>, "included" ]

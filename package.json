@@ -48,6 +48,7 @@
     "tough-cookie": "^2.3.2",
     "xmldom": "^0.1.19",
     "xpath": "0.0.23",
+    "yaml-include": "^1.2.0",
     "yargs": "^6.3.0"
   },
   "devDependencies": {
