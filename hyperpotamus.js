@@ -39,7 +39,7 @@ var script;
 
 var processor = new hyperpotamus.Processor({ safe: args.safe, plugins: args.plugins, emit: emit });
 try {
-	script = hyperpotamus.yaml.loadFile(args.file, args.safe);
+	script = hyperpotamus.yaml.loadFile(args.file, !args.safe);
 }
 catch (ex) {
 	console.trace("Error loading yaml script - " + ex);
