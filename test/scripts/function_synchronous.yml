@@ -1,0 +1,6 @@
+- function: !!js/function >
+    function(context) {
+      context.session["executed"] = "a";
+    }
+
+- equals: [ <% executed %>, "a" ]

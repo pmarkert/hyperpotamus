@@ -1,0 +1,8 @@
+- function: !!js/function >
+    function(context, callback) {
+      context.session["executed"] = "a";
+      callback();
+      return { message: "This error should not have caused a failure, but callback() should have been processed as successful instead." }; 
+    }
+
+- equals: [ <% executed %>, "a" ]
