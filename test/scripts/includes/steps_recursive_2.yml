@@ -1,0 +1,3 @@
+- actions:
+  - set:
+     third_step: true

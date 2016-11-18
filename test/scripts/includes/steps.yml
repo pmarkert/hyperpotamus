@@ -1,0 +1,7 @@
+- actions:
+  - set:
+     first_step: true
+
+- actions:
+  - set:
+     second_step: true

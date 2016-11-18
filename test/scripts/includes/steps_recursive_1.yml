@@ -1,0 +1,11 @@
+- actions:
+  - set:
+     first_step: true
+
+- actions:
+  - set:
+     second_step: true
+
+# NOTE: yaml-include does not rebase the url from one include to another, so all paths
+# are relative to the original script that was loaded.
+- steps: !!inc/file includes/steps_recursive_2.yml

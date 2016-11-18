@@ -1,0 +1,2 @@
+- steps: !!inc/file ./includes/steps.yml
+- equals: [ <%! first_step %>, <%! second_step %>, true ]
