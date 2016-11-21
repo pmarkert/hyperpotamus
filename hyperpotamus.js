@@ -37,14 +37,35 @@ var outfile = args.output ? fs.createWriteStream(args.output) : process.stdout;
 
 var script;
 
-var processor = new hyperpotamus.Processor({ safe: args.safe, plugins: args.plugins, emit: emit });
+var plugins_to_load = [];
+var auto_load_plugins = false;
+if(!_.isNil(args.plugins)) {
+	// Check for (and filter true/"true" from args.plugins) to look for "auto-load"
+	plugins_to_load = _.without(_.castArray(args.plugins), true, "true");
+	auto_load_plugins = plugins_to_load.length < _.castArray(args.plugins).length;
+}
+
+var processor = new hyperpotamus.Processor({ safe: args.safe, emit: emit, auto_load_plugins: auto_load_plugins });
+
 try {
-	script = hyperpotamus.yaml.loadFile(args.file, !args.safe);
+	if (plugins_to_load.length) {
+		debugger;
+		processor.plugins.load(plugins_to_load);
+	}
+}
+catch(ex) {
+	console.trace("Error loading plugins - " + ex);
+	process.exit(1);
+}
+
+try {
+	script = processor.loadFile(args.file);
 }
 catch (ex) {
 	console.trace("Error loading yaml script - " + ex);
 	process.exit(1);
 }
+
 
 // Pre-normalize script if we run it in a loop and for display/logging
 try {
@@ -75,21 +96,19 @@ var queue = async.queue(function (session, callback) {
 	logger.debug("About to start session for " + JSON.stringify(session));
 	// Copy in default session values
 	var local_session = _.merge({}, default_session, session);
-	processor.process_script(script, local_session,
-		function (err, context) {
-			if (err) {
-				console.error("Error - " + JSON.stringify(err, null, 2));
-				process.exit(1);
-			}
-			logger.info("Final session data is " + JSON.stringify(context.session, null, 2));
-			if (args.echo) {
-				console.log(processor.interpolate(args.echo, context.session));
-			}
-			if (callback) {
-				callback();
-			}
-		},
-		args.start);
+	processor.process(script, local_session, function (err, context) {
+		if (err) {
+			console.error("Error - " + JSON.stringify(err, null, 2));
+			process.exit(1);
+		}
+		logger.info("Final session data is " + JSON.stringify(context.session, null, 2));
+		if (args.echo) {
+			console.log(processor.interpolate(args.echo, context.session));
+		}
+		if (callback) {
+			callback();
+		}
+	}, args.start);
 }, args.concurrency);
 
 // Handler for graceful (or forced) shutdown
