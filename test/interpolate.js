@@ -98,12 +98,12 @@ describe("String Interpolation", function() {
 			var min = 3, max=3;
 			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 		});
-		it("Should throw an error if min > max", function() {
+		it("Should throw an error if min > max", function(callback) {
 			var min = 4, max=3;
 			try {
 				verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 				assert.fail("Should have thrown an error");
-			} catch(err) { };
+			} catch(err) { callback(); };
 		});
 		it("Should generate a random number from X -> X+1 (same number)", function() {
 			var min = 3, max=4;
