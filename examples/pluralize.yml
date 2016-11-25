@@ -3,7 +3,7 @@
     word: Enter the word to be pluralized
 
 - request:
-    url: https://7i58rpf81m.execute-api.us-east-1.amazonaws.com/production/pluralize
+    url: https://7i58rpf81m.execute-api.us-east-1.amazonaws.com/production/examples/pluralize
     method: POST
     json: 
       word: <% word %>
