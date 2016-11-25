@@ -1,0 +1,14 @@
+#!/usr/bin/env hyperpotamus
+- prompt:
+    word: Enter the word to be pluralized
+
+- request:
+    url: https://7i58rpf81m.execute-api.us-east-1.amazonaws.com/production/pluralize
+    method: POST
+    json: 
+      word: <% word %>
+  response:
+    - json: 
+        answer: "$.answer"
+        version: "$.version"
+    - print: The plural of <% word %> is <% answer %>

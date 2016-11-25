@@ -1,0 +1,6 @@
+- request:
+    url: http://httpbin.org/post
+    method: POST
+    form:
+      username: <% username %>
+      password: <% password %>
