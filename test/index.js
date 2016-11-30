@@ -17,9 +17,7 @@ function run_scripts(dir, extension, data, should_expect_failure, done) {
 				processor.processFile(path.join(__dirname, dir, filename), _.clone(data), should_expect_failure ? expect_failure(done) : done);
 			});
 		}
-	}, function(err) {
-		done(err);
-	});
+	}, done);
 }
 
 function expect_failure(done) {
