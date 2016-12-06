@@ -103,7 +103,7 @@ var queue = async.queue(function (session, callback) {
 		}
 		logger.info("Final session data is " + JSON.stringify(context.session, null, 2));
 		if (args.echo) {
-			console.log(processor.interpolate(args.echo, context.session));
+			console.log(context.interpolate(args.echo));
 		}
 		if (callback) {
 			callback();
