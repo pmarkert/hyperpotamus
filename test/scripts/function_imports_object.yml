@@ -5,9 +5,8 @@
        _ : "lodash"
      function: !!js/function >
        function(context) {
-         for(var i=0; i<3; i++) { 
-           if(!this.imports[i]) { 
-             return "Expected imports to be populated";
-           }
+         if(!this.imports.crypto.createHash || !this.imports.URL.parse || !(typeof(this.imports._)=="function")) {
+           return "Expected imports to be populated";
          }
        }
+     debugger: true
