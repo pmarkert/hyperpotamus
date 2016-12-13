@@ -37,7 +37,7 @@
     "js-yaml": "^3.7.0",
     "jsonpath": "^0.2.8",
     "lodash": "^4.17.2",
-    "markup-js": "https://github.com/pmarkert/Markup.js/tarball/19fa3d77b91977aabdbddd42c307dcd1f172a22b",
+    "markup-js": "https://github.com/pmarkert/Markup.js/tarball/d4ecc5d41ceeefc1ae48c22f4791cba5fc60bc47",
     "mkdirp": "^0.5.0",
     "moment": "^2.16.0",
     "named-regexp": "^0.1.1",
