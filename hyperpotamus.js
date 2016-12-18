@@ -105,7 +105,7 @@ var queue = async.queue(function (session, callback) {
 			callback();
 		}
 	}).catch(err => {
-		console.error("Error - " + JSON.stringify(err, null, 2));
+		console.error("Error - " + err);
 		process.exit(1);
 	})
 	}, args.concurrency);
