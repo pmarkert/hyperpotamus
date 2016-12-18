@@ -1,29 +1,24 @@
 var _ = require("lodash");
-var async = require("async");
+exports.expected_failure = { message: "Expected failure" };
 
-module.exports.expected_failure = { message: "Expected failure" };
-
-module.exports.instance = function instance(session) {
+exports.instance = function instance(session) {
 	return {
 		session: _.defaultTo(session, {}),
 		processed_actions: [],
-		process_action: function (action, context, done) {
+		process_action: function (action, context) {
 			var self = this;
 			if (_.isArray(action)) {
 				// Loop through each response validation step and verify
-				return async.eachSeries(action, function (single_action, callback) {
-					self.process_action(single_action, context, callback);
-				}, done);
+				return Promise.all(action.map(single_action => self.process_action(single_action, context)));
 			}
 			this.processed_actions.push(action);
 			if (action === true) {
-				if(done) { done() };
-				return;
+				return Promise.resolve(true);
 			}
 			if (action === false) {
-				if(done) { done(module.exports.expected_failure) };
-				return module.exports.expected_failure;
+				return Promise.reject(exports.expected_failure);
 			}
+			throw new Error("Action type has not been implemented for mock-context");
 		}
 	}
 }

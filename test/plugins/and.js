@@ -52,33 +52,22 @@ describe("and plugin", function () {
 	});
 
 	describe("process", function () {
-		it("should process nested actions", function (done) {
+		it("should process nested actions", function () {
 			var context = mock_context.instance();
 			var to_process = { and: [true, true] };
-			_and.process.call(to_process, context, function (result) {
-				try {
-					assert.equal(null, result, "Should have succeeded");
-					assert.deepEqual(to_process.and, context.processed_actions, "Processed actions should have matched");
-					done();
-				}
-				catch (err) {
-					done(err);
-				}
+			return _and.process.call(to_process, context).then(result => {
+				assert.deepEqual(to_process.and, context.processed_actions, "Processed actions should have matched");
 			});
 		});
 
-		it("should fail with nested failing actions", function (done) {
+		it("should fail with nested failing actions", function () {
 			var context = mock_context.instance();
 			var to_process = { and: [true, false] };
-			_and.process.call(to_process, context, function (result) {
-				try {
-					assert.equal(mock_context.expected_failure, result, "Should not have succeeded");
-					assert.deepEqual(to_process.and, context.processed_actions, "Processed actions should have matched");
-					done();
-				}
-				catch (err) {
-					done(err);
-				}
+			return _and.process.call(to_process, context).then(result => {
+				assert.fail("Should not have succeeded");
+			})
+			.catch(result => {
+				assert.deepEqual(to_process.and, context.processed_actions, "Processed actions should have matched");
 			});
 		});
 	});

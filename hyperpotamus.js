@@ -96,11 +96,7 @@ var queue = async.queue(function (session, callback) {
 	logger.debug("About to start session for " + JSON.stringify(session));
 	// Copy in default session values
 	var local_session = _.merge({}, default_session, session);
-	processor.process(script, local_session, function (err, context) {
-		if (err) {
-			console.error("Error - " + JSON.stringify(err, null, 2));
-			process.exit(1);
-		}
+	processor.process(script, local_session, args.start).then( context => {
 		logger.info("Final session data is " + JSON.stringify(context.session, null, 2));
 		if (args.echo) {
 			console.log(context.interpolate(args.echo));
@@ -108,8 +104,11 @@ var queue = async.queue(function (session, callback) {
 		if (callback) {
 			callback();
 		}
-	}, args.start);
-}, args.concurrency);
+	}).catch(err => {
+		console.error("Error - " + JSON.stringify(err, null, 2));
+		process.exit(1);
+	})
+	}, args.concurrency);
 
 // Handler for graceful (or forced) shutdown
 var exiting = false;
