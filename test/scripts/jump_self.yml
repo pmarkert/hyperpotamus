@@ -1,0 +1,11 @@
+- set: 
+    visited: 0
+    
+- if: 
+    less_than: [ <%! visited %>, 3 ]
+  then:
+     - set:
+         visited: <%! visited | plus,1 %>
+     - goto: SELF 
+
+- equals: [ <% visited %>, 3 ]
