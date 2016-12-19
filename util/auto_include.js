@@ -17,8 +17,8 @@ function find_include_files(include_path, ignores) {
 	);
 }
 
-module.exports = function (include_path, a) {
-	var ignores = _.isArray(a) ? a : [];
+module.exports = function (include_path, ignores) {
+	ignores = _.castArray(ignores);
 
 	var includes = find_include_files(include_path, ignores);
 	var result = {};
