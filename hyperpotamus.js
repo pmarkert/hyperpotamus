@@ -105,7 +105,9 @@ var queue = async.queue(function (session, callback) {
 			callback();
 		}
 	}).catch(err => {
-		console.error("Error - " + err);
+		logger.error(`Script processing failed. ${err}`);
+		if(err.action) logger.info("Failed action - \n" + yaml.dump(err.action)); 
+		if(err.step) logger.debug("Failed step - \n" + yaml.dump(err.step)); 
 		process.exit(1);
 	})
 	}, args.concurrency);
@@ -174,7 +176,7 @@ function run() {
 		refill();
 	}
 	else {
-		logger.info("Processing script.");
+		logger.trace("Processing script.");
 		queue.push({});
 	}
 }
