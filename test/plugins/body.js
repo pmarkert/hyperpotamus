@@ -30,10 +30,10 @@ describe("body plugin", function () {
 			try {
 				var result = _body.process.call(to_process, context);
 				assert.notEqual(result, null, "Should have failed");
-				done();
 			}
 			catch (err) {
-				done(err);
+				if(err && err.message && err.message.indexOf("response")>=0) done();
+				else done(err);
 			}
 		});
 	});

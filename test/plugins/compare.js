@@ -181,11 +181,10 @@ describe("compare plugin", function () {
 			var to_process = { compare: { array: ['a', 'a'], operator: "!=" } };
 			try {
 				var result = _compare.process.call(to_process, context);
-				assert.notEqual(null, result, "Should have failed");
-				done();
+				done("Should have failed");
 			}
 			catch (err) {
-				done(err);
+				done();
 			}
 		});
 
@@ -194,11 +193,10 @@ describe("compare plugin", function () {
 			var to_process = { compare: { array: ['a', 'b'], operator: "==" } };
 			try {
 				var result = _compare.process.call(to_process, context);
-				assert.notEqual(null, result, "Should have failed");
-				done();
+				done("Should have failed");
 			}
 			catch (err) {
-				done(err);
+				done();
 			}
 		});
 	});

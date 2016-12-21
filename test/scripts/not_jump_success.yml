@@ -1,7 +1,4 @@
-- request: http://localhost:3000/get?url=medium
-  response:
-    not :
-      text: 'not found'
-    on_success: END
-- request: http://localhost:3000/get
-  response: Should not process
+- not :
+    fail: Error
+  on_success: END
+- fail: Should not process
