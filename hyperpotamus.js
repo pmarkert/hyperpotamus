@@ -105,9 +105,10 @@ var queue = async.queue(function (session, callback) {
 			callback();
 		}
 	}).catch(err => {
-		logger.error(`Script processing failed. ${err}`);
 		if(err.action) logger.info("Failed action - \n" + yaml.dump(err.action)); 
 		if(err.step) logger.debug("Failed step - \n" + yaml.dump(err.step)); 
+		if(err.stack) logger.error("Script procesing failed. - " + err.stack);
+		else logger.error(`Script processing failed. ${err}`);
 		process.exit(1);
 	})
 	}, args.concurrency);
