@@ -1,6 +1,6 @@
 {
   "name": "hyperpotamus",
-  "version": "0.28.3",
+  "version": "0.28.4",
   "description": "YAML based HTTP script processing engine",
   "homepage": "https://github.com/pmarkert/hyperpotamus/wiki",
   "main": "lib/index.js",
