@@ -1,5 +1,7 @@
 **UPDATE:** There have been some significant improvements that have unfortunately required some breaking changes as I prepare for the upcoming 1.0 release. See the [changelog](https://github.com/pmarkert/hyperpotamus/wiki/changelog) for details.
 
+![Hyperpotamus](docs/images/hyperpotamus_logo.png)
+
 # hyperpotamus intro
 Hyperpotamus n. [hyper·pot·a·mus] - an easily scriptable HTTP client
 
