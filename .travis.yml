@@ -1,4 +1,13 @@
 language: node_js
 node_js:
-  - "4"
-  - "node"
+  - '4'
+  - node
+deploy:
+  provider: npm
+  email: phillip@ephisys.com
+  api_key:
+    secure: R0OqHD0PMj4wfs8/M2kULpRKp5VSHpD3FDUNXhFeovhpOUVj1uEIORFZ67Kggaa6RDIaXviCjsggQlwUKNNkVWhkA4at4r6G9Fm+WEXts478+aIZsCCXU4JcZlj8o1ghd7ybGuvELmgsPhl4d5HhKb7EB+9iYBfpGZvQobppzK0=
+  on:
+    tags: true
+    repo: pmarkert/hyperpotamus
+    branch: master
