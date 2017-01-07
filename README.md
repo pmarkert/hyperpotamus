@@ -1,7 +1,8 @@
-[![npm](https://img.shields.io/npm/dt/hyperpotamus.svg)](https://www.npmjs.com/package/hyperpotamus)
-[![npm](https://img.shields.io/npm/v/hyperpotamus.svg)](https://www.npmjs.com/package/hyperpotamus)
-[![npm](https://img.shields.io/travis/pmarkert/hyperpotamus/master.svg)](https://travis-ci.org/pmarkert/hyperpotamus)
-[![npm](https://img.shields.io/npm/l/hyperpotamus.svg)](https://github.com/pmarkert/hyperpotamus/blob/master/LICENSE)
+[![downloads](https://img.shields.io/npm/dt/hyperpotamus.svg)](https://www.npmjs.com/package/hyperpotamus)
+[![latest version](https://img.shields.io/npm/v/hyperpotamus.svg)](https://www.npmjs.com/package/hyperpotamus)
+[![build status](https://img.shields.io/travis/pmarkert/hyperpotamus/master.svg)](https://travis-ci.org/pmarkert/hyperpotamus)
+[![license](https://img.shields.io/npm/l/hyperpotamus.svg)](https://github.com/pmarkert/hyperpotamus/blob/master/LICENSE)
+[![chat](https://badges.gitter.im/hyperpotamus_js/general.svg)](https://gitter.im/hyperpotamus_js/general)
 
 **UPDATE:** There have been some significant improvements that have unfortunately required some breaking changes as I prepare for the upcoming 1.0 release. See the [changelog](https://github.com/pmarkert/hyperpotamus/wiki/changelog) for details.
 
