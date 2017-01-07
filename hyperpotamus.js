@@ -107,8 +107,8 @@ var queue = async.queue(function (session, callback) {
 	}).catch(err => {
 		if(err.action) logger.info("Failed action - \n" + yaml.dump(err.action)); 
 		if(err.step) logger.debug("Failed step - \n" + yaml.dump(err.step)); 
-		if(err.name) logger.warn(`For more information about this error, see\n  https://github.com/pmarkert/hyperpotamus/wiki/errors/${err.name}`);
 		logger.error(`Script processing failed.\n${err.stack || err}`);
+		if(err.name) logger.warn(`For more information about this error, see  https://github.com/pmarkert/hyperpotamus/wiki/errors/${err.name}`);
 		process.exit(1);
 	})
 	}, args.concurrency);
