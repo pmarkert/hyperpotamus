@@ -1,0 +1,12 @@
+steps:
+  - actions:
+      - not:
+          or:
+            - fail: Explicit false
+              path: $.steps.0.actions.0.not.or.0
+            - fail: Explicit false
+              path: $.steps.0.actions.0.not.or.1
+          path: $.steps.0.actions.0.not
+        path: $.steps.0.actions.0
+    path: $.steps.0
+normalized: true

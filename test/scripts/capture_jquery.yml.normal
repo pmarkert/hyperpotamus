@@ -3,28 +3,33 @@ steps:
       - request:
           url: 'http://localhost:3000/static/test.html'
         response:
-            - text: This is a test
-            - jquery: a
-              count: 2
-              capture:
-                href: '@href'
-                text: text
-                innerHTML: innerHTML
-                html: html
-                outerHTML: outerHTML
-                all_href:
-                  - '@href'
-                all_text:
-                  - text
-                all_innerHTML:
-                  - innerHTML
-                all_html:
-                  - html
-                all_outerHTML:
-                  - outerHTML
-            - compare:
-                operator: =
-                array:
-                  - Link 1
-                  - '<% text %>'
+          - text: This is a test
+            path: $.steps.0.actions.0.response.0
+          - jquery: a
+            count: 2
+            capture:
+              href: '@href'
+              text: text
+              innerHTML: innerHTML
+              html: html
+              outerHTML: outerHTML
+              all_href:
+                - '@href'
+              all_text:
+                - text
+              all_innerHTML:
+                - innerHTML
+              all_html:
+                - html
+              all_outerHTML:
+                - outerHTML
+            path: $.steps.0.actions.0.response.1
+          - compare:
+              operator: =
+              array:
+                - Link 1
+                - <% text %>
+            path: $.steps.0.actions.0.response.2
+        path: $.steps.0.actions.0
+    path: $.steps.0
 normalized: true

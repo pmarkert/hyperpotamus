@@ -1,0 +1,24 @@
+steps:
+  - name: form_post_literal
+    actions:
+      - request:
+          url: 'http://localhost:3000/get'
+        response:
+          - text: do not match
+            on_failure:
+              goto: json_post
+              path: $.steps.0.actions.0.response.0.on_failure
+            path: $.steps.0.actions.0.response.0
+        path: $.steps.0.actions.0
+    path: $.steps.0
+  - actions:
+      - fail: Should have been skipped
+        path: $.steps.1.actions.0
+    path: $.steps.1
+  - name: json_post
+    actions:
+      - request:
+          url: 'http://localhost:3000/get'
+        path: $.steps.2.actions.0
+    path: $.steps.2
+normalized: true

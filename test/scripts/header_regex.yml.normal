@@ -1,0 +1,14 @@
+steps:
+  - actions:
+      - request:
+          url: 'http://localhost:3000/get?url=medium'
+        response:
+          headers:
+            content-type:
+              regex:
+                pattern: application\/json.*
+                options: ''
+          path: $.steps.0.actions.0.response
+        path: $.steps.0.actions.0
+    path: $.steps.0
+normalized: true

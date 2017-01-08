@@ -6,6 +6,7 @@ var fs = require("fs");
 var async = require("async");
 var yaml = require("js-yaml");
 var hyperpotamus = require("./lib");
+var verror = require("verror");
 
 var logger = hyperpotamus.logging.logger("hyperpotamus.cli");
 
@@ -72,7 +73,8 @@ try {
 	script = processor.normalize(script);
 }
 catch (ex) {
-	console.trace("Error normalizing script - " + ex);
+	logger.error("Error normalizing script - " + ex);
+	logger.info(ex.stack);
 	process.exit(1);
 }
 
@@ -105,10 +107,13 @@ var queue = async.queue(function (session, callback) {
 			callback();
 		}
 	}).catch(err => {
-		if(err.action) logger.info("Failed action - \n" + yaml.dump(err.action)); 
-		if(err.step) logger.debug("Failed step - \n" + yaml.dump(err.step)); 
-		logger.error(`Script processing failed.\n${err.stack || err}`);
-		if(err.name) logger.warn(`For more information about this error, see  https://github.com/pmarkert/hyperpotamus/wiki/errors/${err.name}`);
+		logger.debug(`Error stack-trace:\n${err.stack}`);
+		var info = verror.info(err);
+		if(info) {
+			logger.info(`Error meta-data:\n${yaml.dump(info).trim()}`);
+		}
+		if(err.name) logger.warn(`For more information about this error, see\n  https://github.com/pmarkert/hyperpotamus/wiki/errors#${err.name}`);
+		logger.error(`Script processing failed.\n${err}`);
 		process.exit(1);
 	})
 	}, args.concurrency);

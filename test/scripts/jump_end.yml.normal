@@ -1,0 +1,23 @@
+steps:
+  - name: form_post_literal
+    actions:
+      - request:
+          url: 'http://localhost:3000/get'
+        response:
+          status: 200
+          on_success:
+            goto: END
+            path: $.steps.0.actions.0.response.on_success
+          path: $.steps.0.actions.0.response
+        path: $.steps.0.actions.0
+    path: $.steps.0
+  - name: form_post_data
+    actions:
+      - request:
+          url: 'http://localhost:3000/get'
+        response:
+          text: This request should not be executed
+          path: $.steps.1.actions.0.response
+        path: $.steps.1.actions.0
+    path: $.steps.1
+normalized: true

@@ -1,5 +1,6 @@
 steps:
   - actions:
       delay: 1
+      path: $.steps.0.actions
+    path: $.steps.0
 normalized: true
-

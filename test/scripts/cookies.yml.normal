@@ -1,0 +1,23 @@
+steps:
+  - actions:
+      - request:
+          url: 'http://localhost:3000/cookie?cookie1=value2'
+        path: $.steps.0.actions.0
+    path: $.steps.0
+  - actions:
+      - request:
+          url: 'http://localhost:3000/cookie'
+          json: true
+        response:
+          - json:
+              cookie1: $.cookies.cookie1
+            path: $.steps.1.actions.0.response.0
+          - compare:
+              operator: =
+              array:
+                - <% cookie1 %>
+                - value2
+            path: $.steps.1.actions.0.response.1
+        path: $.steps.1.actions.0
+    path: $.steps.1
+normalized: true

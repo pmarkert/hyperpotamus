@@ -1,0 +1,12 @@
+steps:
+  - actions:
+      - request:
+          url: 'http://localhost:3000/get'
+          headers:
+            custom-header: Funky
+        response:
+          text: '"custom-header":"Funky"'
+          path: $.steps.0.actions.0.response
+        path: $.steps.0.actions.0
+    path: $.steps.0
+normalized: true

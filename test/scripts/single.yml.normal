@@ -2,4 +2,6 @@ steps:
   - actions:
       - request:
           url: 'http://localhost:3000/get'
+        path: $.steps.0.actions.0
+    path: $.steps.0
 normalized: true

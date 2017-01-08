@@ -1,0 +1,11 @@
+steps:
+  - actions:
+      - response_defaults:
+          - status: 500
+            path: $.steps.0.actions.0.response_defaults.0
+        path: $.steps.0.actions.0
+      - request:
+          url: 'http://localhost:3000/status/500'
+        path: $.steps.0.actions.1
+    path: $.steps.0
+normalized: true

@@ -2,7 +2,11 @@ steps:
   - actions:
       - request:
           url: 'http://localhost:3000/get?url=one'
+        path: $.steps.0.actions.0
+    path: $.steps.0
   - actions:
       - request:
           url: 'http://localhost:3000/get?url=two'
+        path: $.steps.1.actions.0
+    path: $.steps.1
 normalized: true
