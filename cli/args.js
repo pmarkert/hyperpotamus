@@ -1,17 +1,13 @@
-var package = require("./package.json");
+var package = require("../package.json");
 
-module.exports = require("yargs")
+var args = require("yargs")
 	.usage("Run a hyperpotamus script (http://github.com/pmarkert/hyperpotamus)\nUsage: $0")
 	.example("$0 filename.yml", "Executes the script in filename.yml")
-	.example("$0 -f filename.yml -e 'Name was <%first%>'", "Executes filename.yml script, and prints the results of the interpolated string")
 	.example("$0 get_ranking.yml --csv users.csv --qs 'username=admin&password=secret'", "Executes the get_ranking.yml script once for each record in the .csv file")
 	.example("$0 script.yml --loop --concurrency=4", "Repeatedly executes script.yml in a loop, 4 at a time until Ctrl-C is pressed.")
 	.alias("file", "f")
 	.describe("file", "The YAML script to be executed")
 	.requiresArg("file")
-	.alias("echo", "e")
-	.describe("echo", "After the script has completed, prints the results of the interpolated string")
-	.requiresArg("echo")
 	.describe("qs", "Query-string encoded initial session state. HINT: enclose in '' to prevent special characters like & from being processed by the shell")
 	.requiresArg("qs")
 	.describe("csv", "Load session state data from a csv file (headers on the first line) and execute the script once for each record")
@@ -52,3 +48,9 @@ module.exports = require("yargs")
 	.version(package.version)
 	.strict()
 	.argv;
+
+if (!args.file) {
+	args.file = args._[0];
+}
+
+module.exports = args;
