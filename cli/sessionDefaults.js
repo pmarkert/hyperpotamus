@@ -2,7 +2,7 @@ var _ = require("lodash");
 var querystring = require("querystring");
 var yaml = require("../lib/yaml");
 
-module.exports = function(args) {
+module.exports = function (args) {
 	// Now load data for the default session state from querystring and data files
 	var defaultSession = {};
 	if (args.qs) {
