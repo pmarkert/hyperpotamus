@@ -31,6 +31,7 @@
   ],
   "dependencies": {
     "async": "^2.1.2",
+    "aws-sdk": "^2.7.21",
     "bluebird": "^3.4.6",
     "cheerio": "^0.22.0",
     "colors": "^1.0.3",
@@ -68,11 +69,16 @@
       "node": true
     },
     "extends": "eslint:recommended",
+    "globals": {
+      "Mark": true
+    },
     "rules": {
       "indent": [
         "error",
         "tab",
-        { "SwitchCase" : 1 }
+        {
+          "SwitchCase": 1
+        }
       ],
       "linebreak-style": [
         "error",

@@ -24,6 +24,7 @@ module.exports.normalize = function (action) {
 	}
 };
 
+// eslint-disable-next-line no-unused-vars
 module.exports.process = function (context) {
 	return;
-}
+};

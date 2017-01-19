@@ -26,4 +26,4 @@ module.exports = function (include_path, ignores) {
 		result[path.basename(include, ".js")] = require(include_path + "/" + include);
 	});
 	return result;
-}
+};

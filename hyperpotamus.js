@@ -2,7 +2,6 @@
 /* eslint-disable no-console */
 var _ = require("lodash");
 var csv = require("fast-csv");
-var fs = require("fs");
 var async = require("async");
 var yaml = require("js-yaml");
 var hyperpotamus = require("./lib");

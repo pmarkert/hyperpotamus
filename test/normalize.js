@@ -5,10 +5,8 @@ var async = require("async");
 var fs = require("fs");
 var path = require("path");
 var chai = require("chai");
+chai.should();
 chai.config.showDiff = true;
-var should = chai.should();
-var _ = require("lodash");
-var useragent = require("../lib/useragent");
 
 var plugins = new Plugins();
 
@@ -32,7 +30,7 @@ function run_normalization_tests(dir, done) {
 				normalized.should.deep.equal(expected, JSON.stringify(normalized));
 				done();
 			});
-		};
+		}
 	}, done); 
 }
 
@@ -42,7 +40,7 @@ function overwrite_normalization_results(dir, done) {
 			var to_normalize = yaml.loadFile(path.join(__dirname, dir, filename));
 			var normalized = normalize(to_normalize, plugins);
 			fs.writeFile(path.join(__dirname, dir, filename + ".normal"), yaml.dump(normalized), done);
-		};
+		}
 	}, done); 
 	
 }

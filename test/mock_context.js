@@ -20,6 +20,6 @@ exports.instance = function instance(session) {
 			}
 			throw new Error("Action type has not been implemented for mock-context");
 		}
-	}
-}
+	};
+};
 

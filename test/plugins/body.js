@@ -1,8 +1,6 @@
-var _ = require("lodash");
 var _body = require("../../lib/plugins/body");
 var assert = require("assert");
 var mock_context = require("../mock_context");
-var normalizer = require("../mock_normalizer");
 
 describe("body plugin", function () {
 	describe("process", function () {
