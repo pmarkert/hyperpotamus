@@ -1,0 +1,12 @@
+steps:
+  - actions:
+      - and:
+          - noop: true
+            path: $.steps.0.actions.0.and.0
+          - not:
+              fail: Explicit false
+              path: $.steps.0.actions.0.and.1.not
+            path: $.steps.0.actions.0.and.1
+        path: $.steps.0.actions.0
+    path: $.steps.0
+normalized: true

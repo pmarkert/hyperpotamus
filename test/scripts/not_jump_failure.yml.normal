@@ -1,0 +1,15 @@
+steps:
+  - actions:
+      - not:
+          noop: true
+          path: $.steps.0.actions.0.not
+        on_failure:
+          goto: END
+          path: $.steps.0.actions.0.on_failure
+        path: $.steps.0.actions.0
+    path: $.steps.0
+  - actions:
+      - fail: Should not have processed
+        path: $.steps.1.actions.0
+    path: $.steps.1
+normalized: true

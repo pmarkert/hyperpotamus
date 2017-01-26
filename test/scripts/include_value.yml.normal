@@ -1,0 +1,17 @@
+steps:
+  - actions:
+      - merge:
+          source:
+            data: included
+          override: true
+        path: $.steps.0.actions.0
+    path: $.steps.0
+  - actions:
+      - compare:
+          operator: =
+          array:
+            - <%! data %>
+            - included
+        path: $.steps.1.actions.0
+    path: $.steps.1
+normalized: true

@@ -1,0 +1,16 @@
+steps:
+  - name: first
+    actions:
+      goto: END
+      path: $.steps.0.actions
+    path: $.steps.0
+  - name: second
+    actions:
+      compare:
+        array:
+          - true
+          - false
+        operator: =
+      path: $.steps.1.actions
+    path: $.steps.1
+normalized: true

@@ -1,0 +1,36 @@
+steps:
+  - actions:
+      - merge:
+          source:
+            my_array:
+              - a
+              - b
+              - c
+          override: true
+        path: $.steps.0.actions.0
+      - in:
+          value: a
+          array: my_array
+        path: $.steps.0.actions.1
+      - in:
+          value: a
+          array:
+            - a
+            - b
+        path: $.steps.0.actions.2
+      - not:
+          in:
+            value: d
+            array: my_array
+          path: $.steps.0.actions.3.not
+        path: $.steps.0.actions.3
+      - not:
+          in:
+            value: d
+            array:
+              - a
+              - b
+          path: $.steps.0.actions.4.not
+        path: $.steps.0.actions.4
+    path: $.steps.0
+normalized: true

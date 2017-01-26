@@ -1,0 +1,28 @@
+steps:
+  - actions:
+      - merge:
+          source:
+            value: 10
+            other: 3
+            negative_other: -3
+          override: true
+        path: $.steps.0.actions.0
+      - compare:
+          array:
+            - <% value %>
+            - 10
+          operator: =
+        path: $.steps.0.actions.1
+      - merge:
+          source:
+            value: '<% value | plus,1 %>'
+          override: true
+        path: $.steps.0.actions.2
+      - compare:
+          array:
+            - <% value %>
+            - 11
+          operator: =
+        path: $.steps.0.actions.3
+    path: $.steps.0
+normalized: true

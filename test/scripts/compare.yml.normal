@@ -1,0 +1,40 @@
+steps:
+  - actions:
+      - compare:
+          array:
+            - 1
+            - 2
+            - 3
+          operator: <
+        path: $.steps.0.actions.0
+      - compare:
+          array:
+            - 1
+            - 2
+            - 2
+            - 3
+          operator: <=
+        path: $.steps.0.actions.1
+      - compare:
+          array:
+            - 3
+            - 2
+            - 1
+          operator: '>'
+        path: $.steps.0.actions.2
+      - compare:
+          array:
+            - 3
+            - 2
+            - 1
+          operator: '>'
+        path: $.steps.0.actions.3
+      - compare:
+          array:
+            - '3'
+            - 2
+            - 1
+          operator: '>'
+        path: $.steps.0.actions.4
+    path: $.steps.0
+normalized: true

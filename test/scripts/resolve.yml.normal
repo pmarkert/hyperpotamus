@@ -1,0 +1,20 @@
+steps:
+  - actions:
+      - merge:
+          source:
+            base: 'http://example.com/one'
+          override: true
+        path: $.steps.0.actions.0
+      - merge:
+          source:
+            answer: '<% ''/two'' | resolve_url,`base` %>'
+          override: true
+        path: $.steps.0.actions.1
+      - compare:
+          operator: =
+          array:
+            - <% answer %>
+            - 'http://example.com/two'
+        path: $.steps.0.actions.2
+    path: $.steps.0
+normalized: true

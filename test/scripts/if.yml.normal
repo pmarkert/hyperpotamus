@@ -1,0 +1,25 @@
+steps:
+  - actions:
+      - merge:
+          source:
+            key: first value
+          override: true
+        path: $.steps.0.actions.0
+      - if:
+          noop: true
+          path: $.steps.0.actions.1.if
+        then:
+          - merge:
+              source:
+                key: second value
+              override: true
+            path: $.steps.0.actions.1.then.0
+          - compare:
+              operator: =
+              array:
+                - <% key %>
+                - second value
+            path: $.steps.0.actions.1.then.1
+        path: $.steps.0.actions.1
+    path: $.steps.0
+normalized: true

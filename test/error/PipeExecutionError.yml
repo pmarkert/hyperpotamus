@@ -1,0 +1,3 @@
+- set:
+    foo: bar
+- print: <% foo | date_parse %>

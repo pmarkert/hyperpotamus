@@ -1,6 +1,6 @@
 {
   "name": "hyperpotamus",
-  "version": "0.28.7",
+  "version": "0.29.0",
   "description": "YAML based HTTP script processing engine",
   "homepage": "https://github.com/pmarkert/hyperpotamus/wiki",
   "main": "lib/index.js",
@@ -31,6 +31,7 @@
   ],
   "dependencies": {
     "async": "^2.1.2",
+    "aws-sdk": "^2.7.21",
     "bluebird": "^3.4.6",
     "cheerio": "^0.22.0",
     "colors": "^1.0.3",
@@ -38,7 +39,7 @@
     "js-yaml": "^3.7.0",
     "jsonpath": "^0.2.8",
     "lodash": "^4.17.2",
-    "markup-js": "https://github.com/pmarkert/Markup.js/tarball/d4ecc5d41ceeefc1ae48c22f4791cba5fc60bc47",
+    "markup-js": "https://github.com/pmarkert/Markup.js/tarball/a44aec46dccd11d10ba66f101e0fd6fd289c70f3",
     "mkdirp": "^0.5.0",
     "moment": "^2.17.1",
     "moment-timezone": "^0.5.11",
@@ -48,6 +49,7 @@
     "semver": "^5.3.0",
     "socks5-http-client": "^1.0.1",
     "tough-cookie": "^2.3.2",
+    "verror": "^1.9.0",
     "xmldom": "^0.1.19",
     "xpath": "0.0.23",
     "yaml-include": "^1.2.0",
@@ -60,5 +62,36 @@
     "express": "^4.14.0",
     "mocha": "^3.1.2"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "extends": "eslint:recommended",
+    "globals": {
+      "Mark": true
+    },
+    "rules": {
+      "indent": [
+        "error",
+        "tab",
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "double"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ]
+    }
+  }
 }

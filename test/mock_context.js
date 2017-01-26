@@ -5,11 +5,11 @@ exports.instance = function instance(session) {
 	return {
 		session: _.defaultTo(session, {}),
 		processed_actions: [],
-		process_action: function (action, context) {
+		processAction: function (action, context) {
 			var self = this;
 			if (_.isArray(action)) {
 				// Loop through each response validation step and verify
-				return Promise.all(action.map(single_action => self.process_action(single_action, context)));
+				return Promise.all(action.map(single_action => self.processAction(single_action, context)));
 			}
 			this.processed_actions.push(action);
 			if (action === true) {
@@ -20,6 +20,6 @@ exports.instance = function instance(session) {
 			}
 			throw new Error("Action type has not been implemented for mock-context");
 		}
-	}
-}
+	};
+};
 

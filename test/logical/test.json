@@ -1,0 +1,27 @@
+{
+  "steps": [
+    {
+      "actions": {
+        "if": {
+          "noop": true,
+          "index": "1",
+          "path": "$.steps.1.actions.1.if.1"
+        },
+        "then": {
+          "noop": true,
+          "index": "1",
+          "path": "$.steps.1.actions.1.then.1"
+        },
+        "else": {
+          "fail": "Explicit false",
+          "index": "1",
+          "path": "$.steps.1.actions.1.else.1"
+        },
+        "index": "1",
+        "path": "$.steps.1.actions.1"
+      },
+      "index": "$.steps.1"
+    }
+  ],
+  "normalized": true
+}

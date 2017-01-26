@@ -1,0 +1,28 @@
+steps:
+  - name: json_post
+    actions:
+      - request:
+          url: 'http://localhost:3000/put'
+          method: PUT
+          json:
+            test: true
+        response:
+          - json:
+              test: $.body.test
+              method: $.method
+            path: $.steps.0.actions.0.response.0
+          - compare:
+              operator: =
+              array:
+                - <% test %>
+                - 'true'
+            path: $.steps.0.actions.0.response.1
+          - compare:
+              operator: =
+              array:
+                - <% method %>
+                - PUT
+            path: $.steps.0.actions.0.response.2
+        path: $.steps.0.actions.0
+    path: $.steps.0
+normalized: true

@@ -1,0 +1,6 @@
+steps:
+  - actions:
+      - noop: true
+        path: $.steps.0.actions.0
+    path: $.steps.0
+normalized: true

@@ -1,0 +1,43 @@
+steps:
+  - actions:
+      - merge:
+          source:
+            array_to_search:
+              - abc
+              - bcdb
+          override: true
+        path: $.steps.0.actions.0
+      - replace:
+          output:
+            array: array_to_search
+            match: !<tag:yaml.org,2002:js/regexp> /b/g
+            replacement: '*'
+        path: $.steps.0.actions.1
+    path: $.steps.0
+  - actions:
+      merge:
+        source:
+          comparison: a*c
+        override: true
+      path: $.steps.1.actions
+    path: $.steps.1
+  - actions:
+      - compare:
+          array:
+            - <% output | current %>
+            - <% comparison %>
+          operator: =
+        path: $.steps.2.actions.0
+      - merge:
+          source:
+            comparison: '*cd*'
+          override: true
+        path: $.steps.2.actions.1
+      - iterate:
+          - output
+        next:
+          goto: SELF
+          path: $.steps.2.actions.2.next
+        path: $.steps.2.actions.2
+    path: $.steps.2
+normalized: true

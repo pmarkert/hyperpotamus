@@ -1,0 +1,14 @@
+steps:
+  - actions:
+      if:
+        fail: Explicit false
+        path: $.steps.0.actions.if
+      then:
+        fail: Explicit false
+        path: $.steps.0.actions.then
+      else:
+        noop: true
+        path: $.steps.0.actions.else
+      path: $.steps.0.actions
+    path: $.steps.0
+normalized: true
