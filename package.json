@@ -9,7 +9,7 @@
     "hdb": "./hdb.js"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha $NODE_DEBUG_OPTION"
   },
   "author": "Phillip Markert <phillip@ephisys.com>",
   "repository": {
