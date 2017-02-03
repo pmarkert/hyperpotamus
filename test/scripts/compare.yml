@@ -7,5 +7,3 @@ actions:
     operator: ">"
   - compare: [ 3, 2, 1 ]
     operator: ">"
-  - compare: [ "3", 2, 1 ]
-    operator: ">"

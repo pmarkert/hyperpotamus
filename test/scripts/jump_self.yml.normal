@@ -28,7 +28,7 @@ steps:
       - compare:
           operator: =
           array:
-            - <% visited %>
+            - <%! visited %>
             - 3
         path: $.steps.2.actions.0
     path: $.steps.2
