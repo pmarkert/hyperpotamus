@@ -4,14 +4,14 @@ var assert = require("assert");
 var validateVError = require("../lib/validate_verror");
 var mock_context = require("../mock_context");
 
-describe("delay plugin", () => {
-	describe("normalize", () => {
+describe("delay.js", () => {
+	describe("normalize()", () => {
 		it("should not exist", () => {
 			assert(_.isNil(_delay.normalize));
 		});
 	});
 
-	describe("process", () => {
+	describe("process()", () => {
 		describe("Valid values", () => {
 			function test(delay) {
 				var context = mock_context.instance();

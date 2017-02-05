@@ -35,18 +35,16 @@ function execute(args) {
 			processor.plugins.load(plugins_to_load);
 		}
 	}
-	catch (ex) {
-		console.trace("Error loading plugins - " + ex);
-		process.exit(1);
+	catch (err) {
+		dumpError("loading plugins", err);
 	}
 
 	var script;
 	try {
 		script = processor.loadFile(args.file);
 	}
-	catch (ex) {
-		console.trace("Error loading yaml script - " + ex);
-		process.exit(1);
+	catch (err) {
+		dumpError("loading yaml script", err);
 	}
 
 	// Pre-normalize script if we run it in a loop and for display/logging
@@ -57,10 +55,8 @@ function execute(args) {
 			showNormalized(script);
 		}
 	}
-	catch (ex) {
-		logger.error("Error normalizing script - " + ex);
-		logger.info(ex.stack);
-		process.exit(1);
+	catch (err) {
+		dumpError("normalizing script", err);
 	}
 
 	// Worker queue to process requests with set concurrency
@@ -72,16 +68,7 @@ function execute(args) {
 			.delay(0) // To ensure we can SIGINT even if no async work happens in the script
 			.then(callback)
 			.catch(err => {
-				logger.debug(`Error stack-trace:\n${verror.fullStack(err)}`);
-				var info = verror.info(err);
-				if (info) {
-					logger.info(`Additional error metadata:\n${yaml.dump(info, { noRefs: true }).trim()}`);
-				}
-				if (err.name) {
-					logger.warn(`For more information about this error, see\n  https://github.com/pmarkert/hyperpotamus/wiki/errors#${err.name}`);
-				}
-				logger.error(`Script processing failed.\n${err}`);
-				process.exit(1);
+				dumpError("processing script", err);
 			});
 	}, args.concurrency);
 
@@ -110,8 +97,7 @@ function execute(args) {
 			return processor.process(script, sessionDefaults, args.init)
 				.then(context => context.session)
 				.catch(err => {
-					console.error("Error running init session - " + JSON.stringify(err, null, 2));
-					throw new verror.VError({ name: "InitException", cause: err }, `Error running initialization - ${err}`);
+					dumpError("processing init script", err);
 				});
 		}
 		return sessionDefaults;
@@ -152,6 +138,44 @@ function execute(args) {
 	});
 }
 
+function dumpError(message, err) {
+	var cause = findCause(err);
+	var dump = {
+		name: cause.name,
+		message: cause.message
+	};
+	var path = findDeepestInfoProperty(err, "path");
+	if(!_.isNil(path)) {
+		dump.path = path;
+	}
+	dump.help_link = `https://github.com/pmarkert/hyperpotamus/wiki/errors#${cause.name}`;
+	logger.debug(`Error stack-trace:\n${verror.fullStack(err)}`);
+	logger.info(`Error details:\n${yaml.dump(verror.info(err), { noRefs: true, lineWidth: process.stdout.columns, skipInvalid: true })}`);
+	logger.error(`Error occurred while ${message}:\n${yaml.dump(dump, { noRefs: true, lineWidth: process.stdout.columns, skipInvalid: true })}`);
+	process.exit(1);
+}
+
+function findCause(err) {
+	var next;
+	while((next = verror.cause(err))!=null) {
+		if(next instanceof verror.VError) {
+			err = next;
+		}
+		else {
+			break;
+		}
+	}
+	return err;
+}
+
+function findDeepestInfoProperty(err, property) {
+	if(err instanceof verror.VError) {
+		var result = findDeepestInfoProperty(verror.cause(err), property);
+		return result || verror.info(err)[property];
+	}
+	return null;
+}
+
 function showNormalized(script) {
 	console.log(`
 Normalized JSON:
@@ -162,6 +186,4 @@ Normalized YAML:
 ================
 ${yaml.dump(script)}
 `);
-	logger.info("Exiting without processing script.");
-	process.exit(0);
 }
