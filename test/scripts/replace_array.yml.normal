@@ -1,11 +1,11 @@
 steps:
   - actions:
-      - merge:
+      - set:
           source:
             array_to_search:
               - abc
               - bcdb
-          override: true
+          mode: set
         path: $.steps.0.actions.0
       - replace:
           output:
@@ -15,10 +15,10 @@ steps:
         path: $.steps.0.actions.1
     path: $.steps.0
   - actions:
-      merge:
+      set:
         source:
           comparison: a*c
-        override: true
+        mode: set
       path: $.steps.1.actions
     path: $.steps.1
   - actions:
@@ -28,10 +28,10 @@ steps:
             - <% comparison %>
           operator: =
         path: $.steps.2.actions.0
-      - merge:
+      - set:
           source:
             comparison: '*cd*'
-          override: true
+          mode: set
         path: $.steps.2.actions.1
       - iterate:
           - output

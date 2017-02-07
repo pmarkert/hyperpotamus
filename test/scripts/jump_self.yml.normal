@@ -1,9 +1,9 @@
 steps:
   - actions:
-      - merge:
+      - set:
           source:
             visited: 0
-          override: true
+          mode: set
         path: $.steps.0.actions.0
     path: $.steps.0
   - actions:
@@ -15,10 +15,10 @@ steps:
               - 3
           path: $.steps.1.actions.0.if
         then:
-          - merge:
+          - set:
               source:
                 visited: '<%! visited | plus,1 %>'
-              override: true
+              mode: set
             path: $.steps.1.actions.0.then.0
           - goto: SELF
             path: $.steps.1.actions.0.then.1
@@ -28,7 +28,7 @@ steps:
       - compare:
           operator: =
           array:
-            - <% visited %>
+            - <%! visited %>
             - 3
         path: $.steps.2.actions.0
     path: $.steps.2

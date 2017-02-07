@@ -1,20 +1,20 @@
 steps:
   - actions:
-      - merge:
+      - set:
           source:
             target:
               - a
               - b
               - c
             result: ''
-          override: true
+          mode: set
         path: $.steps.0.actions.0
     path: $.steps.0
   - actions:
-      - merge:
+      - set:
           source:
             result: <% result %><% target | current %>
-          override: true
+          mode: set
         path: $.steps.1.actions.0
       - iterate:
           - target

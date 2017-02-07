@@ -1,12 +1,12 @@
 steps:
   - actions:
-      - merge:
+      - set:
           source:
             my_array:
               - a
               - b
               - c
-          override: true
+          mode: set
         path: $.steps.0.actions.0
       - in:
           value: a

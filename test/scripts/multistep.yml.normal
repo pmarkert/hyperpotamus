@@ -1,16 +1,16 @@
 steps:
   - actions:
-      - merge:
+      - set:
           source:
             key: first value
-          override: true
+          mode: set
         path: $.steps.0.actions.0
     path: $.steps.0
   - actions:
-      - merge:
+      - set:
           source:
             key: second value
-          override: true
+          mode: set
         path: $.steps.1.actions.0
       - compare:
           operator: =

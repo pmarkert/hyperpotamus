@@ -1,4 +1,5 @@
 var _ = require("lodash");
+var Promise = require("bluebird");
 exports.expected_failure = { message: "Expected failure" };
 
 exports.instance = function instance(session) {
@@ -9,7 +10,7 @@ exports.instance = function instance(session) {
 			var self = this;
 			if (_.isArray(action)) {
 				// Loop through each response validation step and verify
-				return Promise.all(action.map(single_action => self.processAction(single_action, context)));
+				return Promise.mapSeries(action, single_action => self.processAction(single_action, context));
 			}
 			this.processed_actions.push(action);
 			if (action === true) {

@@ -8,4 +8,4 @@
          visited: <%! visited | plus,1 %>
      - goto: SELF 
 
-- equals: [ <% visited %>, 3 ]
+- equals: [ <%! visited %>, 3 ]

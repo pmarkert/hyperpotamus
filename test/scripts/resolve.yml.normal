@@ -1,14 +1,14 @@
 steps:
   - actions:
-      - merge:
+      - set:
           source:
             base: 'http://example.com/one'
-          override: true
+          mode: set
         path: $.steps.0.actions.0
-      - merge:
+      - set:
           source:
             answer: '<% ''/two'' | resolve_url,`base` %>'
-          override: true
+          mode: set
         path: $.steps.0.actions.1
       - compare:
           operator: =

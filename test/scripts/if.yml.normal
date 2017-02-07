@@ -1,18 +1,18 @@
 steps:
   - actions:
-      - merge:
+      - set:
           source:
             key: first value
-          override: true
+          mode: set
         path: $.steps.0.actions.0
       - if:
           noop: true
           path: $.steps.0.actions.1.if
         then:
-          - merge:
+          - set:
               source:
                 key: second value
-              override: true
+              mode: set
             path: $.steps.0.actions.1.then.0
           - compare:
               operator: =

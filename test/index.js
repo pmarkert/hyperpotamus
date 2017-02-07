@@ -4,6 +4,7 @@ var path = require("path");
 var _ = require("lodash");
 var logging = require("../lib/logging");
 var Promise = require("bluebird");
+var yaml = require("../lib/yaml");
 
 logging.set_level(process.env.LOG_LEVEL || logging.levels.none);
 
@@ -21,6 +22,8 @@ function run_scripts(dir, extension, data, should_expect_failure) {
 					}
 				}).catch(err => {
 					if (!should_expect_failure) {
+						// eslint-disable-next-line no-console
+						console.log(yaml.dump(err));
 						throw err;
 					}
 				});

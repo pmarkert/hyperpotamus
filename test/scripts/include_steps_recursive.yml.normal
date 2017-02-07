@@ -1,23 +1,23 @@
 steps:
   - actions:
-      - merge:
+      - set:
           source:
             first_step: true
-          override: true
+          mode: set
         path: $.steps.0.actions.0
     path: $.steps.0
   - actions:
-      - merge:
+      - set:
           source:
             second_step: true
-          override: true
+          mode: set
         path: $.steps.1.actions.0
     path: $.steps.1
   - actions:
-      - merge:
+      - set:
           source:
             third_step: true
-          override: true
+          mode: set
         path: $.steps.0.actions.0
     path: $.steps.0
   - actions:
