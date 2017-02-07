@@ -1,11 +1,11 @@
 steps:
   - actions:
-      - merge:
+      - set:
           source:
             value: 10
             other: 3
             negative_other: -3
-          override: true
+          mode: set
         path: $.steps.0.actions.0
       - compare:
           array:
@@ -13,10 +13,10 @@ steps:
             - 10
           operator: =
         path: $.steps.0.actions.1
-      - merge:
+      - set:
           source:
             value: '<%! value | plus,1 %>'
-          override: true
+          mode: set
         path: $.steps.0.actions.2
       - compare:
           array:

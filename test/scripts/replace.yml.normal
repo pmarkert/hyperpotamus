@@ -1,9 +1,9 @@
 steps:
   - actions:
-      - merge:
+      - set:
           source:
             value_to_search: this is fun
-          override: true
+          mode: set
         path: $.steps.0.actions.0
       - replace:
           regex_output:

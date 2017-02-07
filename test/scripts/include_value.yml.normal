@@ -1,9 +1,9 @@
 steps:
   - actions:
-      - merge:
+      - set:
           source:
             data: included
-          override: true
+          mode: set
         path: $.steps.0.actions.0
     path: $.steps.0
   - actions:

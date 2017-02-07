@@ -3,10 +3,10 @@ steps:
       - request:
           url: 'http://localhost:3000/get'
         response:
-          merge:
+          set:
             source:
               special: middle
-            override: true
+            mode: set
           path: $.steps.0.actions.0.response
         path: $.steps.0.actions.0
     path: $.steps.0

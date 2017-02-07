@@ -1,9 +1,9 @@
 steps:
   - actions:
-      merge:
+      set:
         source:
           executed: 'true'
-        override: true
+        mode: set
       path: $.steps.0.actions
     path: $.steps.0
 normalized: true
