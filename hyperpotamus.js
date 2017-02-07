@@ -53,6 +53,7 @@ function execute(args) {
 		logger.trace("Normalized script:\n" + yaml.dump(script));
 		if (args.normalize) {
 			showNormalized(script);
+			process.exit(0);
 		}
 	}
 	catch (err) {
