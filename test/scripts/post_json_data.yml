@@ -7,4 +7,4 @@ request:
 response: 
   - json: 
       test: "$.body.test"
-  - equals: [ "<% test %>", 'true' ]
+  - equals: [ "<%! test %>", true ]
