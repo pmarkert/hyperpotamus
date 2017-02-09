@@ -1,15 +1,19 @@
 - set:
     values: [ 'a', 'b', 'c' ]
     shared_answers: []
+    other_shared_answers: []
     unshared_answers: []
 
 - foreach:
     key: value
     in: values
-    shared: [ another_property, shared_answers ]
+    shared: [ shared_answers, other_shared_answers ]
     actions:
       - push:
           array: shared_answers 
+          value: <% value %>
+      - push:
+          array: other_shared_answers
           value: <% value %>
       - push:
           array: unshared_answers 
@@ -18,6 +22,10 @@
 - equals:
     - <% values | join %>
     - <% shared_answers | join %>
+
+- equals:
+    - <% values | join %>
+    - <% other_shared_answers | join %>
 
 - equals:
     - ""
