@@ -39,7 +39,7 @@
     "js-yaml": "^3.7.0",
     "jsonpath": "^0.2.8",
     "lodash": "^4.17.2",
-    "markup-js": "https://github.com/pmarkert/Markup.js/tarball/a44aec46dccd11d10ba66f101e0fd6fd289c70f3",
+    "markup-js": "https://github.com/pmarkert/Markup.js/tarball/6de7aaec213a74fade34437f2d10a597cf4c6a1b",
     "mkdirp": "^0.5.0",
     "moment": "^2.17.1",
     "moment-timezone": "^0.5.11",
