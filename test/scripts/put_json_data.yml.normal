@@ -14,8 +14,8 @@ steps:
           - compare:
               operator: =
               array:
-                - <% test %>
-                - 'true'
+                - <%! test %>
+                - true
             path: $.steps.0.actions.0.response.1
           - compare:
               operator: =

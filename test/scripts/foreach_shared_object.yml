@@ -1,0 +1,25 @@
+- set:
+    values: [ 'a', 'b', 'c' ]
+    to_be_shared_answers: []
+    unshared_answers: []
+
+- foreach:
+    key: value
+    in: values
+    shared:
+      shared_answers: <%! to_be_shared_answers %>
+    actions:
+      - push:
+          array: shared_answers
+          value: <% value %>
+      - push:
+          array: unshared_answers 
+          value: <% value %>
+
+- equals:
+    - <% values | join %>
+    - <% to_be_shared_answers | join %>
+
+- equals:
+    - ""
+    - <% unshared_answers | join %>

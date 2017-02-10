@@ -32,6 +32,9 @@ var args = require("yargs")
 	.describe("loop", "Specify the number of times to repeat the script as an argument, or repeat indefinitely.")
 	.describe("init", "pre-run script starting at the named step before the main processing.")
 	.describe("start", "The name of the first step to be executed during main processing.")
+	.describe("calfinated", "Uses the calfinated engine for macro interpolation instead of markup.js")
+	.alias("calfinated", "!")
+	.boolean("calfinated")
 	.requiresArg("start")
 	.check(function (args) {
 		if (!args.file && !args._.length >= 1) {

@@ -8,5 +8,5 @@ response:
   - json:
      test: "$.body.test"
      method: "$.method"
-  - equals: [ <% test %>, "true" ]
+  - equals: [ <%! test %>, true ]
   - equals: [ <% method %>, PUT ]
