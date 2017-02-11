@@ -22,8 +22,24 @@ exports.instance = function instance(session) {
 			}
 			throw new Error("Action type has not been implemented for mock-context");
 		},
-		interpolate: function(template) {
+		interpolate: function (template) {
 			return interpolate(template, session);
+		},
+		getSessionValue: function getSessionValue(path, required) {
+			var result = _.get(this.session, path);
+			if (_.isUndefined(result)) {
+				throw new verror.VError({
+					name: "MissingKeyError",
+					constructorOpt: this.getSessionValue,
+					info: {
+						key: path
+					}
+				}, "No matching value found in the session. Key: %s", path);
+			}
+			return result;
+		},
+		setSessionValue: function (path, value) {
+			_.set(this.session, path, value);
 		}
 	};
 };

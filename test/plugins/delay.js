@@ -22,9 +22,7 @@ describe("delay.js", () => {
 			}
 			
 			it("value=0 (number)", () => test(0));
-			it("value='0' (string)", () => test("0"));
 			it("value=1 (number)", () => test(1));
-			it("value='1' (string)", () => test("1"));
 			it("value=100 (number)", () => test(100));
 		});
 
@@ -36,7 +34,9 @@ describe("delay.js", () => {
 						throw "Expected an error to be returned.";
 					}, validateVError("InvalidActionValue.delay")));
 			}
-			
+
+			it("value='0' (string)", () => test("0"));
+			it("value='1' (string)", () => test("1"));
 			it("value=true", () => test(true));
 			it("value=false", () => test(false));
 			it("value=-1 (number)", () => test(-1));
