@@ -1,5 +1,6 @@
 var _ = require("lodash");
 var Promise = require("bluebird");
+var interpolate = require("../lib/interpolate");
 exports.expected_failure = { message: "Expected failure" };
 
 exports.instance = function instance(session) {
@@ -20,6 +21,9 @@ exports.instance = function instance(session) {
 				return Promise.reject(exports.expected_failure);
 			}
 			throw new Error("Action type has not been implemented for mock-context");
+		},
+		interpolate: function(template) {
+			return interpolate(template, session);
 		}
 	};
 };
