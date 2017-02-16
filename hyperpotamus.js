@@ -8,7 +8,8 @@ var hyperpotamus = require("./lib");
 var verror = require("verror");
 var Promise = require("bluebird");
 
-var args = require("./cli/args");
+var defaultConfigFile = require("path").join(require("os").homedir(), ".hyperpotamus", "config.json");
+var args = require("./cli/args")(defaultConfigFile);
 
 // Setup logging configuration
 var logger = hyperpotamus.logging.logger("hyperpotamus.cli");

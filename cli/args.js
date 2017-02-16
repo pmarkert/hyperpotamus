@@ -32,10 +32,12 @@ var args = require("yargs")
 	.describe("loop", "Specify the number of times to repeat the script as an argument, or repeat indefinitely.")
 	.describe("init", "pre-run script starting at the named step before the main processing.")
 	.describe("start", "The name of the first step to be executed during main processing.")
+	.config()
 	.describe("calfinated", "Uses the calfinated engine for macro interpolation instead of markup.js")
 	.alias("calfinated", "!")
 	.boolean("calfinated")
 	.requiresArg("start")
+	.conflicts("loop", "csv")
 	.check(function (args) {
 		if (!args.file && !args._.length >= 1) {
 			throw new Error("Must specify the file to process either with -f, --file, or as the first positional argument.");
@@ -43,17 +45,18 @@ var args = require("yargs")
 		else if ((args.file && args._.length > 0) || args._.length > 1) {
 			throw new Error("Unexpected positional arguments.");
 		}
-		if (args.csv && args.loop) {
-			throw new Error("--loop and --csv are not currently both supported at the same time.");
-		}
 		return true;
 	})
 	.version(package.version)
-	.strict()
-	.argv;
+	.strict();
 
-if (!args.file) {
-	args.file = args._[0];
-}
-
-module.exports = args;
+module.exports = function (defaultConfigFile) {
+	if (defaultConfigFile) {
+		args.default("config", defaultConfigFile);
+	}
+	var argv = args.argv;
+	if (!argv.file) {
+		argv.file = argv._[0];
+	}
+	return argv;
+};
