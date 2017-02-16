@@ -1,4 +1,4 @@
-var _delay = require("../../lib/plugins/delay");
+var _delay = require("../../lib/actions/delay");
 var _ = require("lodash");
 var assert = require("assert");
 var validateVError = require("../lib/validate_verror");

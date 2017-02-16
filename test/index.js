@@ -15,7 +15,7 @@ function run_scripts(dir, extension, data, should_expect_failure) {
 	return Promise.all(fs.readdirSync(path.join(__dirname, dir))
 		.filter(filename => path.extname(filename) === extension)
 		.map(filename => it(path.join(dir, filename), function () {
-			return new hyperpotamus.Processor({ safe: false, auto_load_plugins: true })
+			return new hyperpotamus.Processor({ safe: false })
 				.processFile(path.join(__dirname, dir, filename), _.clone(data))
 				.then(() => {
 					if (should_expect_failure) {
@@ -36,7 +36,7 @@ function run_scripts(dir, extension, data, should_expect_failure) {
 
 describe("HTTP Tests", function () {
 	before(function (done) {
-		new hyperpotamus.Processor({ safe: false, auto_load_plugins: true }); // Force load all plugins to prevent the first unit test from getting penalized time-wise
+		new hyperpotamus.Processor({ safe: false }); // Force load all plugins to prevent the first unit test from getting penalized time-wise
 		server = require("./httpsite").listen(3000, done);
 	});
 	after(function () {

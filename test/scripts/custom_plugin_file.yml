@@ -1,3 +1,0 @@
-plugins: [ "custom_plugins/custom_noop.js" ]
-steps:
-  - custom_noop: true

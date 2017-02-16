@@ -1,4 +1,4 @@
-var _set = require("../../lib/plugins/set");
+var _set = require("../../lib/actions/set");
 var _ = require("lodash");
 var assert = require("assert");
 var mock_context = require("../mock_context");

@@ -1,4 +1,4 @@
-var _pop = require("../../lib/plugins/shift");
+var _pop = require("../../lib/actions/shift");
 var _ = require("lodash");
 var assert = require("assert");
 var mock_context = require("../mock_context");

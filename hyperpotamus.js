@@ -24,19 +24,11 @@ function execute(args) {
 	var sessionDefaults = require("./cli/sessionDefaults.js")(args);
 	var emitStreams = require("./cli/emitStreams.js")(args);
 
-	var plugins_to_load = [];
-	var auto_load_plugins = false;
-	if (!_.isNil(args.plugins)) {
-		// Check for (and filter true/"true" from args.plugins) to look for "auto-load"
-		plugins_to_load = _.without(_.castArray(args.plugins), true, "true");
-		auto_load_plugins = plugins_to_load.length < _.castArray(args.plugins).length;
-	}
-
-	var processor = new hyperpotamus.Processor({ safe: args.safe, emit: emitStreams, auto_load_plugins: auto_load_plugins });
+	var processor = new hyperpotamus.Processor({ safe: args.safe, emit: emitStreams });
 
 	try {
-		if (plugins_to_load.length) {
-			processor.plugins.load(plugins_to_load);
+		if (args.plugins) {
+			processor.plugins.loadPlugins(args.plugins);
 		}
 	}
 	catch (err) {

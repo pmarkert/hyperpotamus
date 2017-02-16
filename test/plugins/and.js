@@ -1,5 +1,5 @@
 var _ = require("lodash");
-var _and = require("../../lib/plugins/and");
+var _and = require("../../lib/actions/and");
 var assert = require("assert");
 var mock_context = require("../mock_context");
 var normalizer = require("../mock_normalizer");

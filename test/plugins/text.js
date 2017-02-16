@@ -1,4 +1,4 @@
-var _text = require("../../lib/plugins/text");
+var _text = require("../../lib/actions/text");
 var _ = require("lodash");
 var assert = require("assert");
 var validateVError = require("../lib/validate_verror");

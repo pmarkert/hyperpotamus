@@ -1,4 +1,4 @@
-var _body = require("../../lib/plugins/body");
+var _body = require("../../lib/actions/body");
 var _ = require("lodash");
 var assert = require("assert");
 var validateVError = require("../lib/validate_verror");
