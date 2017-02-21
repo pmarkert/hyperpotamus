@@ -1,4 +1,5 @@
 var _ = require("lodash");
+var verror = require("verror");
 var Promise = require("bluebird");
 var interpolate = require("../lib/interpolate");
 exports.expected_failure = { message: "Expected failure" };
@@ -25,16 +26,17 @@ exports.instance = function instance(session) {
 		interpolate: function (template) {
 			return interpolate(template, session);
 		},
-		getSessionValue: function getSessionValue(path, required) {
-			var result = _.get(this.session, path);
+		getSessionValue: function getSessionValue(key, path) {
+			var result = _.get(this.session, key);
 			if (_.isUndefined(result)) {
 				throw new verror.VError({
 					name: "MissingKeyError",
 					constructorOpt: this.getSessionValue,
 					info: {
-						key: path
+						key,
+						path
 					}
-				}, "No matching value found in the session. Key: %s", path);
+				}, "No matching value found in the session. Key: %s", key);
 			}
 			return result;
 		},
