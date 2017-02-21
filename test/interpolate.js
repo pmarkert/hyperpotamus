@@ -2,6 +2,7 @@ var interpolate = require("../lib/interpolate");
 var async = require("async");
 var assert = require("assert");
 var _ = require("lodash");
+var validateVerror = require("./lib/validate_verror");
 
 describe("String Interpolation", function () {
 
@@ -98,14 +99,10 @@ describe("String Interpolation", function () {
 			var min = 3, max = 3;
 			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 		});
-		it("Should throw an error if min > max", function (callback) {
+		it("Should throw an error if min > max", function () {
 			var min = 4, max = 3;
-			try {
-				verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
-				assert.fail("Should have thrown an error");
-			} catch (err) {
-				callback();
-			}
+			assert.throws(() => verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max),
+				validateVerror("PipeExecutionError"));
 		});
 		it("Should generate a random number from X -> X+1 (same number)", function () {
 			var min = 3, max = 4;
