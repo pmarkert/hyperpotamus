@@ -1,0 +1,6 @@
+- set:
+    test: true
+
+- prompt:
+   test:
+     pattern: "/true/"
