@@ -64,9 +64,7 @@ function execute(args) {
 			.tap(context => logger.info("Final session data is:\n" + JSON.stringify(context.session, null, 2)))
 			.delay(0) // To ensure we can SIGINT even if no async work happens in the script
 			.then(callback)
-			.catch(err => {
-				dumpError("processing script", err);
-			});
+			.catch(_.partial(dumpError, "processing script"));
 	}, args.concurrency);
 
 	// Handler for graceful (or forced) shutdown
@@ -93,11 +91,11 @@ function execute(args) {
 			// Run the script with the init steps
 			return processor.process(script, sessionDefaults, args.init)
 				.then(context => context.session)
-				.catch(err => {
-					dumpError("processing init script", err);
-				});
+				.catch(_.partial(dumpError, "processing init script"));
 		}
-		return sessionDefaults;
+		else {
+			return sessionDefaults;
+		}
 	}).then(defaults => {
 		sessionDefaults = defaults;
 		if (args.csv) {
