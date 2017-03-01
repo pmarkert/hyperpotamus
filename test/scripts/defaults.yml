@@ -1,9 +1,0 @@
-steps:
-  - set:
-     request_defaults:
-      headers:
-       cookie: from=defaults
-  - request:
-     url: http://localhost:3000/get
-    response:
-      text: "from=defaults"

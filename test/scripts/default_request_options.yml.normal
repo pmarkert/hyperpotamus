@@ -1,11 +1,8 @@
 steps:
   - actions:
-      - set:
-          source:
-            request_defaults:
-              headers:
-                cookie: from=defaults
-          mode: set
+      - default_request_options:
+          headers:
+            cookie: from=defaults
         path: $.steps.0.actions.0
     path: $.steps.0
   - actions:
