@@ -1,8 +1,8 @@
 steps:
   - actions:
-      - response_defaults:
+      - default_response_actions:
           - status: 500
-            path: $.steps.0.actions.0.response_defaults.0
+            path: $.steps.0.actions.0.default_response_actions.0
         path: $.steps.0.actions.0
       - request:
           url: 'http://localhost:3000/status/500'
