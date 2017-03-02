@@ -3,7 +3,7 @@ var _compare = require("../../lib/actions/compare");
 var assert = require("assert");
 var mock_context = require("../mock_context");
 var normalizer = require("../mock_normalizer");
-var validateVError = require("../lib/validate_verror");
+var validateVError = require("../test_utils/validate_verror");
 var moment = require("moment");
 _compare.logger = require("../mock_logger");
 

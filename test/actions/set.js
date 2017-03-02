@@ -2,7 +2,7 @@ var _set = require("../../lib/actions/set");
 var _ = require("lodash");
 var assert = require("assert");
 var mock_context = require("../mock_context");
-var validateVError = require("../lib/validate_verror");
+var validateVError = require("../test_utils/validate_verror");
 
 describe("set.js", () => {
 	describe("normalize()", () => {

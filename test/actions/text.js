@@ -1,6 +1,6 @@
 var _text = require("../../lib/actions/text");
 var assert = require("assert");
-var validateVError = require("../lib/validate_verror");
+var validateVError = require("../test_utils/validate_verror");
 var mock_context = require("../mock_context");
 
 describe("text.js", () => {

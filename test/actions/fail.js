@@ -1,7 +1,7 @@
 var _fail = require("../../lib/actions/fail");
 var _ = require("lodash");
 var assert = require("assert");
-var validateVError = require("../lib/validate_verror");
+var validateVError = require("../test_utils/validate_verror");
 
 describe("fail.js", () => {
 	describe("normalize()", () => {

@@ -2,7 +2,7 @@ var interpolate = require("../lib/interpolate");
 var async = require("async");
 var assert = require("assert");
 var _ = require("lodash");
-var validateVerror = require("./lib/validate_verror");
+var validateVerror = require("./test_utils/validate_verror");
 
 describe("String Interpolation", () => {
 

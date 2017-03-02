@@ -3,7 +3,7 @@ var _and = require("../../lib/actions/and");
 var assert = require("assert");
 var mock_context = require("../mock_context");
 var normalizer = require("../mock_normalizer");
-var validateVError = require("../lib/validate_verror");
+var validateVError = require("../test_utils/validate_verror");
 
 describe("and.js", () => {
 	describe("normalize()", () => {

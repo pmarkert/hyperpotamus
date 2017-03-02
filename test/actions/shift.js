@@ -2,7 +2,7 @@ var _pop = require("../../lib/actions/shift");
 var _ = require("lodash");
 var assert = require("assert");
 var mock_context = require("../mock_context");
-var validateVError = require("../lib/validate_verror");
+var validateVError = require("../test_utils/validate_verror");
 
 describe("shift.js", () => {
 	describe("normalize()", () => {
