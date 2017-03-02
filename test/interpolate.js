@@ -2,12 +2,13 @@ var interpolate = require("../lib/interpolate");
 var async = require("async");
 var assert = require("assert");
 var _ = require("lodash");
+var validateVerror = require("./lib/validate_verror");
 
-describe("String Interpolation", function () {
+describe("String Interpolation", () => {
 
 	var prefix = "PRE|", suffix = "|POST";
 
-	describe("Normal Tokens", function (done) {
+	describe("Normal Tokens", (done) => {
 		var data = { token: "value" };
 		var cases = [
 			["<% token %>", "Whitespace both sides"],
@@ -15,15 +16,15 @@ describe("String Interpolation", function () {
 			["<%token %>", "Trailing whitespace"]
 		];
 
-		async.each(cases, function (testcase, callback) {
-			it(testcase[1], function () {
+		async.each(cases, (testcase, callback) => {
+			it(testcase[1], () => {
 				assert.equal("PRE|value|POST", interpolate("PRE|" + testcase[0] + "|POST", data));
 				callback();
 			});
 		}, done);
 	});
 
-	describe("Url-Encode token", function (done) {
+	describe("Url-Encode token", (done) => {
 		var data = { token: "!@#$%^&*()-_=+\\|]}[{'\";:/?.>,<`~" };
 		var encoded = encodeURIComponent(data.token);
 		var cases = [
@@ -33,30 +34,30 @@ describe("String Interpolation", function () {
 			[data.token, "<% token | urlencode | urldecode %>", "Encode decode"],
 		];
 
-		async.each(cases, function (testcase, callback) {
-			it(testcase[2], function () {
+		async.each(cases, (testcase, callback) => {
+			it(testcase[2], () => {
 				assert.equal(prefix + testcase[0] + suffix, interpolate(prefix + testcase[1] + suffix, data));
 				callback();
 			});
 		}, done);
 	});
 
-	describe("Optional token", function (done) {
+	describe("Optional token", (done) => {
 		var data = {};
 		var cases = [
 			["", "<% token | optional %>", "Optional"],
 			["default", "<% token | optional,default %>", "Option optional, default"],
 		];
 
-		async.each(cases, function (testcase, callback) {
-			it(testcase[2], function () {
+		async.each(cases, (testcase, callback) => {
+			it(testcase[2], () => {
 				assert.equal(prefix + testcase[0] + suffix, interpolate(prefix + testcase[1] + suffix, data));
 				callback();
 			});
 		}, done);
 	});
 
-	describe("Format the date", function (done) {
+	describe("Format the date", (done) => {
 		var moment = require("moment");
 		var data = { the_date: moment() };
 
@@ -64,8 +65,8 @@ describe("String Interpolation", function () {
 			["<% the_date | date_format,YYYY-MM-DD %>", "date_format"]
 		];
 
-		async.each(cases, function (testcase, callback) {
-			it(testcase[1], function () {
+		async.each(cases, (testcase, callback) => {
+			it(testcase[1], () => {
 				assert.equal(prefix + data.the_date.format("YYYY-MM-DD") + suffix, interpolate(prefix + testcase[0] + suffix, data));
 				callback();
 			});
@@ -85,40 +86,36 @@ describe("String Interpolation", function () {
 		}
 	}
 
-	describe("Random numbers", function () {
-		it("Should generate a random number within a range", function () {
+	describe("Random numbers", () => {
+		it("Should generate a random number within a range", () => {
 			var min = 3, max = 7;
 			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 		});
-		it("Should generate a random number within a range and whitespace", function () {
+		it("Should generate a random number within a range and whitespace", () => {
 			var min = 3, max = 7;
 			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 		});
-		it("Should return the number if min == max", function () {
+		it("Should return the number if min == max", () => {
 			var min = 3, max = 3;
 			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 		});
-		it("Should throw an error if min > max", function (callback) {
+		it("Should throw an error if min > max", () => {
 			var min = 4, max = 3;
-			try {
-				verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
-				assert.fail("Should have thrown an error");
-			} catch (err) {
-				callback();
-			}
+			assert.throws(() => verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max),
+				validateVerror("PipeExecutionError"));
 		});
-		it("Should generate a random number from X -> X+1 (same number)", function () {
+		it("Should generate a random number from X -> X+1 (same number)", () => {
 			var min = 3, max = 4;
 			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 		});
-		it("Should generate a random number from 0 to max-1", function () {
+		it("Should generate a random number from 0 to max-1", () => {
 			var max = 7;
 			verify_random_range("<% '" + max + "' | random %>", 0, max);
 		});
 	});
 
-	describe("Random array elements", function () {
-		it("Should return a random element from an array", function () {
+	describe("Random array elements", () => {
+		it("Should return a random element from an array", () => {
 			var array = ["one", "two", "three"];
 			// Because this test is inherently "random" (which is bad for unit tests), 
 			// let's do it many times to lower the probability of false negative.
@@ -128,7 +125,7 @@ describe("String Interpolation", function () {
 			}
 		});
 
-		it("Should return the single element from a single-element array", function () {
+		it("Should return the single element from a single-element array", () => {
 			var array = ["one"];
 			// Because this test is inherently "random" (which is bad for unit tests), 
 			// let's do it many times to lower the probability of false negative.
@@ -138,7 +135,7 @@ describe("String Interpolation", function () {
 			}
 		});
 
-		it("Should return the element from a non array", function () {
+		it("Should return the element from a non array", () => {
 			var array = "1";
 			// Because this test is inherently "random" (which is bad for unit tests), 
 			// let's do it many times to lower the probability of false negative.
@@ -149,23 +146,23 @@ describe("String Interpolation", function () {
 		});
 	});
 
-	describe("Multiple tokens", function () {
-		it("Process multiple tokens", function () {
+	describe("Multiple tokens", () => {
+		it("Process multiple tokens", () => {
 			var data = { one: "1", two: "2" };
 			assert.equal(prefix + "1,2" + suffix, interpolate(prefix + "<% one %>,<% two %>" + suffix, data));
 		});
 	});
 
-	describe("Array access", function () {
+	describe("Array access", () => {
 		var array = ["one", "two", "three"];
 		var value = "replaced";
-		it("First element", function () {
+		it("First element", () => {
 			assert.equal(prefix + array[0] + suffix, interpolate(prefix + "<% array.0 %>" + suffix, { array: array, "array.index": 0 }));
 		});
-		it("Third element", function () {
+		it("Third element", () => {
 			assert.equal(prefix + array[2] + suffix, interpolate(prefix + "<% array.2 %>" + suffix, { array: array, "array.index": 2 }));
 		});
-		it("Out of bounds", function () {
+		it("Out of bounds", () => {
 			try {
 				interpolate(prefix + "<% array.2 %>" + suffix, { array: array });
 				assert.fail("Should have thrown an error");
@@ -173,30 +170,51 @@ describe("String Interpolation", function () {
 				// Noop
 			}
 		});
-		it("Non-array", function () {
+		it("Non-array", () => {
 			assert.equal(prefix + value + suffix, interpolate(prefix + "<% value | current %>" + suffix, { value: value }));
 		});
-		it("Non-array, fake index", function () {
+		it("Non-array, fake index", () => {
 			assert.equal(prefix + value + suffix, interpolate(prefix + "<% value | current %>" + suffix, { value: value }));
 		});
 	});
 
-	describe("Array join", function () {
+	describe("Array join", () => {
 		var array = ["one", "two", "three"];
-		it("Comma-delimited", function () {
+		it("Comma-delimited", () => {
 			assert.equal("one,two,three", interpolate("<% array | join %>", { array: array }));
 		});
-		it("Pipe-delimited", function () {
+		it("Pipe-delimited", () => {
 			assert.equal("one|two|three", interpolate("<% array| join_pipe %>", { array: array }));
 		});
-		it("Default delimiter", function () {
-			assert.equal("onetwothree", interpolate("<% array %>", { array: array }));
+		it("Default delimiter", () => {
+			// Specifically changed this behavior with calfinated, so need to test differently.
+			// There is no longer default stringification, but object-reference is returned instead.
+			if(process.env.CALFINATED==="true") {
+				assert.equal(array, interpolate("<% array %>", { array: array }));
+			}
+			else {
+				assert.equal("onetwothree", interpolate("<% array %>", { array: array }));
+			}
 		});
-		it("Tab delimiter", function () {
-			assert.equal("one	two	three", interpolate("<% array | join,	%>", { array: array }));
+		it("Tab delimiter", () => {
+			// Specifically changed this behavior with calfinated, so need to test differently.
+			// white-space is no longer significant unless quoted
+			if(process.env.CALFINATED==="true") {
+				assert.equal("one	two	three", interpolate("<% array | join,'	' %>", { array: array }));
+			}
+			else {
+				assert.equal("one	two	three", interpolate("<% array | join,	%>", { array: array }));
+			}
 		});
-		it("Space delimiter", function () {
-			assert.equal("one two three", interpolate("<% array | join, %>", { array: array }));
+		it("Space delimiter", () => {
+			// Specifically changed this behavior with calfinated, so need to test differently.
+			// white-space is no longer significant unless quoted
+			if(process.env.CALFINATED==="true") {
+				assert.equal("one two three", interpolate("<% array | join,' ' %>", { array: array }));
+			}
+			else {
+				assert.equal("one two three", interpolate("<% array | join, %>", { array: array }));
+			}
 		});
 	});
 });
