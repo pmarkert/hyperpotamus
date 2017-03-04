@@ -1,8 +1,9 @@
 steps:
-  - default_request_options:
+  - request_defaults:
       headers:
-        cookie: from=defaults
+        special: MATCHED
   - request:
       url: http://localhost:3000/get
     response:
-      text: "from=defaults"
+      text: "MATCHED"
+

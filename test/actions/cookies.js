@@ -21,7 +21,7 @@ describe("cookies.js", () => {
 				var result = _cookies.process.call({ cookies: to_process }, context);
 				return result.then(() => {
 					var cookieStore = context.cookieStore();
-					return Promise.promisify(cookieStore.getAllCookies, { context: cookieStore })()
+					return cookieStore.getAllCookiesPromise()
 						.then(cookies => {
 							cookies.forEach(c => delete c.creation);
 							assert.deepEqual(cookies, expected);

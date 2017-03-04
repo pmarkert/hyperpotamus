@@ -15,29 +15,30 @@ describe("body.js", () => {
 		describe("with different response types", () => {
 			function test(body) {
 				var context = mock_context.instance();
-				context.response = true;
-				context.body = body;
+				context.setSessionValue("hyperpotamus.response", { body });
 				var key_name = "target_key";
 				var result = _body.process.call({ body: key_name }, context);
 				assert.equal(null, result, "Should have succeeded");
-				assert.deepEqual(context.body, _.get(context.session, key_name), "Body value was not properly assigned");
+				assert.deepEqual(body, _.get(context.session, key_name), "Body value was not properly assigned");
 			}
 
 			describe("should succeed given", () => {
 				it("a string", () => test("the body"));
 				it("an empty string", () => test(""));
-				it("null", () => test(null));
-				it("a json object", () => test({ response_body: "the body", mock_json_object: "from the response" }));
+				it("a json object", () => test({ mock_json_object: "from the response", response_body: "the body"}));
+			});
+			
+			describe("should fail give", () => {
+				it("null", () => assert.throws(() => test(null), validateVError("NullResponseBody")));
 			});
 
 			describe("different .body values", () => {
 				function test(key_name) {
 					var context = mock_context.instance();
-					context.response = true;
-					context.body = "mock_body_data";
+					context.setSessionValue("hyperpotamus.response", { body: "value" });
 					var result = _body.process.call({ body: key_name }, context);
 					assert.equal(null, result, "Should have succeeded");
-					assert.deepEqual(context.body, _.get(context.session, key_name), "Body value was not properly assigned");
+					assert.deepEqual("value", _.get(context.session, key_name), "Body value was not properly assigned");
 				}
 
 				describe("should succeed given", () => {

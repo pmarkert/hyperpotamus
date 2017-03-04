@@ -28,6 +28,8 @@ describe("cookieStore.js", () => {
 	var other_root = { domain: "other.com", path: "/", key: "key", value: "value" };
 	var other_pathed = { domain: "other.com", path: "/pathed", key: "key", value: "value" };
 
+	var request_default = { domain: "hyperpotamus.io", key: "request_defaults", path: "/", value: { headers: { header1: "value1" } } };
+
 	it("no cookies", () => test([], "hyperpotamus.io", "/", []));
 	it("root, matched", () => test([hyperpotamus_root], "hyperpotamus.io", "/", [hyperpotamus_root]));
 	it("root, matched and universal", () => test([hyperpotamus_root, universal_root], "hyperpotamus.io", "/", [hyperpotamus_root, universal_root]));
@@ -37,4 +39,6 @@ describe("cookieStore.js", () => {
 	it("pathed, unmatched domain, all cookies", () => test([ hyperpotamus_root, hyperpotamus_pathed, universal_root, universal_pathed, other_root, other_pathed], "nonmatched.com", "/pathed", [universal_root, universal_pathed]));
 	it("root, unmatched domain, mismatched cookies", () => test([ hyperpotamus_root, hyperpotamus_pathed, other_root, other_pathed], "nonmatched.com", "/", []));
 	it("pathed, unmatched domain, mismatched cookies", () => test([ hyperpotamus_root, hyperpotamus_pathed, other_root, other_pathed], "nonmatched.com", "/special", []));
+	
+	it("a request_default object (instead of a true cookie)", () => test([ request_default ], "hyperpotamus.io", "/", [ request_default ]));
 });

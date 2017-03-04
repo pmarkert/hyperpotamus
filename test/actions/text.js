@@ -11,8 +11,7 @@ describe("text.js", () => {
 		describe("with different response types", () => {
 			function test(text, body) {
 				var context = mock_context.instance();
-				context.response = { body };
-				context.body = body;
+				context.setSessionValue("hyperpotamus.response", { body });
 				var result = _text.process.call({ text }, context);
 				assert.equal(null, result, "Should have succeeded");
 			}
@@ -30,7 +29,7 @@ describe("text.js", () => {
 					assert.throws(() => test(text, body), validateVError(error));
 				}
 				
-				it("an unmatched string", () => fail("baz", "this is a foo bar bat response", "TextNotFoundInResponse"));
+				it("an unmatched string", () => fail("baz", "this is a foo bar bat response", "TextNotFound"));
 				it("null for .text", () => fail(null, "this is a foo bar bat response", "InvalidActionValue.text"));
 				it("undefined for .text", () => fail(undefined, "this is a foo bar bat response", "InvalidActionValue.text"));
 				it("a number for .text", () => fail(3, "this is a foo bar bat response", "InvalidActionValue.text"));
