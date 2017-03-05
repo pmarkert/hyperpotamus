@@ -1,0 +1,6 @@
+- set:
+    object: 
+      child: true
+
+
+- print: <% object.child.something %>
