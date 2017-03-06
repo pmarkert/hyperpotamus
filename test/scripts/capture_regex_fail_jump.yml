@@ -1,6 +1,7 @@
 - name: form_post_literal
   request: http://localhost:3000/get?param=value
-  response: { regex: '/"param":"(:<captured>[\s\S]*?)"/', on_success: END }
+  response: { regex: '/"param":"(:<captured>[\s\S]*?)"/', on_success: { goto: END } }
 - name: form_post_data
   request: http://localhost:3000/get
-  response: "This request should not be executed"
+  response:
+    text: "This request should not be executed"

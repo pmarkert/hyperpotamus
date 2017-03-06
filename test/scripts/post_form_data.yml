@@ -3,4 +3,5 @@ request:
   method: POST
   form: 
     test: true
-response: '"test":"true"'
+response:
+  text: '"test":"true"'

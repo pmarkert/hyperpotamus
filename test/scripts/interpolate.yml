@@ -2,4 +2,5 @@
    set:
     now: <% | now %>
 - request: http://localhost:3000/get?url=<% now | date_format,YYYYMMDD %>
-  response: /url":"<% now | date_format,YYYYMMDD %>/
+  response:
+    regex: /url":"<% now | date_format,YYYYMMDD %>/

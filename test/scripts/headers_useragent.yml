@@ -2,4 +2,5 @@ request:
   url: http://localhost:3000/get
   headers:
     user-agent: FunkyAgent
-response: '"user-agent":"FunkyAgent"'
+response:
+  text: '"user-agent":"FunkyAgent"'

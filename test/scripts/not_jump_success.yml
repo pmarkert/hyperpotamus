@@ -1,4 +1,5 @@
 - not :
     fail: Error
-  on_success: END
+  on_success:
+    goto: END
 - fail: Should not process

@@ -1,4 +1,5 @@
 - request: http://localhost:3000/get
   response: { set : { special : "middle" } }
 - request: http://localhost:3000/get?space=<%special%>
-  response: "middle"
+  response:
+    text: "middle"

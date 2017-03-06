@@ -1,3 +1,4 @@
 - not: true
-  on_failure: END
+  on_failure:
+    goto: END
 - fail: Should not have processed

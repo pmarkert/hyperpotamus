@@ -1,8 +1,9 @@
 - name: form_post_literal
   request: http://localhost:3000/get
-  response: { status: 200, on_success: json_post }
+  response: { status: 200, on_success: { goto: json_post } }
 - name: form_post_data
   request: http://localhost:3000/get
-  response: "This request should not get executed"
+  response:
+    text: "This request should not get executed"
 - name: json_post
   request: http://localhost:3000/get

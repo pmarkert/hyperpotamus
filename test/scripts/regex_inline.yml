@@ -1,2 +1,3 @@
 request: http://localhost:3000/get?url=medium
-response: /"url":"medium"/
+response:
+  regex: /"url":"medium"/
