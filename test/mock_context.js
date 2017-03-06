@@ -1,7 +1,5 @@
 var _ = require("lodash");
-var verror = require("verror");
 var Promise = require("bluebird");
-var interpolate = require("../lib/interpolate");
 var Context = require("../lib/context");
 
 exports.expected_failure = { message: "Expected failure" };

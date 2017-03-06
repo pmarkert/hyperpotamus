@@ -1,4 +1,3 @@
-var _ = require("lodash");
 var _cookies = require("../../lib/actions/cookies");
 var assert = require("assert");
 var mock_context = require("../mock_context");

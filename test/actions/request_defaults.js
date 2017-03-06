@@ -4,8 +4,6 @@ var assert = require("assert");
 var mock_context = require("../mock_context");
 var normalizer = require("../mock_normalizer");
 var validateVError = require("../test_utils/validate_verror");
-var Promise = require("bluebird");
-var tough = require("tough-cookie");
 _request_defaults.logger = require("../mock_logger");
 
 describe("request_defaults.js", () => {
