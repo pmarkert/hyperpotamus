@@ -13,13 +13,11 @@ steps:
           mode: set
         path: $.steps.1.actions.0
     path: $.steps.1
-  - actions:
-      - compare:
-          operator: =
-          array:
-            - <%! first_step %>
-            - <%! second_step %>
-            - true
-        path: $.steps.1.actions.0
-    path: $.steps.1
+  - compare:
+      operator: =
+      array:
+        - <%! first_step %>
+        - <%! second_step %>
+        - true
+    path: $.steps.2
 normalized: true

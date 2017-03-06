@@ -6,14 +6,12 @@ steps:
         mode: set
       path: $.steps.0.actions
     path: $.steps.0
-  - actions:
-      - request:
-          url: 'http://localhost:3000/get?url=<% now | date_format,YYYYMMDD %>'
-        response:
-          regex:
-            pattern: 'url":"<% now | date_format,YYYYMMDD %>'
-            options: ''
-          path: $.steps.1.actions.0.response
-        path: $.steps.1.actions.0
+  - request:
+      url: 'http://localhost:3000/get?url=<% now | date_format,YYYYMMDD %>'
+    response:
+      regex:
+        pattern: 'url":"<% now | date_format,YYYYMMDD %>'
+        options: ''
+      path: $.steps.1.response
     path: $.steps.1
 normalized: true

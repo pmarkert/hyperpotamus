@@ -1,18 +1,16 @@
 steps:
-  - actions:
-      - request:
-          url: 'http://localhost:3000/get?param=value'
-        response:
-          - regex:
-              pattern: '"param":"(:<captured>[\s\S]+?)"'
-              options: ''
-            path: $.steps.0.actions.0.response.0
-          - compare:
-              operator: =
-              array:
-                - <%captured%>
-                - value
-            path: $.steps.0.actions.0.response.1
-        path: $.steps.0.actions.0
+  - request:
+      url: 'http://localhost:3000/get?param=value'
+    response:
+      - regex:
+          pattern: '"param":"(:<captured>[\s\S]+?)"'
+          options: ''
+        path: $.steps.0.response.0
+      - compare:
+          operator: =
+          array:
+            - <%captured%>
+            - value
+        path: $.steps.0.response.1
     path: $.steps.0
 normalized: true

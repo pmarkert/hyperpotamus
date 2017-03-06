@@ -1,18 +1,16 @@
 steps:
-  - actions:
-      - request:
-          url: 'http://localhost:3000/get?url=medium'
-        response:
-          - headers:
-              content-type:
-                capture: content_type
-            path: $.steps.0.actions.0.response.0
-          - compare:
-              operator: =
-              array:
-                - application/json; charset=utf-8
-                - <% content_type %>
-            path: $.steps.0.actions.0.response.1
-        path: $.steps.0.actions.0
+  - request:
+      url: 'http://localhost:3000/get?url=medium'
+    response:
+      - headers:
+          content-type:
+            capture: content_type
+        path: $.steps.0.response.0
+      - compare:
+          operator: =
+          array:
+            - application/json; charset=utf-8
+            - <% content_type %>
+        path: $.steps.0.response.1
     path: $.steps.0
 normalized: true

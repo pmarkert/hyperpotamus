@@ -1,30 +1,30 @@
 var _ = require("lodash");
-var _and = require("../../lib/actions/and");
+var _actions = require("../../lib/actions/actions");
 var assert = require("assert");
 var mock_context = require("../mock_context");
 var normalizer = require("../mock_normalizer");
 var validateVError = require("../test_utils/validate_verror");
 
-describe("and.js", () => {
+describe("actions.js", () => {
 	describe("normalize()", () => {
 		describe("should succesfully normalize", () => {
 			function test(to_normalize, length) {
-				var result = _and.normalize(to_normalize, normalizer);
+				var result = _actions.normalize(to_normalize, normalizer);
 				assert(_.isObject(result) && !_.isArray(result), "Should have returned an object not an array");
-				assert(_.isArray(result.and), "Should have had a .and property that is an array");
-				assert(result.and.length == length, `Should have had ${length} nested actions`);
-				assert(_.every(result.and, (action) => action.normalized === true));
+				assert(_.isArray(result.actions), "Should have had a .actions property that is an array");
+				assert(result.actions.length == length, `Should have had ${length} nested actions`);
+				assert(_.every(result.actions, (action) => action.normalized === true));
 			}
 
 			it("an array", () => test([{ name: "first", normalized: false }, { name: "second", normalized: false }], 2));
 			it("an array of 1 element", () => test([{ name: "first", normalized: false }], 1));
 			it("an array of 0 elements", () => test([], 0));
-			it("an 'and' action", () => test({ and: [{ name: "first", normalized: false }, { name: "second", normalized: false }] }, 2));
+			it("an 'actions' action", () => test({ actions: [{ name: "first", normalized: false }, { name: "second", normalized: false }] }, 2));
 		});
 
 		describe("should not normalize", () => {
 			function test(to_normalize) {
-				assert(_and.normalize(to_normalize, normalizer) == null);
+				assert(_actions.normalize(to_normalize, normalizer) == null);
 			}
 
 			it("null", () => test(null));
@@ -33,12 +33,12 @@ describe("and.js", () => {
 			it("true", () => test(true));
 			it("false", () => test(false));
 			it("Date", () => test(new Date()));
-			it("an object without .and", () => test({ object: true }));
+			it("an object without .actions", () => test({ object: true }));
 		});
 
 		describe("should throw an error for invalid actions", () => {
 			function test(to_normalize) {
-				assert.throws(() => _and.normalize(to_normalize, normalizer), validateVError("ActionStructureError.and"));
+				assert.throws(() => _actions.normalize(to_normalize, normalizer), validateVError("ActionStructureError.actions"));
 			}
 
 			it(".and is true", () => test({ and: true }));
@@ -51,22 +51,22 @@ describe("and.js", () => {
 		describe("should successfully process", () => {
 			function test(to_process) {
 				var context = mock_context.instance();
-				return _and.process.call(to_process, context).then(() => {
-					assert.deepEqual(to_process.and, context.processed_actions, "Processed actions should have matched");
+				return _actions.process.call(to_process, context).then(() => {
+					assert.deepEqual(to_process.actions, context.processed_actions, "Processed actions should have matched");
 				});
 			}
 
-			it("an empty array", () => test({ and: [] }));
-			it("an array of 1", () => test({ and: [true] }));
-			it("an array of actions", () => test({ and: [true, true] }));
+			it("an empty array", () => test({ actions: [] }));
+			it("an array of 1", () => test({ actions: [true] }));
+			it("an array of actions", () => test({ actions: [true, true] }));
 		});
 
 		describe("should fail with", () => {
-			function test(and_value, processed_actions) {
-				processed_actions = processed_actions || and_value;
+			function test(actions_value, processed_actions) {
+				processed_actions = processed_actions || actions_value;
 				var context = mock_context.instance();
-				var to_process = { and: and_value };
-				return _and.process.call(to_process, context).then(() => {
+				var to_process = { actions: actions_value };
+				return _actions.process.call(to_process, context).then(() => {
 					assert.fail("Should not have succeeded");
 				}).catch(() => {
 					assert.deepEqual(processed_actions, context.processed_actions, "Processed actions did not match");

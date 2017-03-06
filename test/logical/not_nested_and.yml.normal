@@ -1,11 +1,11 @@
 steps:
   - actions:
       - not:
-          and:
+          actions:
             - fail: Explicit false
-              path: $.steps.0.actions.0.not.and.0
+              path: $.steps.0.actions.0.not.actions.0
             - noop: true
-              path: $.steps.0.actions.0.not.and.1
+              path: $.steps.0.actions.0.not.actions.1
           path: $.steps.0.actions.0.not
         path: $.steps.0.actions.0
     path: $.steps.0

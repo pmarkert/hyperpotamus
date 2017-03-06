@@ -1,0 +1,41 @@
+steps:
+  - set:
+      source:
+        values:
+          - a
+          - b
+          - c
+        to_be_shared_answers: []
+        unshared_answers: []
+      mode: set
+    path: $.steps.0
+  - foreach:
+      key:
+        - value
+      in:
+        - values
+      shared:
+        shared_answers: <%! to_be_shared_answers %>
+      actions:
+        - push:
+            array: shared_answers
+            value: <% value %>
+          path: $.steps.1.foreach.actions.0
+        - push:
+            array: unshared_answers
+            value: <% value %>
+          path: $.steps.1.foreach.actions.1
+    path: $.steps.1
+  - compare:
+      operator: =
+      array:
+        - <% values | join %>
+        - <% to_be_shared_answers | join %>
+    path: $.steps.2
+  - compare:
+      operator: =
+      array:
+        - ''
+        - <% unshared_answers | join %>
+    path: $.steps.3
+normalized: true

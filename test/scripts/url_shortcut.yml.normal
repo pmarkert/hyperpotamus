@@ -1,12 +1,8 @@
 steps:
-  - actions:
-      - request:
-          url: 'http://localhost:3000/get?url=requeststring'
-        path: $.steps.0.actions.0
+  - request:
+      url: 'http://localhost:3000/get?url=requeststring'
     path: $.steps.0
-  - actions:
-      - request:
-          url: 'http://localhost:3000/get?url=requestobject'
-        path: $.steps.1.actions.0
+  - request:
+      url: 'http://localhost:3000/get?url=requestobject'
     path: $.steps.1
 normalized: true

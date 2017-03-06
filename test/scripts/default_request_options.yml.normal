@@ -1,20 +1,16 @@
 steps:
-  - actions:
-      - request_defaults:
-        - domain: "*"
-          key: "request_defaults"
-          path: "/"
-          value:
-            headers:
-              special: MATCHED
-        path: $.steps.0.actions.0
+  - request_defaults:
+      - value:
+          headers:
+            special: MATCHED
+        path: /
+        domain: '*'
+        key: request_defaults
     path: $.steps.0
-  - actions:
-      - request:
-          url: 'http://localhost:3000/get'
-        response:
-          text: MATCHED
-          path: $.steps.1.actions.0.response
-        path: $.steps.1.actions.0
+  - request:
+      url: 'http://localhost:3000/get'
+    response:
+      text: MATCHED
+      path: $.steps.1.response
     path: $.steps.1
 normalized: true

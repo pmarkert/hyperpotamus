@@ -1,14 +1,14 @@
 steps:
   - actions:
-      - and:
+      - actions:
           - noop: true
-            path: $.steps.0.actions.0.and.0
+            path: $.steps.0.actions.0.actions.0
           - or:
               - fail: Explicit false
-                path: $.steps.0.actions.0.and.1.or.0
+                path: $.steps.0.actions.0.actions.1.or.0
               - noop: true
-                path: $.steps.0.actions.0.and.1.or.1
-            path: $.steps.0.actions.0.and.1
+                path: $.steps.0.actions.0.actions.1.or.1
+            path: $.steps.0.actions.0.actions.1
         path: $.steps.0.actions.0
     path: $.steps.0
 normalized: true

@@ -1,0 +1,13 @@
+steps:
+  - set:
+      source:
+        test: true
+      mode: set
+    path: $.steps.0
+  - prompt:
+      - pattern:
+          pattern: 'true'
+          options: ''
+        name: test
+    path: $.steps.1
+normalized: true

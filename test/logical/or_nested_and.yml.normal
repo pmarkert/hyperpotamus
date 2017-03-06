@@ -3,9 +3,9 @@ steps:
       - or:
           - fail: Explicit false
             path: $.steps.0.actions.0.or.0
-          - and:
+          - actions:
               - noop: true
-                path: $.steps.0.actions.0.or.1.and.0
+                path: $.steps.0.actions.0.or.1.actions.0
             path: $.steps.0.actions.0.or.1
         path: $.steps.0.actions.0
     path: $.steps.0

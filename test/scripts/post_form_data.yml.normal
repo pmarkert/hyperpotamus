@@ -1,13 +1,11 @@
 steps:
-  - actions:
-      - request:
-          url: 'http://localhost:3000/post'
-          method: POST
-          form:
-            test: true
-        response:
-          text: '"test":"true"'
-          path: $.steps.0.actions.0.response
-        path: $.steps.0.actions.0
+  - request:
+      url: 'http://localhost:3000/post'
+      method: POST
+      form:
+        test: true
+    response:
+      text: '"test":"true"'
+      path: $.steps.0.response
     path: $.steps.0
 normalized: true

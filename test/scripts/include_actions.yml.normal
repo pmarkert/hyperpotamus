@@ -1,20 +1,16 @@
 steps:
-  - actions:
-      - set:
-          source:
-            data:
-              included: true
-          mode: set
-        path: $.steps.0.actions.0
-      - noop: true
-        path: $.steps.0.actions.1
+  - set:
+      source:
+        data:
+          included: true
+      mode: set
     path: $.steps.0
-  - actions:
-      - compare:
-          operator: =
-          array:
-            - <%! data.included %>
-            - true
-        path: $.steps.1.actions.0
+  - noop: true
     path: $.steps.1
+  - compare:
+      operator: =
+      array:
+        - <%! data.included %>
+        - true
+    path: $.steps.2
 normalized: true

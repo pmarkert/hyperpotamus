@@ -18,16 +18,14 @@ steps:
           source:
             third_step: true
           mode: set
-        path: $.steps.0.actions.0
-    path: $.steps.0
-  - actions:
-      - compare:
-          operator: =
-          array:
-            - <%! first_step %>
-            - <%! second_step %>
-            - <%! third_step %>
-            - true
-        path: $.steps.1.actions.0
-    path: $.steps.1
+        path: $.steps.2.actions.0
+    path: $.steps.2
+  - compare:
+      operator: =
+      array:
+        - <%! first_step %>
+        - <%! second_step %>
+        - <%! third_step %>
+        - true
+    path: $.steps.3
 normalized: true

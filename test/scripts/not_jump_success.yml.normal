@@ -1,15 +1,11 @@
 steps:
-  - actions:
-      - not:
-          fail: Error
-          path: $.steps.0.actions.0.not
-        on_success:
-          goto: END
-          path: $.steps.0.actions.0.on_success
-        path: $.steps.0.actions.0
+  - not:
+      fail: Error
+      path: $.steps.0.not
+    on_success:
+      goto: END
+      path: $.steps.0.on_success
     path: $.steps.0
-  - actions:
-      - fail: Should not process
-        path: $.steps.1.actions.0
+  - fail: Should not process
     path: $.steps.1
 normalized: true
