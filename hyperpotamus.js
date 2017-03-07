@@ -145,8 +145,8 @@ function dumpError(message, err) {
 	}
 	dump.help_link = `https://github.com/pmarkert/hyperpotamus/wiki/errors#${cause.name}`;
 	logger.debug(`Error stack-trace:\n${verror.fullStack(err)}`);
-	logger.info(`Error details:\n${yaml.dump(verror.info(err), { noRefs: true, lineWidth: process.stdout.columns, skipInvalid: true })}`);
-	logger.error(`Error occurred while ${message}:\n${yaml.dump(dump, { noRefs: true, lineWidth: process.stdout.columns, skipInvalid: true })}`);
+	logger.info(`Error details:\n${yaml.dump(verror.info(err), { lineWidth: process.stdout.columns, skipInvalid: true })}`);
+	logger.error(`Error occurred while ${message}:\n${yaml.dump(dump, { lineWidth: process.stdout.columns, skipInvalid: true })}`);
 	process.exit(1);
 }
 
