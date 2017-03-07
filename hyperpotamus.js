@@ -61,7 +61,7 @@ function execute(args) {
 		logger.debug("About to start session for " + JSON.stringify(session));
 		var localSession = _.merge({}, sessionDefaults, session);
 		processor.process(script, localSession, args.start)
-			.tap(context => logger.info("Final session data is:\n" + JSON.stringify(_.without(context.session, "hyperpotamus"), null, 2)))
+			.tap(context => logger.info("Final session data is:\n" + JSON.stringify(_.omit(context.session, "hyperpotamus"), null, 2)))
 			.delay(0) // To ensure we can SIGINT even if no async work happens in the script
 			.then(callback)
 			.catch(_.partial(dumpError, "processing script"));
