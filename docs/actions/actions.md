@@ -27,3 +27,15 @@ and:
 - {action1}
 ...
 - {actionN}
+```
+
+## Examples
+```YAML
+- if:
+    equals: [ <% customer_is_happy %>, false ]
+  then: # technically only expects a single element, but multiple actions can be wrapped within an 'actions' element.
+    actions:
+      - print: "The customer was not happy"
+      - set:
+          free_pizza: true
+```
