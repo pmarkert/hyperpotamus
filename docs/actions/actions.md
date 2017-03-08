@@ -39,3 +39,11 @@ and:
       - set:
           free_pizza: true
 ```
+
+## Errors
+### ActionStructureError.and
+If the 'and' alias is used the value array must contain more than one action.
+```YAML
+and: # throws ActionStructureError.and because it only has a single element
+  - print: Hello World 
+```
