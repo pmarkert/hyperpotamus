@@ -38,7 +38,7 @@ describe("actions.js", () => {
 
 		describe("should throw an error for invalid actions", () => {
 			function test(to_normalize) {
-				assert.throws(() => _actions.normalize(to_normalize, normalizer), validateVError("ActionStructureError.actions"));
+				assert.throws(() => _actions.normalize(to_normalize, normalizer), validateVError("ActionStructureError.and"));
 			}
 
 			it(".and is true", () => test({ and: true }));

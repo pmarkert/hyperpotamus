@@ -274,17 +274,17 @@ describe("compare.js", () => {
 		});
 		
 		describe("should fail with invalid types", () => {
-			it("no elements", () => testFailure([], "=", "InvalidComparisonArray"));
-			it("1 element", () => testFailure(["a"], "=", "InvalidComparisonArray"));
+			it("no elements", () => testFailure([], "=", "InvalidComparisonTargetLength"));
+			it("1 element", () => testFailure(["a"], "=", "InvalidComparisonTargetLength"));
 			it("NaN value", () => testFailure([NaN, NaN], "=", "InvalidComparisonType"));
 			it("array values", () => testFailure([[1, 2], [1, 2]], "=", "InvalidComparisonType"));
 			it("object values", () => testFailure([{ a: "a", b: "b" }, { a: "a", b: "b" }], "=", "InvalidComparisonType"));
-			it("true value for compare .array property", () => testFailure(true, "=", "InvalidComparisonType"));
-			it("false value for compare .array property", () => testFailure(false, "=", "InvalidComparisonType"));
-			it("string value for compare .array property", () => testFailure("asdf", "=", "InvalidComparisonType"));
-			it("date value for compare .array property", () => testFailure(new Date(), "=", "InvalidComparisonType"));
-			it("null value for compare .array property", () => testFailure(null, "=", "InvalidComparisonType"));
-			it("object value for compare .array property", () => testFailure({}, "=", "InvalidComparisonType"));
+			it("true value for compare .array property", () => testFailure(true, "=", "InvalidComparisonTarget"));
+			it("false value for compare .array property", () => testFailure(false, "=", "InvalidComparisonTarget"));
+			it("string value for compare .array property", () => testFailure("asdf", "=", "InvalidComparisonTarget"));
+			it("date value for compare .array property", () => testFailure(new Date(), "=", "InvalidComparisonTarget"));
+			it("null value for compare .array property", () => testFailure(null, "=", "InvalidComparisonTarget"));
+			it("object value for compare .array property", () => testFailure({}, "=", "InvalidComparisonTarget"));
 		});
 	});
 });
