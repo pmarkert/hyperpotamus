@@ -1,30 +1,60 @@
 # `compare` action
-Compares the elements in an array based upon the specified operator. Each element in the array is compared to the previous element. If any comparison fails, then the action fails with details of the mis-match.
+Compares the elements in an array based upon the specified operator. Each element in the array is compared to the previous element. If any comparison fails, then the action fails with details of the mismatch.
 
-## Structure
 ```YAML
 compare:
   array: # Array of values to compare
   operator: # Operator to be applied
 ```
 
-Valid operators are
-* = (also ==)
-* <
-* >
-* <=
-* >=
-* != (also <>)
+### `.operator` property _(required)_
+Must be one of the following values:
+- "=" (also "==")
+- "<"
+- ">"
+- "<="
+- ">="
+- "!=" (also "<>")
+
+### `.array` property _(required)_
+The array or `<%! array_reference %>` on which to perform the compaison operations.
 
 ## Aliases
-Each of these aliases will be normalized to a `compare` action with the appropriate .operator applied. The value on the right-hand side will be used for the .array property.
+- "="
+    - `equal`
+    - `equals`
+    - `equal_to`
+- ">"
+    - `greater_than`
+- ">="
+    - `greater_than_or_equal`
+    - `greater_than_or_equals`
+    - `greater_than_or_equal_to`
+- "<"
+    - `less_than`
+- "<="
+    - `less_than_or_equal`
+    - `less_than_or_equals`
+    - `less_than_or_equal_to`
+- "!="
+    - not_equal
+    - `not_equals`
+    - `not_equal_to`
 
-- "equal" or "equals" or "equal_to"
-- "greater_than"
-- "greater_than_or_equal" or "greater_than_or_equals" or "greater_than_or_equal_to"
-- "less_than"
-- "less_than_or_equal" or "less_than_or_equals" or "less_than_or_equal_to"
-- "not_equal" or "not_equals" or "not_equal_to"
+Each of these aliases are shortcuts that will be normalized into a `compare` action with the corresponding .operator value applied. The value of the alias key will be used for the .array property.
+
+```YAML
+# Using the equals alias
+equals: [ true, true ]
+```
+
+is normalized to:
+
+```YAML
+compare:
+  operator: "="
+  array: [ true, true ]
+```
 
 ## Examples:
 ```YAML
@@ -46,6 +76,7 @@ less_than_or_equal_to: [ 1, 2, 3 ]
 ```
 
 ```YAML
+# Using an array reference
 not_equals: <%! customer_ids %>
 ```
 
@@ -71,7 +102,7 @@ compare:
 ```
 
 ### InvalidComparisonType
-The data-type of the values to be compared were not a supported type. Valid comparison value types include:
+The data-type of the first element to be compared was not a supported type. Valid comparison value types include:
 
 * null
 * strings
@@ -79,27 +110,28 @@ The data-type of the values to be compared were not a supported type. Valid comp
 * dates
 * moments
 * booleans
+
 ```YAML
-equals: # throws InvalidComparisonType because comparing objects is not supported.
- - { object: true }
- - { object: true } 
+equals: # throws InvalidComparisonType because comparing arrays/object is not supported.
+  - [ a, b ]
+  - [ a, b ]
 ```
 
 ### InvalidComparisonOperatorForType
-boolean and null values can only be compared for equality or non-equality
+boolean and null values can only be compared for equality/non-equality, but not for inequality.
 ```YAML
 less_than: [ true, false ] # throws InvalidComparisonOperatorForType because true and false can't be compared for inequality
 ```
 
-### InvalidComparisonType
+### InvalidComparisonTarget
 The value of the .target property must be an array. This can either be a literal inline array in the YAML script or it can be an <%! object_reference %> to an array object in the session.
 ```YAML
 compare:
-  array: foo # throws InvalidComparisonType because "foo" is not an array
+  array: foo # throws InvalidComparisonTarget because "foo" is not an array
   operator: =
 ```
 
-### InvalidComparisonArrayLength
+### InvalidComparisonTargetLength
 The array being targeted for comparison must have at least 2 elements in it to perform comparison.
 ```YAML
 equals: [ true ] # throws InvalidComparisonArrayLength because there is only one element to compare
