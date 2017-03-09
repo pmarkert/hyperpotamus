@@ -43,7 +43,12 @@ An list of array paths to add to the per-row iteration process (see Notes).
  ```
 
 ## Notes
-* The `.header`='only' option is useful to output the csv header at the beginning of a script when the values will be output with one or more `csv` actions inside of a loop (don't want to have multiple header rows mixed into the middle of a report).
-* Each unmapped array value in the `.fields` list will use the current value of the array in the row output; all of the unmapped arrays are then iterated to the next position so that the row output can be repeated until at least one of the arrays is exhausted. The intention is to allow multiple arrays of the same size to be lined-up as columns in a report.
-* Ragged-length arrays, while technically supported, are probably not going to behave as expected. The current array position of any fields is not automatically reset before processing by the `csv` action, so unexpected results may occur. When the shortest ragged array is exhausted, the other arrays will have "dangling" items at the end. If the same arrays are used again in a `csv` action, the longer arrays will start in the middle because they still had remaining elements to be processed.
-* Any array fields that have an explicit mapping will not be automatically iterated with the unmapped array fields. This is intentional behavior. To cause mapped array values to be iterated, add the name/path of the array to the .iterate property. This behavior allows some arrays to be "locked in place" by specifying a mapping that uses the `| current` pipe.
+#### Headers
+The `.header`='only' option is useful to output the csv header at the beginning of a script when the values will be output with one or more `csv` actions inside of a loop (don't want to have multiple header rows mixed into the middle of a report).
+
+#### Array Fields
+Each unmapped array value in the `.fields` list will use the current value of the array in the row output; all of the unmapped arrays are then iterated to the next position so that the row output can be repeated until at least one of the arrays is exhausted. The intention is to allow multiple arrays of the same size to be lined-up as columns in a report.
+
+Ragged-length arrays, while technically supported, are probably not going to behave as expected. The current array position of any fields is not automatically reset before processing by the `csv` action, so unexpected results may occur. When the shortest ragged array is exhausted, the other arrays will have "dangling" items at the end. If the same arrays are used again in a `csv` action, the longer arrays will start in the middle because they still had remaining elements to be processed.
+
+Any array fields that have an explicit mapping will not be automatically iterated with the unmapped array fields. This is intentional behavior. To cause mapped array values to be iterated, add the name/path of the array to the .iterate property. This behavior allows some arrays to be "locked in place" by specifying a mapping that uses the `| current` pipe.

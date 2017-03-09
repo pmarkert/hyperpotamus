@@ -20,26 +20,7 @@ if(args.calfinated) {
 }
 
 if(args.help) {
-	var marked = require('marked');
-	var TerminalRenderer = require('marked-terminal');
-
-	marked.setOptions({
-		// Define custom renderer 
-		renderer: new TerminalRenderer({
-			reflowText: true,
-			width: process.stdout.columns - 10
-		})
-	});
-
-
-	if(args.help===true) {
-		console.log("About to show a list of help topics");
-	}
-	else {
-		var fs = require("fs");
-		var content = fs.readFileSync("./docs/" + args.help + ".md", "utf-8");
-		console.log(marked(content));
-	}
+	require("./cli/help")(args);
 	process.exit(0);
 }
 else {

@@ -39,6 +39,7 @@ var args = require("yargs")
 	.alias("calfinated", "!")
 	.boolean("calfinated")
 	.describe("help", "Displays documentation about a specified topic.")
+	.alias("help", "h")
 	.requiresArg("start")
 	.conflicts("loop", "csv")
 	.check(function (args) {
