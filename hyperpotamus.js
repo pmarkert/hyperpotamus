@@ -18,7 +18,33 @@ hyperpotamus.logging.set_level(args.verbose + 3); // Starts at Warning, adding -
 if(args.calfinated) {
 	process.env.CALFINATED = "true";
 }
-execute(args);
+
+if(args.help) {
+	var marked = require('marked');
+	var TerminalRenderer = require('marked-terminal');
+
+	marked.setOptions({
+		// Define custom renderer 
+		renderer: new TerminalRenderer({
+			reflowText: true,
+			width: process.stdout.columns - 10
+		})
+	});
+
+
+	if(args.help===true) {
+		console.log("About to show a list of help topics");
+	}
+	else {
+		var fs = require("fs");
+		var content = fs.readFileSync("./docs/" + args.help + ".md", "utf-8");
+		console.log(marked(content));
+	}
+	process.exit(0);
+}
+else {
+	execute(args);
+}
 
 function execute(args) {
 	var sessionDefaults = require("./cli/sessionDefaults.js")(args);

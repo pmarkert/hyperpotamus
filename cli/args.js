@@ -38,9 +38,13 @@ var args = require("yargs")
 	.describe("calfinated", "Uses the calfinated engine for macro interpolation instead of markup.js")
 	.alias("calfinated", "!")
 	.boolean("calfinated")
+	.describe("help", "Displays documentation about a specified topic.")
 	.requiresArg("start")
 	.conflicts("loop", "csv")
 	.check(function (args) {
+		if(args.help) {
+			return true;
+		}
 		if (!args.file && !args._.length >= 1) {
 			throw new Error("Must specify the file to process either with -f, --file, or as the first positional argument.");
 		}
