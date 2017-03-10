@@ -1,4 +1,4 @@
-var _pop = require("../../lib/actions/shift");
+var _shift = require("../../lib/actions/shift");
 var _ = require("lodash");
 var assert = require("assert");
 var mock_context = require("../mock_context");
@@ -7,7 +7,7 @@ var validateVError = require("../test_utils/validate_verror");
 describe("shift.js", () => {
 	describe("normalize()", () => {
 		it("should not exist", () => {
-			assert(_.isNil(_pop.normalize));
+			assert(_.isNil(_shift.normalize));
 		});
 	});
 
@@ -15,7 +15,7 @@ describe("shift.js", () => {
 		describe(".key values", () => {
 			function test(key) {
 				var context = mock_context.instance({ array_key: ["a", "b", "c"], other: "element" });
-				var result = _pop.process.call({ shift: { key, array: "array_key" } }, context);
+				var result = _shift.process.call({ shift: { key, array: "array_key" } }, context);
 				assert.equal(null, result, "Should have succeeded");
 				assert.deepEqual(_.get(context.session, key), "a", "Shifted value was not properly assigned");
 			}
@@ -50,7 +50,7 @@ describe("shift.js", () => {
 					matrix: [ [ "a", "b" ], [ "a", "c" ], [ "e", "f" ] ],
 					other: "element" }
 				);
-				var result = _pop.process.call({ shift: { key: "key", array } }, context);
+				var result = _shift.process.call({ shift: { key: "key", array } }, context);
 				assert.equal(null, result, "Should have succeeded");
 				assert.deepEqual(_.get(context.session, "key"), "a", "Shifted value was not properly assigned");
 			}
