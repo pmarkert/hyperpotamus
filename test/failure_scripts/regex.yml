@@ -1,2 +1,3 @@
 request: http://localhost:3000/get?url=medium
-response: /do not match/
+response: 
+  regex: /do not match/
