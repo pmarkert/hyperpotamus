@@ -1,11 +1,11 @@
-# `push` action
+# `unshift` action
 
-Pushes an element onto the end of an array or concatenates one array onto the end of another.
+Pushes an element onto the start of an array or prepends one array to the start of another.
 
 ```YAML
-  - push:
+  - unshift:
       array: "array_path" || [ <%! array_reference %> ]
-      value: value  || [ array_to_append ]
+      value: value  || [ array_to_prepend ]
 ```
 
 ### `.array` property _(required)_
@@ -18,30 +18,30 @@ Can be either:
 
 ### `.value` property _(required)_
 Can be either:
-* (array) an array of values to be concatenated to the end of the target array
-* (other) the value to be appended to the target array.
+* (array) an array of values to be prepended to the beginning of the target array
+* (other) the value to be prepended to the start of the target array.
 
 
 ## Notes
 When a key/path is used for `.array` and the target property does not already exist, a new empty array will be initialized. If the target does exist, then it must be an array.
 
-If you want to create a multi-dimensional array by appending an array as the last element in the list (instead of concatenating the arrays together), then wrap the array within an additional array.
+If you want to create a multi-dimensional array by inserting an array as the first element in the list (instead of prepending the array onto the target), then wrap the array with an additional array.
 
 ```YAML
 - set:
     target_array: [ a, b, c ]
-- push:
+- unshift:
     array: target_array
     value: [ [ 1, 2, 3 ] ]
-- print: <% target_array | json %> # [ a,b,c, [ 1,2,3 ] ]
+- print: <% target_array | json %> # [ [ 1,2,3 ], a,b,c  ]
 ```
 
 ## Errors
-### ActionStructureError.push
+### ActionStructureError.unshift
 A value cannot be provided for both `.array` and `.target`, because `.target` is an alias for `.array`.
 
-### InvalidActionTarget.push
+### InvalidActionTarget.unshift
 The value of `.array` was either not specified or referred to a non-array value.
 
-### InvalidActionValue.push
+### InvalidActionValue.unshift
 The value of `.value` was not specified.
