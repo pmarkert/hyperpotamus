@@ -91,6 +91,10 @@ describe("String Interpolation", () => {
 			var min = 3, max = 7;
 			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
 		});
+		it("Should generate a random number within a backwards range", () => {
+			var min = 3, max = 7;
+			verify_random_range("<% '" + max + "-" + min + "' | random %>", min, max);
+		});
 		it("Should generate a random number within a range and whitespace", () => {
 			var min = 3, max = 7;
 			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
@@ -98,11 +102,6 @@ describe("String Interpolation", () => {
 		it("Should return the number if min == max", () => {
 			var min = 3, max = 3;
 			verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max);
-		});
-		it("Should throw an error if min > max", () => {
-			var min = 4, max = 3;
-			assert.throws(() => verify_random_range("<% '" + min + "-" + max + "' | random %>", min, max),
-				validateVerror("PipeExecutionError"));
 		});
 		it("Should generate a random number from X -> X+1 (same number)", () => {
 			var min = 3, max = 4;
