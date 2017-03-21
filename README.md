@@ -4,62 +4,66 @@
 [![license](https://img.shields.io/npm/l/hyperpotamus.svg)](https://github.com/pmarkert/hyperpotamus/blob/master/LICENSE)
 [![chat](https://badges.gitter.im/hyperpotamus_js/general.svg)](https://gitter.im/hyperpotamus_js/general)
 
-**UPDATE:** There have been some significant improvements that have unfortunately required some breaking changes as I prepare for the upcoming 1.0 release. See the [changelog](https://github.com/pmarkert/hyperpotamus/wiki/changelog) for details.
-
 ![Hyperpotamus](docs/images/hyperpotamus_logo.png)
 
-# hyperpotamus intro
-Hyperpotamus n. [hyper·pot·a·mus] - an easily scriptable HTTP client
+# hyperpotamus
+"...its like duct tape for programming the web."
 
+Hyperpotamus n. [hyper·pot·a·mus] - A YAML based scripting language for processing data, automating the web, and doing ... stuff.
+
+
+### Example script
 ```YAML
+# Ask the user for a size
+- prompt:
+    pizza_size: "What size pizza do you want? [small, medium, or large]"
+
 - request: # Send a request to httpbin.org with our pizza order
     url: http://httpbin.org/post
     method: POST
-    auth:
-      username: foo
-      password: bar
     json:
+      size: <% pizza_size %>
       crust: deep-dish
       toppings: [ pepperoni, extra-cheese ]
   response:
     - json: # Capture the IP address from the response
        ip_address: "$.origin" 
-    - print: Your IP Address is <% ip_address %>
+    - print: "Your order was placed from IP Address- <% ip_address %>"
 ```
 
-This README just scratches the surface and gives you enough information to know what hyperpotamus tastes like to either 
+This README just scratches the surface to give you enough information to know what hyperpotamus tastes like and either
 get excited or scratch your head and wonder why anyone would be interested. For those who get excited, it is worth 
 reading the [Hyperpotamus documentation wiki](http://github.com/pmarkert/hyperpotamus/wiki)
 
-## What does hyperpotamus do?
+### What does hyperpotamus do?
 Hyperpotamus allows you to write simple, human-readable scripts using any text-editor to describe a sequence of web requests (HTTP/HTTPS) and actions that you want to take to verify or capture data from the responses. Hyperpotamus scripts support multi-step processes where information can be retrieved from the results of one request to print out or use in subsequent requests. For example, you may need to retrieve a listing of photos from one page before you select one or all of them to download on a second page. Hyperpotamus uses powerful dynamic macros to customize parameters in the web-requests. The values for these macros can be passed in on the command-line, read from a spreadsheet, loaded from a JSON/YAML data-file, captured from a previous request, or read in from the user running the script at a prompt.
 
-## Why might someone want to do this? 
+### Why might someone want to do this?
 There are many reasons that I have needed to use such a tool in my own career, including:
 * Invoking a JSON-based API to send requests, retrieve data and submit updates
-* Creating a monitoring system that checks urls a regular basis to make sure a website or webservice is working
+* Creating a monitoring system that checks urls or APIs a regular basis to make sure a website or service is working
 * Screen-scraping HTML to retrieve documents and/or data
 * Setting up an automated suite of integration/regression tests for a new web-application or API
 * Stress-testing a web application for performance optimization and tuning
-* **Boss (7:30pm):** Hey! We need to get all the products on this spreadsheet entered on the customer's website by 8:00am tomorrow morning, but it is taking our team of 5 people *forever* to fill out the 3-page form on their website to copy/paste the fields for each row to submit these 8,000 items! We really need you to jump in and help us with the click/copy/paste/submit party, the team is desperate! You didn't have any plans for tonight did you? I'll buy pizza!!
+* **Boss (7:30pm):** Hey! We need to get all the products on this spreadsheet entered on the customer's website before 6:00am tomorrow morning, but it's taking our team of 5 people *forever* to fill out the 3-page form on their website to copy/paste the fields for each row to submit each of these 8,000 items! We really need you to jump in and help us with the click/copy/paste/submit party, the team is desperate! You didn't have any plans for tonight did you? I'll buy pizza!!
 
-  **You:** Sure -- I'm happy to help! Send me the spreadsheet and give me about 20 minutes... oh, and deep-dish, please. Can you order it "to-go"?
+  **You:** Sure -- I'm happy to help! Send me the spreadsheet and a link to the website. Then give me about 20 minutes to finish entering all of the products... oh, and deep-dish, please. Can I order it "to-go"?
 
-### Sounds awesome, but do I have to be a ninja to use it?
-No. You can write some pretty simple scripts in just a few seconds. Hyperpotamus scripting was designed to be easy and accessible. In spite of that simplicity, however, there is plenty of power when you are ready to dig deeper. If that's not enough, you can even extend and bend hyperpotamus to do your will by writing custom plugins.
+### OK, sounds amazing, do I have to be a ninja to use it?
+No, anyone can write simple scripts in just a few seconds. Once you get started, it's a process of learning how to combine the proper actions, pipes, and macros to build more powerful and robust scripts. Hyperpotamus scripting was designed to be easy and accessible, however, in spite of that simplicity, there is plenty of power when you are ready to dig deeper. And if that's not enough, you can even extend and bend hyperpotamus to do your will by writing custom plugins.
 
 When you are ready to become a ninja, checkout the [hyperpotamus dojo](https://github.com/pmarkert/hyperpotamus/wiki/dojo).
 
-# Quickstart
+## Quickstart
 Assuming you already know how awesome it would be if you had the power to automate the www's right at your fingertips. Let's get started.
 
-1. Make sure you have [node.js](http://www.nodejs.org/) installed. Installing nodejs will also install npm, the node package manager.
+1. Make sure you have [node.js](http://www.nodejs.org/) and npm installed. The current version can be found here: [https://nodejs.org/en/download/current/](https://nodejs.org/en/download/current/)
 
-2. Open a command-prompt/terminal on your computer and type:
+2. Now to install hyperpotamus: Open a command-prompt/terminal on your computer and type:
  ```
  npm install -g hyperpotamus
  ```
- NOTE: If you are on a Mac (or linux), you will want to use `sudo` for administrator permissions.
+ NOTE: If you get an access deined error, this may mean that you have node.js installed improperly. You can always use adminsitrator/sudo access to install it, but consider Here are instructions to fix this:you may get an error are on a Mac (or linux), you will want to use `sudo` for administrator permissions.
  ```
  sudo npm install -g hyperpotamus
  ```
@@ -67,8 +71,7 @@ Assuming you already know how awesome it would be if you had the power to automa
 3. Create a text-file called "first.yml" with the following contents:
 
  ```yaml
- request: https://github.com/pmarkert/hyperpotamus
- response: "Web scripting with hyperpotamus ftw"
+ - print: "Hello World"
  ```
 
 4. Execute your script by running it with hyperpotamus:
@@ -76,58 +79,76 @@ Assuming you already know how awesome it would be if you had the power to automa
  hyperpotamus first.yml
  ```
 
-If everything worked, then you should see nothing-- pretty anti-climatic. I know, right? But WAIT! There's more!
+If everything worked, then you should see "Hello World" printed to the console. Pretty anti-climatic. I know, right? Now let's use some variables and dynamic macros.
 
-So what just happened? You made a script that requests the webpage specified on the first line and then checks to make sure
-that the text on the second line appears somewhere on the page.
-
-If you run the script again adding a few verbose flags (-v or -vv or -vvv) you will see what hyperpotamus is doing. The more v's you add, the more output you get. 
-
-## Some sample scripts
-The hyperpotamus YAML syntax attempts to be as simple and fluid as possible. There are lots of syntax shortcuts and sensible
-defaults -- less is more. 
-
-NOTE: All of these scripts can be found under /examples
-
-#### Super-simple script 
-examples/super-simple.yml
-
+## Going deeper
+### Parameterizing the script
+Edit your script as follows:
 ```yaml
-http://www.google.com
+- defaults:
+    first_name: Mr.
+    last_name: Roboto
+
+- print: "Hello <% first_name %> <% last_name %>!"
 ```
 
-This script makes a request to the url and then runs the default validation rules. The default validation rules make sure
-that the request returns an HTTP 200 OK status code, but you can change that. 
+In this version, we set some default values for session variables and then we use `<% macros %>` to dynamically insert the values where needed.
 
-#### Multi-step scripts
+Now when you run the script, is replaces the macros with the appropriate session variables.
 
-This script contains two separate steps, specified in YAML as an array (with the - character). Each step makes a separate request to a different url. 
-
-examples/two-step.yml
-```yaml
-- http://www.google.com
-- http://www.github.com/pmarkert/hyperpotamus
+```
+Hello Mr. Roboto!
 ```
 
-#### Shortcuts 
-Hyperpotamus allows and encourges you to use shortcuts to keep your scripts simple. One shortcut that we have been using is that if an action element (the entries in the script) is just a string, then hyperpotamus treats that string as the URL for a request to be made.
+### Batch operations using .csv input
+What if we wanted to send a greeting to all of our customers? We could create a .csv data file with our customer data like so:
+```
+first_name,last_name,hair_color
+Phillip,Markert,none
+someone,else,unknown
+```
 
-examples/equivalent.yml
+and then we can run it with the `--csv` parameter to tell it to use our data file:
+```
+hyperpotamus script.yml --csv customers.csv
+```
 
+This time hyperpotamus gives us the following output:
+```
+Hello Phillip Markert!
+Hello someone else!
+```
+
+Notice that hyperpotamus ran the script once for each line in the spreadsheet and made the column values available as session variables that can be used with macros.
+
+If you run the script again adding a few verbose flags (-v or -vv or -vvv) you will see more information about what hyperpotamus is doing. The more v's you add, the more output you get.
+
+### Other sources of data
+Session variables can come from a variety of sources:
+* Using the `defaults` or `set` actions to store a specific value.
+* Using the `--csv` option to read rows from a spreadsheet
+* Using the `prompt` to ask the user users for a value
+* Using the `--data` option to read JSON or YAML files.
+* By capturing data from the response of a web request using
+    * JsonPath (for JSON)
+    * XPath (for XML)
+    * JQuery (for HTML)
+    * Regex (for text)
+* By capturing the output from another process
+
+### Submitting data to an API
+What if we wanted to submit each of those greetings to a hypothetical web API?
 ```yaml
-# The following steps are all equivalent: 
-- http://github.com/pmarkert/hyperpotamus
-- request: http://github.com/pmarkert/hyperpotamus
-- request: 
-    url: http://github.com/pmarkert/hyperpotamus
 - request:
-    url: http://github.com/pmarkert/hyperpotamus
-    method: GET
+    url: http://httpbin.org/post
+    form:
+       customer_first_name: <% first_name %>
+       customer_last_name: <% last_name %>
+       customer_hair_color: <% hair_color %>
 ```
 
-#### Customizing the request
-If you want to get fancier with your requests, you can customize them. Hyperpotamus makes use of the excellent [request module](https://github.com/request/request), so any option supported by
-[request](https://github.com/request/request) should work with hyperpotamus as well.  
+### Customizing requests
+If you want to get fancier with your requests, you can customize them. Hyperpotamus makes use of the excellent [request module](https://github.com/request/request), so any option supported by [request](https://github.com/request/request) should work with hyperpotamus as well.
 
 Some common customizations you may want to use include:
 
@@ -141,53 +162,28 @@ Some common customizations you may want to use include:
 
 The example at the top of this README in the intro section demonstrates a few of these options.
 
-#### Checking the content of the response
-Sending requests with hyperpotamus is really only part of the story. Hyperpotamus also allows you to check or capture parts 
-of the response as well.
+### Checking the content of the response
+Sending requests with hyperpotamus is really only part of the story. Hyperpotamus also allows you to check or capture parts of the response as well.
 
-```yaml
-request: http://www.nodejs.org
-response: This simple web server written in Node responds with "Hello World" for every request.
+```YAML
+request: "http://www.nodejs.org"
+response:
+  text: This simple web server written in Node responds with "Hello World" for every request.
 ```
 
-The response configuration allows you to handle the HTTP response to validate, capture data, or take other actions. If your 
-response action is a plain string,
-as in this example, then it is a shortcut for `text: "..."`.  A text action which will look for the exact (case-sensitive) 
-text in the response body. If the
-text is not found, an error is raised. If the text is found, then the script continues processing.
+The response configuration allows you to handle the HTTP response to validate, capture data, or take other actions.
+
+A text action which will look for the exact (case-sensitive) text in the response body. If the text is not found, an error is raised. If the text is found, then the script continues processing.
 
 #### Validating HTTP Status codes
 ```yaml
 request: http://httpbin.org/status/404
 response: 
  - status: 404
- # or the equivalent short-cut
- - 404
 ```
 
 Status actions verify that the HTTP status code from the response matches what you expected. As a shortcut for a status 
 action, you can just supply the status code as an integer. 
-
-#### Request/Response defaults
-All of the scripts we have used above have made use of the shortcut that steps can directly specified at the top-level of the
-configuration. If you want to configure default values for requests and/or responses, then you will have to explicitly use 
-the "steps" element.
-
-Default values can be specified under the top-level "defaults" element. Any request options specified here will be merged 
-with values in your actual steps. If the same values are specified in a step's request, then the values from the step will 
-take precedence.
-
-```yaml
-defaults:
- request: 
-  # these headers will be added to all requests
-  headers:
-   Accept-Language: us-en
-
-steps:
- - request: 
-    url: http://httpbin.org
-```
 
 Likewise, you can also modify the default response actions for all steps. Unlike the request defaults where values are merged
 together for each step, response values will only be applied if no response/actions element is specified for a step.
@@ -397,14 +393,3 @@ fails, then an error is raised and processing stops. By setting the on_success a
 of another request, the execution flow will jump to that step appropriately.
     
 Also, notice the extra parameters for the last request (the method and form elements). 
-
-#### Project Status:
-I started working on Hyperpotamus at the beginning of this year to solve some specific issues that I needed to tackle for a
-project I was working on. I decided to open-source the project while I am in the process of building it, as opposed to
-waiting until I have a stable finalized release.  I mentioned before that API stability and features will be in flux until I
-mark the module as a 1.0 release. At that point, I will more strictly adhere to [semantic versioning](http://semver.org). For
-now, however, I'm loosely using the minor version number for backwards incompatibilities and the hotfix number for
-improvements and additions.
-
-Documentation obviously lags a bit behind the current codebase, until I stabilize things a bit more, so if something doesn't
-work for you as expected, there's a good chance it's not your fault.. :) Send me a message or create a github issue.
