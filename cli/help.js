@@ -1,3 +1,4 @@
+var _ = require("lodash");
 var marked = require('marked');
 var TerminalRenderer = require('marked-terminal');
 var fs = require("fs");
@@ -19,6 +20,9 @@ module.exports = function help(args) {
 	var content = readContent(args.help);
 	if (content == null) {
 		content = readContent(args.help + "/readme");
+		if(content==null) {
+			content = marked("This topic does not have any content.");
+		}
 		content += formatSubTopics(args.help);
 	}
 	if (content == null) {
@@ -40,6 +44,7 @@ function getSubTopics(pathToSearch) {
 	return files
 		.filter(f => f.toLowerCase() !== "readme.md")
 		.filter(f => !f.startsWith("."))
+		.filter(f => _.includes([ "", ".md" ], path.extname(f)))
 		.map(f => path.basename(f, ".md"));
 }
 
