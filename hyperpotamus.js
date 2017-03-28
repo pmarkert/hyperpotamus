@@ -15,10 +15,6 @@ var args = require("./cli/args")(defaultConfigFile);
 var logger = hyperpotamus.logging.logger("hyperpotamus.cli");
 hyperpotamus.logging.set_level(args.verbose + 3); // Starts at Warning, adding --verbose flags bumps to INFO, DEBUG, or TRACE
 
-if(args.calfinated) {
-	process.env.CALFINATED = "true";
-}
-
 if(args.help) {
 	require("./cli/help")(args);
 	process.exit(0);

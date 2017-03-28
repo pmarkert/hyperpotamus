@@ -188,32 +188,17 @@ describe("String Interpolation", () => {
 		it("Default delimiter", () => {
 			// Specifically changed this behavior with calfinated, so need to test differently.
 			// There is no longer default stringification, but object-reference is returned instead.
-			if(process.env.CALFINATED==="true") {
-				assert.equal(array, interpolate("<% array %>", { array: array }));
-			}
-			else {
-				assert.equal("onetwothree", interpolate("<% array %>", { array: array }));
-			}
+			assert.equal(array, interpolate("<% array %>", { array: array }));
 		});
 		it("Tab delimiter", () => {
 			// Specifically changed this behavior with calfinated, so need to test differently.
 			// white-space is no longer significant unless quoted
-			if(process.env.CALFINATED==="true") {
-				assert.equal("one	two	three", interpolate("<% array | join,'	' %>", { array: array }));
-			}
-			else {
-				assert.equal("one	two	three", interpolate("<% array | join,	%>", { array: array }));
-			}
+			assert.equal("one	two	three", interpolate("<% array | join,'	' %>", { array: array }));
 		});
 		it("Space delimiter", () => {
 			// Specifically changed this behavior with calfinated, so need to test differently.
 			// white-space is no longer significant unless quoted
-			if(process.env.CALFINATED==="true") {
-				assert.equal("one two three", interpolate("<% array | join,' ' %>", { array: array }));
-			}
-			else {
-				assert.equal("one two three", interpolate("<% array | join, %>", { array: array }));
-			}
+			assert.equal("one two three", interpolate("<% array | join,' ' %>", { array: array }));
 		});
 	});
 });
