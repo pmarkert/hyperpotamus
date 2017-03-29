@@ -93,7 +93,10 @@ function execute(args) {
 
 			// Run the script with the init steps
 			return processor.process(script, sessionDefaults, args.init)
-				.then(context => context.session)
+				.then(context => {
+					logger.debug("Completed initialization pass.");
+					return context.session;
+				})
 				.catch(_.partial(dumpError, "processing init script"));
 		}
 		else {
