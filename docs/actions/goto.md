@@ -8,6 +8,9 @@ goto: named_action
 The `goto` action interrupts the current processing flow and jumps to the named action. Script processing will begin with the named action and proceed until the end of the script is reached. Unlike the `call` action, processing does not specifically return to the point of the call when the script is completed.
 
 ## Notes
+#### Special jump targets
+There are 3 special jump targets. 'END' will complete script execution and finish processing. 'SELF' will jump to the beginning of the same top-level action. 'NEXT' will jump to the next top-level action.
+
 #### Eligible targets
 The `goto` action is able to jump to any top-level named action within the script. A named action is any action that specifies a `.name` property. Top-level actions imported via the !!inc/file YAML directive are also eligible.
 
