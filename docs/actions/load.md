@@ -1,49 +1,26 @@
 # `load` action [_unsafe_]
-WARNING: This action is marked as "unsafe" for use by untrusted scripts.
+warning: this action is marked as "unsafe" for use by untrusted scripts.
 
-Loads file contents from disk into the session. The value of the `load` action is a key/value map of file paths to be loaded into the corresponding session keys.
+Loads the contents of each of the specified files from disk into the session context under the corresponding keys/paths. If the file is loaded as YAML/JSON, then it will be stored as an object, otherwise, the contents will be loaded according to the optionally specified encoding (defaulting to UTF-8).
 
 ```YAML
-load:
-  "key": "path" # a string value is equivalent to .filename
-```
-or
-```YAML
-load:
-  "key":
-    filename: "path"
-    yaml: boolean # also .yml or .json
-    # other options for fs.readFile
+- load:
+    "file_key": "/path/to/somefile.ext"
+    "yaml_file": { yaml: "/path/to/somefile.yaml" } # also "yml" or "json"
+    "text_file": { file: "/path/to/someotherfile.txt" } # or ".filename"
+    "binary_file": { file: "/path/to/binary.ext", encoding: "binary" } # or binary: true
 ```
 
-The `load` action value may contain multiple keys, each of which will be loaded. The "key" represents the session key/path for where to put the resulting contents.
+If the value of any of the key is just a string, then the string value will be used as the filename and the extension of the file will be used to detect whther or not to load the file as YAML/JSON (*.yml, *.yaml, and *.json) or text (anything else).
 
-The value on the key can either be a string (in which case it is treated as if it were the `.filename`) or it may be an object.
+## `.yaml` (alias `.json` and `.yml`)
+Parses the file contents as YAML/JSON an stores the results as an object in the session.
 
-For value objects:
-### `.filename`
-The path of the file to be loaded from disk.
+## `.file` (alias `.filename`)
+The filename/path of hte file to load.
 
-### `.json` or `.yaml` or `.yml`
-A boolean value to indicate whether the file contents should be loaded and parsed as JSON/YAML. If so, the results will be stored as an object.
+## `.encoding`
+Can either be "binary", or a valid encoding such as "UTF-8"
 
-If the filename extension of the file being loaded is '.json', '.yml', or '.yaml', then this flag will be default to true.
-
-### `.binary`
-Boolean value to indicate whether to load the file contents as binary. If `.asBinary`==true, then the file contents are stored in the session as a node.js Buffer object, otherwise the default behavior is to store the contents as a string according to the specified encoding.
-
-### `.encoding`
-The encoding to be used when reading the file as a string. (defaults to 'UTF-8')
-
-## Example
-```YAML
-load:
-  json_file: "sample.json"
-  txt_file: "license.txt"
-  pdf_file:
-    filename: "document.pdf"
-    binary: true
-  another_text_file:
-    filename: "other.txt"
-    encoding: "UTF-8"
-```
+## `.binary` (boolean)
+If true, then encoding will be forced to "binary".
