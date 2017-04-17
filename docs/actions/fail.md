@@ -5,13 +5,12 @@ Causes the script to fail with a specified error message.
 ```YAML
 fail: "Error message"
 ```
+or
+```YAML
+false # => { fail: "Explicit false" }
+```
 
 The value of the `fail` is the error message to be displayed to the user.
-
-## Alias
-```YAML
-false # will be normalized to { fail: "Explicit false" }
-```
 
 ## Notes
 The fail action is useful to convey a specific error message to users when a certain condition is met. For example, in an `.on_failure` or nested under an `if/then` action.
