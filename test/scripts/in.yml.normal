@@ -6,7 +6,7 @@ steps:
               - a
               - b
               - c
-          mode: set
+          mode: assign
         path: $.steps.0.actions.0
       - in:
           value: a

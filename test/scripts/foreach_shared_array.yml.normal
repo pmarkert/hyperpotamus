@@ -8,7 +8,7 @@ steps:
         shared_answers: []
         other_shared_answers: []
         unshared_answers: []
-      mode: set
+      mode: assign
     path: $.steps.0
   - foreach:
       key:

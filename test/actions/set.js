@@ -22,22 +22,22 @@ describe("set.js", () => {
 				it("explicit source and object target", () => test({ defaults: { source: { key: "value" }, target: { object: true } } }, { set: { mode: "defaults", source: { key: "value" }, target: { object: true } } }));
 				it("explicit source and object target with extra fields", () => test({ defaults: { source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "defaults", source: { key: "value" }, target: { object: true }, preserved: true } }));
 				it("explicit source and object target, overwrite=false", () => test({ defaults: { mode: "defaults", source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "defaults", source: { key: "value" }, target: { object: true }, preserved: true } }));
-				it("explicit source and object target, overwrite=true", () => test({ defaults: { mode: "set", source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "defaults", source: { key: "value" }, target: { object: true }, preserved: true } }));
+				it("explicit source and object target, overwrite=true", () => test({ defaults: { mode: "assign", source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "defaults", source: { key: "value" }, target: { object: true }, preserved: true } }));
 				it("shortcut preserves top-level properties", () => test({ debugger: true, defaults: { key: "value" } }, { debugger: true, set: { mode: "defaults", source: { key: "value" } } }));
 				it("explicit preserves top-level properties", () => test({ debugger: true, defaults: { source: { key: "value" } } }, { debugger: true, set: { mode: "defaults", source: { key: "value" } } }));
 			});
 
 			describe("set", () => {
-				it("shortcut", () => test({ set: { key: "value" } }, { set: { mode: "set", source: { key: "value" } } }));
-				it("shortcut, empty object", () => test({ set: {} }, { set: { mode: "set", source: {} } }));
-				it("explicit source", () => test({ set: { source: { key: "value" } } }, { set: { mode: "set", source: { key: "value" } } }));
-				it("explicit source and string target", () => test({ set: { source: { key: "value" }, target: "target_key" } }, { set: { mode: "set", source: { key: "value" }, target: "target_key" } }));
-				it("explicit source and object target", () => test({ set: { source: { key: "value" }, target: { object: true } } }, { set: { mode: "set", source: { key: "value" }, target: { object: true } } }));
-				it("explicit source and object target with extra fields", () => test({ set: { source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "set", source: { key: "value" }, target: { object: true }, preserved: true } }));
-				it("explicit source and object target, overwrite=false", () => test({ set: { mode: "defaults", source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "set", source: { key: "value" }, target: { object: true }, preserved: true } }));
-				it("explicit source and object target, overwrite=true", () => test({ set: { mode: "set", source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "set", source: { key: "value" }, target: { object: true }, preserved: true } }));
-				it("shortcut preserves top-level properties", () => test({ debugger: true, set: { key: "value" } }, { debugger: true, set: { mode: "set", source: { key: "value" } } }));
-				it("explicit preserves top-level properties", () => test({ debugger: true, set: { source: { key: "value" } } }, { debugger: true, set: { mode: "set", source: { key: "value" } } }));
+				it("shortcut", () => test({ set: { key: "value" } }, { set: { mode: "assign", source: { key: "value" } } }));
+				it("shortcut, empty object", () => test({ set: {} }, { set: { mode: "assign", source: {} } }));
+				it("explicit source", () => test({ set: { source: { key: "value" } } }, { set: { mode: "assign", source: { key: "value" } } }));
+				it("explicit source and string target", () => test({ set: { source: { key: "value" }, target: "target_key" } }, { set: { mode: "assign", source: { key: "value" }, target: "target_key" } }));
+				it("explicit source and object target", () => test({ set: { source: { key: "value" }, target: { object: true } } }, { set: { mode: "assign", source: { key: "value" }, target: { object: true } } }));
+				it("explicit source and object target with extra fields", () => test({ set: { source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "assign", source: { key: "value" }, target: { object: true }, preserved: true } }));
+				it("explicit source and object target, overwrite=false", () => test({ set: { mode: "defaults", source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "assign", source: { key: "value" }, target: { object: true }, preserved: true } }));
+				it("explicit source and object target, overwrite=true", () => test({ set: { mode: "assign", source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "assign", source: { key: "value" }, target: { object: true }, preserved: true } }));
+				it("shortcut preserves top-level properties", () => test({ debugger: true, set: { key: "value" } }, { debugger: true, set: { mode: "assign", source: { key: "value" } } }));
+				it("explicit preserves top-level properties", () => test({ debugger: true, set: { source: { key: "value" } } }, { debugger: true, set: { mode: "assign", source: { key: "value" } } }));
 			});
 
 			describe("merge", () => {
@@ -48,7 +48,7 @@ describe("set.js", () => {
 				it("explicit source and object target", () => test({ merge: { source: { key: "value" }, target: { object: true } } }, { set: { mode: "merge", source: { key: "value" }, target: { object: true } } }));
 				it("explicit source and object target with extra fields", () => test({ merge: { source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "merge", source: { key: "value" }, target: { object: true }, preserved: true } }));
 				it("explicit source and object target, overwrite=false", () => test({ merge: { mode: "merge", source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "merge", source: { key: "value" }, target: { object: true }, preserved: true } }));
-				it("explicit source and object target, overwrite=true", () => test({ merge: { mode: "set", source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "merge", source: { key: "value" }, target: { object: true }, preserved: true } }));
+				it("explicit source and object target, overwrite=true", () => test({ merge: { mode: "assign", source: { key: "value" }, target: { object: true }, preserved: true } }, { set: { mode: "merge", source: { key: "value" }, target: { object: true }, preserved: true } }));
 				it("shortcut preserves top-level properties", () => test({ debugger: true, merge: { key: "value" } }, { debugger: true, set: { mode: "merge", source: { key: "value" } } }));
 				it("explicit preserves top-level properties", () => test({ debugger: true, merge: { source: { key: "value" } } }, { debugger: true, set: { mode: "merge", source: { key: "value" } } }));
 			});
@@ -103,21 +103,21 @@ describe("set.js", () => {
 			assert.deepEqual(context.session, expected_session, "Session did not match expectation.");
 		}
 
-		describe("mode=set", () => {
+		describe("mode=assign", () => {
 			describe("target=null", () => {
-				it("new property", () => test("set", null, { key: "value" }, { key: "value", existing: "session" }, { existing: "session" }));
-				it("existing property", () => test("set", null, { existing: "new_value" }, { existing: "new_value" }, { existing: "session" }));
-				it("nested property", () => test("set", null, { existing: { child: "new_value" } }, { existing: { child: "new_value" } }, { existing: "session" }));
-				it("dotted property", () => test("set", null, { "existing.child": "new_value" }, { "existing": "session", "existing.child": "new_value" }, { existing: "session" }));
+				it("new property", () => test("assign", null, { key: "value" }, { key: "value", existing: "session" }, { existing: "session" }));
+				it("existing property", () => test("assign", null, { existing: "new_value" }, { existing: "new_value" }, { existing: "session" }));
+				it("nested property", () => test("assign", null, { existing: { child: "new_value" } }, { existing: { child: "new_value" } }, { existing: "session" }));
+				it("dotted property", () => test("assign", null, { "existing.child": "new_value" }, { "existing": "session", "existing.child": "new_value" }, { existing: "session" }));
 			});
 
 			describe("target=string_key", () => {
-				it("new property", () => test("set", "target", { key: "value" }, { target: { key: "value" }, existing: "session" }, { existing: "session" }));
-				it("existing property", () => test("set", "target", { key: "value" }, { target: { key: "value" } }, { target: "session" }));
-				it("new nested property", () => test("set", "child.target", { key: "value" }, { child: { target: { key: "value" } }, existing: "session" }, { existing: "session" }));
-				it("existing nested property", () => test("set", "child.target", { key: "value" }, { child: { target: { key: "value" } } }, { child: "session" }));
-				it("existing nested property with sibling values", () => test("set", "child.target", { key: "value" }, { child: { target: { key: "value" }, existing: "session" } }, { child: { existing: "session" } }));
-				it("existing nested property with existing child values", () => test("set", "child.target", { key: "value" }, { child: { target: { key: "value" } } }, { child: { target: { existing: "session" } } }));
+				it("new property", () => test("assign", "target", { key: "value" }, { target: { key: "value" }, existing: "session" }, { existing: "session" }));
+				it("existing property", () => test("assign", "target", { key: "value" }, { target: { key: "value" } }, { target: "session" }));
+				it("new nested property", () => test("assign", "child.target", { key: "value" }, { child: { target: { key: "value" } }, existing: "session" }, { existing: "session" }));
+				it("existing nested property", () => test("assign", "child.target", { key: "value" }, { child: { target: { key: "value" } } }, { child: "session" }));
+				it("existing nested property with sibling values", () => test("assign", "child.target", { key: "value" }, { child: { target: { key: "value" }, existing: "session" } }, { child: { existing: "session" } }));
+				it("existing nested property with existing child values", () => test("assign", "child.target", { key: "value" }, { child: { target: { key: "value" } } }, { child: { target: { existing: "session" } } }));
 			});
 		});
 

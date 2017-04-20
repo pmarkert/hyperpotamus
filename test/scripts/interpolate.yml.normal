@@ -3,7 +3,7 @@ steps:
       set:
         source:
           now: <% | now %>
-        mode: set
+        mode: assign
       path: $.steps.0.actions
     path: $.steps.0
   - request:

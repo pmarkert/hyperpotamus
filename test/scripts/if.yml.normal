@@ -3,7 +3,7 @@ steps:
       - set:
           source:
             key: first value
-          mode: set
+          mode: assign
         path: $.steps.0.actions.0
       - if:
           noop: true
@@ -12,7 +12,7 @@ steps:
           - set:
               source:
                 key: second value
-              mode: set
+              mode: assign
             path: $.steps.0.actions.1.then.0
           - compare:
               operator: =

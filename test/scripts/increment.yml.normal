@@ -5,7 +5,7 @@ steps:
             value: 10
             other: 3
             negative_other: -3
-          mode: set
+          mode: assign
         path: $.steps.0.actions.0
       - compare:
           array:
@@ -16,7 +16,7 @@ steps:
       - set:
           source:
             value: '<%! value | plus,1 %>'
-          mode: set
+          mode: assign
         path: $.steps.0.actions.2
       - compare:
           array:

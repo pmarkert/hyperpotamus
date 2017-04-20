@@ -3,7 +3,7 @@ steps:
       source:
         data:
           included: true
-      mode: set
+      mode: assign
     path: $.steps.0
   - compare:
       operator: =

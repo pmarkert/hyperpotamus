@@ -26,7 +26,7 @@ function run_scripts(dir, extension, data, should_expect_failure) {
 						// eslint-disable-next-line no-console
 						var info = verror.info(err);
 						// eslint-disable-next-line no-console
-						console.log("Error metadata:\n" + yaml.dump(info));
+						console.log("Error metadata:\n" + yaml.dump(err));
 						throw err;
 					}
 				});

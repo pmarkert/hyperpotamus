@@ -3,14 +3,14 @@ steps:
       - set:
           source:
             key: first value
-          mode: set
+          mode: assign
         path: $.steps.0.actions.0
     path: $.steps.0
   - actions:
       - set:
           source:
             key: second value
-          mode: set
+          mode: assign
         path: $.steps.1.actions.0
       - compare:
           operator: =

@@ -3,21 +3,21 @@ steps:
       - set:
           source:
             first_step: true
-          mode: set
+          mode: assign
         path: $.steps.0.actions.0
     path: $.steps.0
   - actions:
       - set:
           source:
             second_step: true
-          mode: set
+          mode: assign
         path: $.steps.1.actions.0
     path: $.steps.1
   - actions:
       - set:
           source:
             third_step: true
-          mode: set
+          mode: assign
         path: $.steps.2.actions.0
     path: $.steps.2
   - compare:

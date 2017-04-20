@@ -2,7 +2,7 @@ steps:
   - set:
       source:
         test: true
-      mode: set
+      mode: assign
     path: $.steps.0
   - prompt:
       - pattern:

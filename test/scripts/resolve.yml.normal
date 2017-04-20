@@ -3,12 +3,12 @@ steps:
       - set:
           source:
             base: 'http://example.com/one'
-          mode: set
+          mode: assign
         path: $.steps.0.actions.0
       - set:
           source:
             answer: '<% ''/two'' | resolve_url,`base` %>'
-          mode: set
+          mode: assign
         path: $.steps.0.actions.1
       - compare:
           operator: =

@@ -7,7 +7,7 @@ steps:
           - c
         to_be_shared_answers: []
         unshared_answers: []
-      mode: set
+      mode: assign
     path: $.steps.0
   - foreach:
       key:

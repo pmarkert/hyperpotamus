@@ -5,7 +5,7 @@ steps:
       set:
         source:
           special: middle
-        mode: set
+        mode: assign
       path: $.steps.0.response
     path: $.steps.0
   - request:

@@ -2,7 +2,7 @@ steps:
   - set:
       source:
         visited: 0
-      mode: set
+      mode: assign
     path: $.steps.0
   - if:
       compare:
@@ -15,7 +15,7 @@ steps:
       - set:
           source:
             visited: '<%! visited | plus,1 %>'
-          mode: set
+          mode: assign
         path: $.steps.1.then.0
       - goto: SELF
         path: $.steps.1.then.1
