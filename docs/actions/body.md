@@ -5,7 +5,6 @@ Stores the body of the current http response (from a [request](request) action) 
 body: "key"
 ```
 
-
 The `body` action is only valid when nested within the `.response` section of a [request](request) action.
 
 ## Examples
