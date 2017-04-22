@@ -183,7 +183,7 @@ describe("String Interpolation", () => {
 			assert.equal("one,two,three", interpolate("<% array | join %>", { array: array }));
 		});
 		it("Pipe-delimited", () => {
-			assert.equal("one|two|three", interpolate("<% array| join_pipe %>", { array: array }));
+			assert.equal("one|two|three", interpolate("<% array | join('|')%>", { array: array }));
 		});
 		it("Default delimiter", () => {
 			// Specifically changed this behavior with calfinated, so need to test differently.
