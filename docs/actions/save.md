@@ -24,7 +24,7 @@ The file permissions mode to use when writing. Node.js defaults to 0o666 if not 
 ### `save.flag` property
 The access flag to use when saving the file. Node.js defaults to "w" if not specified.
 
-### `save.content` property
+### `save.content` property (alias `save.target`)
 The content to be saved. If the value is not a string or buffer, .toString() will be called on it. If `.content` is not specified, then the current HTTP response will be used.
 
 ## Errors
