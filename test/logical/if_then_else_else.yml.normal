@@ -1,8 +1,6 @@
 steps:
   - actions:
-      if:
-        fail: Explicit false
-        path: $.steps.0.actions.if
+      if: false
       then:
         fail: Explicit false
         path: $.steps.0.actions.then

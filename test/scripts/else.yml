@@ -1,0 +1,8 @@
+- set:
+   false_value: false
+- if: <% false_value %>
+  then:
+    fail: "Should not have evaluated"
+  else:
+    goto: END
+- fail: "Should have been skipped"

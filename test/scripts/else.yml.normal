@@ -1,15 +1,15 @@
 steps:
   - set:
       source:
-        true_value: true
+        false_value: false
       mode: assign
     path: $.steps.0
-  - if: <% true_value %>
+  - if: <% false_value %>
     then:
-      goto: END
+      fail: Should not have evaluated
       path: $.steps.1.then
     else:
-      fail: Should not have executed else
+      goto: END
       path: $.steps.1.else
     path: $.steps.1
   - fail: Should have been skipped

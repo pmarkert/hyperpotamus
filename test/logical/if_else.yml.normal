@@ -1,8 +1,6 @@
 steps:
   - actions:
-      if:
-        noop: true
-        path: $.steps.0.actions.if
+      if: true
       then:
         noop: true
         path: $.steps.0.actions.then

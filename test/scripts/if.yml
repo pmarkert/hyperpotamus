@@ -1,8 +1,8 @@
-- actions:
-   - set:
-       key: first value
-   - if: true
-     then:
-      - set: 
-          key: second value
-      - equals: [ <% key %>, "second value" ]
+- set:
+    true_value: true
+- if: <% true_value %>
+  then:
+    goto: END
+  else:
+    fail: "Should not have executed else"
+- fail: "Should have been skipped"
