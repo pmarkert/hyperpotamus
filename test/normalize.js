@@ -35,11 +35,11 @@ function run_normalization_tests(dir, done) {
 }
 
 function overwrite_normalization_results(dir, done) {
-	async.each(fs.readdirSync(path.join(__dirname, dir)), function(filename) {
+	async.each(fs.readdirSync(path.join(__dirname, dir)), function(filename, inner_done) {
 		if(path.extname(filename)===".yml") {
 			var to_normalize = yaml.loadFile(path.join(__dirname, dir, filename));
 			var normalized = normalize(to_normalize, plugins);
-			fs.writeFile(path.join(__dirname, dir, filename + ".normal"), yaml.dump(normalized), done);
+			fs.writeFile(path.join(__dirname, dir, filename + ".normal"), yaml.dump(normalized), inner_done);
 		}
 	}, done); 
 	
