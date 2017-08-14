@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/npm/l/hyperpotamus.svg)](https://github.com/pmarkert/hyperpotamus/blob/master/LICENSE)
 [![chat](https://badges.gitter.im/hyperpotamus_js/general.svg)](https://gitter.im/hyperpotamus_js/general)
 
-![Hyperpotamus](docs/images/hyperpotamus_logo.png)
+![Hyperpotamus](images/hyperpotamus_logo.png)
 
 # hyperpotamus
 "...its like duct tape for programming the web."
