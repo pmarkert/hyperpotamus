@@ -29,7 +29,7 @@ module.exports = function (args) {
 				streams[null] = fs.createWriteStream(out);
 			}
 			else {
-				out.keys.each(key => {
+				_.keys(out).forEach(key => {
 					streams[key] = fs.createWriteStream(out[key]);
 				});
 			}
@@ -38,7 +38,7 @@ module.exports = function (args) {
 	return function emit(message, channel) {
 		var stream = _.isNil(channel) ? streams[null] : streams[channel];
 		if (!stream) {
-			logger.warn("Emit messages sent to missing channel: ${channel}");
+			logger.warn(`Emit messages sent to missing channel: ${channel}`);
 			streams[null].write(`${channel}: ${message}\n`);
 		}
 		else {
