@@ -141,6 +141,7 @@ What if we wanted to submit each of those greetings to a hypothetical web API?
 ```yaml
 - request:
     url: http://httpbin.org/post
+    method: POST
     form:
        customer_first_name: <% first_name %>
        customer_last_name: <% last_name %>
