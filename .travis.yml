@@ -2,9 +2,6 @@ language: node_js
 node_js:
   - '4'
   - node
-env:
-  - CALFINATED=false
-  - CALFINATED=true
 deploy:
   provider: npm
   email: phillip@ephisys.com
