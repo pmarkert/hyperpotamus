@@ -68,7 +68,7 @@ Node.js uses an inherently single threaded processing model, however, asynchrono
 When `parallel` procesing is utilized, the order of processing results is not guaranteed.
 
 #### Session context isolation
-Each iteration of a foreach loop is provided with an independent copy/clone of the session context. This is important because to prevent actions from one iteration from inadvertently affecting the state of other iterations. This is even more critical when processing actions in parallel.
+Each iteration of a foreach loop is provided with an independent copy/clone of the session context. This is important to prevent actions from one iteration from inadvertently affecting the state in use by other iterations. This isolation is even more critical when processing actions in parallel.
 
 Because each iteration receives it's own copy of the session context, this increases the memory requirements of the application. Be careful when using parallelism with very large arrays, especially if the session state is large.
 
@@ -90,4 +90,7 @@ Because each iteration receives it's own snapshot of the session context when th
 
 - print: <% results | join %> # "ANGRY VEGANS EAT APPLES!,ANGRY VEGANS EAT BANANAS!,ANGRY VEGANS EAT CHERRIES!"
 ```
+
+The shared state property can either be an object, a string session key or an array of session key strings. If the `shared` property is a key or array of keys, the corresponding session values will be assigned from the parent session context into the child session context using the same keys. If the value of `shared` is an object that object will be assigned to the child-session directly
+
 
