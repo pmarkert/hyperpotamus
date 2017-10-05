@@ -58,6 +58,7 @@ module.exports = function (defaultConfigFile) {
 	if (defaultConfigFile) {
 		args.default("config", defaultConfigFile);
 	}
+	args.env("hyperpotamus");
 	var argv = args.argv;
 	if (!argv.file) {
 		argv.file = argv._[0];
