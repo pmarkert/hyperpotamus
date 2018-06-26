@@ -347,19 +347,19 @@ That `emit` action is used to echo content that can be captured for reporting or
       gospels: [ 'Matthew', 'Mark', 'Luke', 'John' ]
 - name: print
   actions:
-    - emit: The Gospel according to <%@ gospels %>
+    - emit: The Gospel according to <% gospels | current %>
     - iterate: gospels
       next: print
 ```
 
 Arrays are useful for many reasons, but they are particularly helpful when you want to repeat a process multiple times. When
-you want to use a value from an array, you add the `@` format specifier to your macro, in this example: `<%@ gospels %>`.
+you want to use a value from an array, you add the `current` pipe to your macro, in this example: `<% gospels | current %>`.
 This is saying: 'Insert the current value from the array called gospels'. What does it mean when I say 'the current value
 from the array'? 
 
-When the `@` format specifier is used, hyperpotamus looks for a second session variable, 'gospels.index' in this case. If
+When the `current` pipe is used, hyperpotamus looks for a second session variable, 'gospels.index' in this case. If
 that value does not exist (which is typically the case at first), then a default value of 0 will be assumed and assigned.
-Requesting `<%@ gospels %>` will return 
+Requesting `<% gospels | current %>` will return 
 the respective value in the array based upon the current value of `gospels.index`. In this case, it will print out "Matthew",
 because that's the first element, at index=0.
 
