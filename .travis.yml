@@ -1,11 +1,11 @@
 language: node_js
 node_js:
-  - node
+- node
 deploy:
   provider: npm
   email: phillip@ephisys.com
   api_key:
-    secure: R0OqHD0PMj4wfs8/M2kULpRKp5VSHpD3FDUNXhFeovhpOUVj1uEIORFZ67Kggaa6RDIaXviCjsggQlwUKNNkVWhkA4at4r6G9Fm+WEXts478+aIZsCCXU4JcZlj8o1ghd7ybGuvELmgsPhl4d5HhKb7EB+9iYBfpGZvQobppzK0=
+    secure: dQNaAR10dt+NWserCFpATWWGAI+bIt4178bSf3/8GaYoDnC0+1lKJobXDg10ETacePOiUm1L/2u1hpWDfgyhQrxkRZFuMvq0wr0TxzIvtxNBg+vzMu/AiUj8rL5s0QpYFu81cjvHM0Q5/2sTmhdq7GJbexhc2SjSqHvT7Z8miNw=
   on:
     tags: true
     repo: pmarkert/hyperpotamus
