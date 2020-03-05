@@ -69,7 +69,7 @@ describe("request_defaults.js", () => {
 				});
 			}
 
-			it("an empty array", () => test([], {}));
+			it("an empty array", () => test([], []));
 			it("a single request_default", () => test([unqualified_normalized], [unqualified_normalized]));
 			it("multiple request_defaults", () => test([unqualified_normalized, qualified_normalized], [unqualified_normalized, qualified_normalized]));
 		});

@@ -28,7 +28,7 @@ describe("cookies.js", () => {
 				});
 			}
 
-			it("an empty array", () => test([], {}));
+			it("an empty array", () => test([], []));
 			it("a single cookie", () => test(input_cookie1, [output_cookie1]));
 			it("a single cookie in an array", () => test([input_cookie1], [output_cookie1]));
 			it("an array with 2 cookies", () => test([input_cookie1, input_cookie2], [output_cookie1, output_cookie2]));
