@@ -56,14 +56,14 @@
     "xmldom": "^0.1.19",
     "xpath": "0.0.23",
     "yaml-include": "^1.2.0",
-    "yargs": "^6.6.0"
+    "yargs": "^16.2.0"
   },
   "devDependencies": {
     "body-parser": "^1.18.3",
     "chai": "^3.5.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.4",
-    "mocha": "^5.2.0"
+    "mocha": "^8.3.0"
   },
   "license": "MIT",
   "eslintConfig": {

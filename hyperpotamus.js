@@ -7,6 +7,7 @@ var yaml = require("js-yaml");
 var hyperpotamus = require("./lib");
 var verror = require("verror");
 var Promise = require("bluebird");
+var fs = require("fs");
 
 var defaultConfigFile = require("path").join(require("os").homedir(), ".hyperpotamus", "config.json");
 var args = require("./cli/args")(defaultConfigFile);
@@ -64,7 +65,7 @@ function execute(args) {
 		logger.debug("About to start session for " + JSON.stringify(session));
 		var localSession = _.merge({}, sessionDefaults, session);
 		processor.process(script, localSession, args.start)
-			.tap(context => logger.info("Final session data is:\n" + JSON.stringify(_.omit(context.session, "hyperpotamus"), null, 2)))
+			.tap(context => summarize(context, args))
 			.delay(0) // To ensure we can SIGINT even if no async work happens in the script
 			.then(callback)
 			.catch(_.partial(dumpError, "processing script"));
@@ -137,6 +138,14 @@ function execute(args) {
 			queue.push({});
 		}
 	});
+}
+
+function summarize(context) {
+	logger.info("Final session data is:\n" + JSON.stringify(_.omit(context.session, "hyperpotamus"), null, 2));
+	if(_.isString(args.session)) {
+		const yaml_results = yaml.dump(_.omit(context.session, "hyperpotamus"), args.safe);
+		fs.writeFileSync(args.session, yaml_results);
+	}
 }
 
 function dumpError(message, err) {
