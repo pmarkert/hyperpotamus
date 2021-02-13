@@ -1,12 +1,12 @@
 {
   "name": "hyperpotamus",
-  "version": "0.37.3",
+  "version": "0.38.0",
   "description": "YAML based HTTP script processing engine",
   "homepage": "https://github.com/pmarkert/hyperpotamus/wiki",
   "main": "lib/index.js",
   "bin": {
-    "hyperpotamus": "./hyperpotamus.js",
-    "hdb": "./hdb.js"
+    "hyperpotamus": "hyperpotamus.js",
+    "hdb": "hdb.js"
   },
   "scripts": {
     "test": "mocha $NODE_DEBUG_OPTION"
