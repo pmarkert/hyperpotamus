@@ -5,11 +5,12 @@ Executes the specified AWS (Amazon Web Services) SDK call.
 
 ```YAML
 aws:
-  service: "AWS Service Name"
-  invoke: "ApiMethod"
-  params:
-    { Operation Parameters }
-  result: "key in which to store API result"
+  service: "Service" # AWS Service Name - ProperCase (i.e. "S3")
+  operation: "operation" # "ApiMethod" - lowerCamelCase (i.e. "listBuckets")
+  params: { Operation Parameters } # lowerCamelCase
+  result: "result_key" # key in which to store API result
 
 ## Notes
-AWS API Parameter names are camelCase
+- The AWS Service name is ProperCased
+- The Operation name is lowerCamelCased
+- API Parameter names are ProperCased
