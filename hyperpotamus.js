@@ -108,7 +108,7 @@ function execute(args) {
 		if (args.csv) {
 			logger.info("Loading data from csv file - " + args.csv);
 			logger.info("Maximum concurrency level is " + args.concurrency);
-			csv.fromPath(args.csv, { headers: true }).on("data", function (user) {
+			csv.parseFile(args.csv, { headers: true }).on("data", function (user) {
 				if (!exiting) {
 					queue.push(user);
 					logger.trace("Queued user for processing " + JSON.stringify(user));
