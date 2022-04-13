@@ -30,7 +30,7 @@
     "website monitoring"
   ],
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^3.2.2",
     "aws-sdk": "^2.384.0",
     "bluebird": "^3.5.3",
     "calfinated": "^1.4.1",
