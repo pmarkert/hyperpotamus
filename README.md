@@ -1,6 +1,6 @@
 [![downloads](https://img.shields.io/npm/dt/hyperpotamus.svg)](https://www.npmjs.com/package/hyperpotamus)
 [![latest version](https://img.shields.io/npm/v/hyperpotamus.svg)](https://www.npmjs.com/package/hyperpotamus)
-[![build status](https://img.shields.io/travis/pmarkert/hyperpotamus/master.svg)](https://travis-ci.org/pmarkert/hyperpotamus)
+[![build status](https://img.shields.io/travis/pmarkert/hyperpotamus/master.svg)](https://travis-ci.com/pmarkert/hyperpotamus)
 [![license](https://img.shields.io/npm/l/hyperpotamus.svg)](https://github.com/pmarkert/hyperpotamus/blob/master/LICENSE)
 [![chat](https://badges.gitter.im/hyperpotamus_js/general.svg)](https://gitter.im/hyperpotamus_js/general)
 
