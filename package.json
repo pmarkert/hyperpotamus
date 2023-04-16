@@ -62,7 +62,7 @@
     "chai": "^3.5.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.4",
-    "mocha": "^8.3.0"
+    "mocha": "^10.2.0"
   },
   "license": "MIT",
   "eslintConfig": {
